@@ -25,34 +25,48 @@ export function StatCard({
   className
 }: StatCardProps) {
   return (
-    <Card className={cn("overflow-hidden border border-slate-800 bg-slate-900/80 hover:border-slate-700/80 transition-all", className)}>
-      <CardContent className="p-5">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{title}</p>
-          <div className="flex items-center gap-2">
-            {badge && <Badge variant="synthetic">{badge}</Badge>}
-            {icon && <div className="text-slate-400 p-2 rounded-lg bg-slate-800/80">{icon}</div>}
-          </div>
-        </div>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-2xl font-bold tracking-tight text-white">{value}</span>
-          {subValue && <span className="text-xs text-slate-400">{subValue}</span>}
-        </div>
-        {change && (
-          <div className="mt-2.5 flex items-center text-xs">
-            <span
-              className={cn(
-                "font-medium",
-                changeType === "positive" && "text-emerald-400",
-                changeType === "negative" && "text-rose-400",
-                changeType === "neutral" && "text-slate-400"
-              )}
-            >
-              {change}
-            </span>
-          </div>
+    <div
+      className={cn(
+        "rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 transition-colors duration-150 flex flex-col justify-between",
+        className
+      )}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-xs font-sans text-[var(--text-muted)]">{title}</p>
+        {badge && (
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border-hairline)] text-[var(--text-faint)] bg-[var(--bg-elevated)]">
+            {badge}
+          </span>
         )}
-      </CardContent>
-    </Card>
+      </div>
+
+      <div className="mt-3">
+        <div className="flex items-baseline gap-2">
+          <span className="text-3xl font-numeral font-semibold tracking-tight text-[var(--text-main)]">
+            {value}
+          </span>
+        </div>
+        {subValue && (
+          <p className="text-[11px] text-[var(--text-faint)] font-sans mt-0.5">
+            {subValue}
+          </p>
+        )}
+      </div>
+
+      {change && (
+        <div className="mt-3 pt-2.5 border-t border-[var(--border-hairline)] flex items-center text-[11px] font-sans">
+          <span
+            className={cn(
+              "font-medium",
+              changeType === "positive" && "text-sage-500",
+              changeType === "negative" && "text-crimson-500",
+              changeType === "neutral" && "text-[var(--text-muted)]"
+            )}
+          >
+            {change}
+          </span>
+        </div>
+      )}
+    </div>
   );
 }

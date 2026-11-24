@@ -2,17 +2,11 @@
 
 import React, { useState } from "react";
 import {
-  Users,
-  MapPin,
   TrendingDown,
-  Brain,
-  Database,
   ArrowRight,
   AlertTriangle,
   CheckCircle2,
-  Info,
-  Calendar,
-  Filter
+  Info
 } from "lucide-react";
 import {
   LineChart,
@@ -30,19 +24,22 @@ import {
   Pie
 } from "recharts";
 
-import { StatCard } from "@/components/ui/stat-card";
 import { ChartCard } from "@/components/ui/chart-card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Select } from "@/components/ui/input";
-import { DEMO_OVERVIEW, DEMO_LOCALITIES } from "@/lib/demo-data";
+import { DEMO_OVERVIEW } from "@/lib/demo-data";
 import { formatNumber, formatPercent } from "@/lib/utils";
 import { getDashboardOverview } from "@/lib/api-client";
 
+const EDITORIAL_ACTIVITY_COLORS: Record<string, string> = {
+  "Formal Education": "#446b82",
+  "Regular Wage / Salaried": "#6f8d7b",
+  "Self-Employed / Own Account": "#c89547",
+  "Casual / Informal Work": "#8a8e9b",
+  "Vocational Training": "#5e916a",
+  "NEET - Caregiving Inactive": "#d46539",
+  "NEET - Unemployed / Seeking": "#b84735",
+};
+
 export default function OverviewPage() {
-  const [selectedSector, setSelectedSector] = useState("all");
-  const [selectedGender, setSelectedGender] = useState("all");
   const [liveData, setLiveData] = useState<any>(null);
 
   React.useEffect(() => {
@@ -63,254 +60,291 @@ export default function OverviewPage() {
     } : {})
   };
 
+  const activityData = DEMO_OVERVIEW.activity_distribution.map((item) => ({
+    ...item,
+    color: EDITORIAL_ACTIVITY_COLORS[item.activity] || item.color,
+  }));
+
   return (
-    <div className="space-y-6">
-      {/* Disclaimer Banner */}
-      <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 text-xs text-amber-200/90 flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <Info className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-          <div>
-            <span className="font-semibold text-amber-300">DEMONSTRATION RESEARCH WORKSPACE (SYNTHETIC BENCHMARK): </span>
-            All analytical statistics, Markov transition flows, and risk predictions displayed across this interface originate
-            from a calibrated 50,000-individual synthetic demonstration panel. They do not represent official Indian government microdata.
+    <div className="space-y-12">
+      {/* Editorial Lead & Hero Focal Stat */}
+      <section className="border-b border-[var(--border-hairline)] pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Main Heroic Metric Anchor */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+              <span className="font-serif italic font-semibold">§ 01</span>
+              <span className="text-[var(--text-faint)]">/</span>
+              <span>Longitudinal Youth Overview · 2026 Assessment</span>
+            </div>
+
+            <div className="flex flex-wrap items-baseline gap-4 pt-1">
+              <span className="text-6xl lg:text-7xl font-serif font-bold text-[var(--text-main)] tracking-tight">
+                {formatPercent(metrics.neet_prevalence_pct)}
+              </span>
+              <div className="space-y-0.5">
+                <span className="text-xs font-serif italic text-[var(--text-muted)] block">
+                  Observed youth NEET prevalence
+                </span>
+                <span className="text-[11px] font-sans text-sage-500 font-medium flex items-center gap-1">
+                  <TrendingDown className="h-3 w-3" /> ▼ -2.3% since 2021 baseline (28.4%)
+                </span>
+              </div>
+            </div>
+
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed max-w-2xl pt-2 font-sans">
+              Across the 50,000-individual synthetic cohort spanning 20 representative localities, aggregate NEET prevalence shows a gradual secular contraction. However, macro stability conceals an acute gender divide: young women experience a <span className="text-saffron-500 font-semibold">{metrics.female_neet_rate}%</span> NEET incidence rate compared to <span className="text-prussian-400 font-semibold">{metrics.male_neet_rate}%</span> for young men — a <span className="text-[var(--text-main)] font-medium">28.4 percentage point disparity</span> anchored in unequal domestic caregiving burdens.
+            </p>
+          </div>
+
+          {/* Secondary Stats Ledger Table */}
+          <div className="lg:col-span-5 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <h4 className="text-xs font-serif font-semibold text-[var(--text-main)] uppercase tracking-wider pb-2 border-b border-[var(--border-hairline)]">
+              Core Analytical Ledger
+            </h4>
+            <div className="space-y-3 text-xs">
+              <div className="flex items-center justify-between py-1 border-b border-[var(--border-hairline)]">
+                <span className="text-[var(--text-muted)]">Longitudinal Panel Records</span>
+                <span className="font-mono font-medium text-[var(--text-main)]">{formatNumber(metrics.total_youth_records)}</span>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-[var(--border-hairline)]">
+                <span className="text-[var(--text-muted)]">Localities Represented</span>
+                <span className="font-mono font-medium text-[var(--text-main)]">{metrics.total_localities} Districts</span>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-[var(--border-hairline)]">
+                <span className="text-[var(--text-muted)]">Female Inactivity Rate</span>
+                <span className="font-mono font-semibold text-saffron-500">{metrics.female_neet_rate}%</span>
+              </div>
+              <div className="flex items-center justify-between py-1 border-b border-[var(--border-hairline)]">
+                <span className="text-[var(--text-muted)]">Male Inactivity Rate</span>
+                <span className="font-mono font-semibold text-prussian-400">{metrics.male_neet_rate}%</span>
+              </div>
+              <div className="flex items-center justify-between py-1">
+                <span className="text-[var(--text-muted)]">Best Predictive Model</span>
+                <span className="font-mono text-sage-500 font-medium">AUC {metrics.best_model_auc} (XGBoost)</span>
+              </div>
+            </div>
           </div>
         </div>
-        <Badge variant="synthetic">SYNTHETIC DATA</Badge>
-      </div>
+      </section>
 
-      {/* Row 1: Key Performance Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard
-          title="Total Youth Analysed"
-          value={formatNumber(metrics.total_youth_records)}
-          subValue="Across 6 waves"
-          icon={<Users className="h-4 w-4" />}
-          badge="SYNTHETIC"
-        />
-        <StatCard
-          title="Localities Represented"
-          value={metrics.total_localities}
-          subValue="Agrarian & Urban"
-          icon={<MapPin className="h-4 w-4" />}
-          badge="20 DISTRICTS"
-        />
-        <StatCard
-          title="Observed NEET Rate"
-          value={formatPercent(metrics.neet_prevalence_pct)}
-          subValue="Wave 6 (2026)"
-          change="▼ -2.3% since 2021"
-          changeType="positive"
-          icon={<TrendingDown className="h-4 w-4" />}
-        />
-        <StatCard
-          title="Female vs Male Gap"
-          value={`${metrics.female_neet_rate}% / ${metrics.male_neet_rate}%`}
-          subValue="28.4% point gap"
-          changeType="negative"
-          change="Severe disparity"
-        />
-        <StatCard
-          title="Best Model AUC"
-          value={metrics.best_model_auc}
-          subValue="XGBoost Classifier"
-          icon={<Brain className="h-4 w-4" />}
-          change="Test ROC-AUC"
-          changeType="positive"
-        />
-      </div>
-
-      {/* Row 2: Historical Trajectory & Gender Decomposition */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <ChartCard
-          title="Historical Youth NEET Prevalence Trend (2021–2026)"
-          description="Longitudinal trajectory stratified by demographic sub-cohorts"
-          className="lg:col-span-2"
-          heightClass="h-80"
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="year" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} domain={[10, 50]} unit="%" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-              />
-              <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }} />
-              <Line type="monotone" dataKey="overall_rate" name="Overall Cohort" stroke="#3b82f6" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
-              <Line type="monotone" dataKey="female_rate" name="Female Youth" stroke="#f43f5e" strokeWidth={2} strokeDasharray="4 4" />
-              <Line type="monotone" dataKey="rural_rate" name="Rural Youth" stroke="#f59e0b" strokeWidth={2} />
-              <Line type="monotone" dataKey="male_rate" name="Male Youth" stroke="#10b981" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard
-          title="Gender & Geographic Concentration"
-          description="Observed NEET incidence rates across strata"
-          heightClass="h-80"
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={[
-                { category: "Females", rate: metrics.female_neet_rate, fill: "#f43f5e" },
-                { category: "Males", rate: metrics.male_neet_rate, fill: "#10b981" },
-                { category: "Rural", rate: metrics.rural_neet_rate, fill: "#f59e0b" },
-                { category: "Urban", rate: metrics.urban_neet_rate, fill: "#3b82f6" }
-              ]}
-              margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="category" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} domain={[0, 50]} unit="%" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-              />
-              <Bar dataKey="rate" name="NEET %" radius={[6, 6, 0, 0]}>
-                {[
-                  <Cell key="0" fill="#f43f5e" />,
-                  <Cell key="1" fill="#10b981" />,
-                  <Cell key="2" fill="#f59e0b" />,
-                  <Cell key="3" fill="#3b82f6" />
-                ]}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-      </div>
-
-      {/* Row 3: Age Bracket & Activity Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartCard
-          title="NEET Prevalence by Age Bracket"
-          description="Life-course transition from schooling to peak marriage/search window"
-          heightClass="h-72"
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={DEMO_OVERVIEW.by_age_group} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="age_group" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} domain={[0, 40]} unit="%" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-              />
-              <Bar dataKey="neet_rate" name="NEET Rate %" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard
-          title="Youth Activity Distribution Partition"
-          description="Standard 4-State partition with NEET sub-activity decomposition"
-          heightClass="h-72"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full items-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={DEMO_OVERVIEW.activity_distribution}
-                  dataKey="pct"
-                  nameKey="activity"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  innerRadius={45}
-                  paddingAngle={2}
-                >
-                  {DEMO_OVERVIEW.activity_distribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="space-y-1.5 text-xs pr-4">
-              {DEMO_OVERVIEW.activity_distribution.map((item) => (
-                <div key={item.activity} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-slate-300 truncate max-w-[150px]">{item.activity}</span>
-                  </div>
-                  <span className="font-semibold text-slate-100">{item.pct}%</span>
-                </div>
-              ))}
-            </div>
+      {/* Trajectory & Strata Analysis */}
+      <section className="space-y-6">
+        <div className="flex items-baseline justify-between border-b border-[var(--border-hairline)] pb-3">
+          <div>
+            <h3 className="text-base font-serif font-semibold text-[var(--text-main)]">
+              Historical Trajectory & Stratification
+            </h3>
+            <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+              Six-wave evolution (2021–2026) disaggregated by demographic cohort
+            </p>
           </div>
-        </ChartCard>
-      </div>
+          <span className="text-[11px] font-mono text-[var(--text-faint)]">Waves W1–W6</span>
+        </div>
 
-      {/* Row 4: High-Risk Segments & Analytical Alerts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-slate-800 bg-slate-900/90">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-sm">High-Risk Vulnerability Segments</CardTitle>
-                <p className="text-xs text-slate-400 mt-1">Identified priority clusters requiring targeted policy response</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <ChartCard
+            title="Six-Wave NEET Trajectory by Demographic Sub-Cohort"
+            description="Longitudinal progression illustrating stubborn female inactivity versus fluctuating male transition"
+            className="lg:col-span-8"
+            heightClass="h-80"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trendData} margin={{ top: 12, right: 24, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" vertical={false} />
+                <XAxis dataKey="year" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} domain={[10, 50]} unit="%" />
+                <Tooltip />
+                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "12px", fontFamily: "Instrument Sans" }} />
+                <Line type="monotone" dataKey="female_rate" name="Female Youth" stroke="#d46539" strokeWidth={2.5} dot={{ r: 3, fill: "#d46539" }} activeDot={{ r: 5 }} />
+                <Line type="monotone" dataKey="rural_rate" name="Rural Youth" stroke="#c89547" strokeWidth={1.75} strokeDasharray="3 3" dot={false} />
+                <Line type="monotone" dataKey="overall_rate" name="Overall Cohort" stroke="#f4f2eb" strokeWidth={2} dot={{ r: 3, fill: "#f4f2eb" }} />
+                <Line type="monotone" dataKey="male_rate" name="Male Youth" stroke="#446b82" strokeWidth={1.75} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard
+            title="Incidence by Strata"
+            description="Comparison across gender and geographic sector"
+            className="lg:col-span-4"
+            heightClass="h-80"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={[
+                  { category: "Females", rate: metrics.female_neet_rate, fill: "#d46539" },
+                  { category: "Rural", rate: metrics.rural_neet_rate, fill: "#c89547" },
+                  { category: "Urban", rate: metrics.urban_neet_rate, fill: "#6f8d7b" },
+                  { category: "Males", rate: metrics.male_neet_rate, fill: "#446b82" }
+                ]}
+                margin={{ top: 15, right: 15, left: -15, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" vertical={false} />
+                <XAxis dataKey="category" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "Instrument Sans" }} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} domain={[0, 50]} unit="%" />
+                <Tooltip />
+                <Bar dataKey="rate" name="NEET %" radius={[2, 2, 0, 0]}>
+                  {[
+                    <Cell key="0" fill="#d46539" />,
+                    <Cell key="1" fill="#c89547" />,
+                    <Cell key="2" fill="#6f8d7b" />,
+                    <Cell key="3" fill="#446b82" />
+                  ]}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+        </div>
+      </section>
+
+      {/* Age Cohort & Activity Decomposition */}
+      <section className="space-y-6">
+        <div className="flex items-baseline justify-between border-b border-[var(--border-hairline)] pb-3">
+          <div>
+            <h3 className="text-base font-serif font-semibold text-[var(--text-main)]">
+              Life-Course Dynamics & Activity Partition
+            </h3>
+            <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+              Age progression transitions and standard 4-state activity status decomposition
+            </p>
+          </div>
+          <span className="text-[11px] font-mono text-[var(--text-faint)]">Ages 15–29</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ChartCard
+            title="NEET Rate by Age Bracket (Life-Course Curve)"
+            description="Peak vulnerability concentrates in the 21–23 window, reflecting marriage entry and post-study search"
+            heightClass="h-72"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={DEMO_OVERVIEW.by_age_group} margin={{ top: 15, right: 20, left: -15, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" vertical={false} />
+                <XAxis dataKey="age_group" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} domain={[0, 40]} unit="%" />
+                <Tooltip />
+                <Bar dataKey="neet_rate" name="NEET Rate %" fill="#c89547" radius={[2, 2, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard
+            title="Cohort Activity Distribution Partition"
+            description="Decomposition into formal education, formal/informal labor, skilling, and inactive states"
+            heightClass="h-72"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full items-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={activityData}
+                    dataKey="pct"
+                    nameKey="activity"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    innerRadius={50}
+                    paddingAngle={1.5}
+                  >
+                    {activityData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="space-y-1.5 text-xs pr-2">
+                {activityData.map((item) => (
+                  <div key={item.activity} className="flex items-center justify-between text-[11px]">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                      <span className="text-[var(--text-muted)] truncate max-w-[140px]">{item.activity}</span>
+                    </div>
+                    <span className="font-mono font-medium text-[var(--text-main)]">{item.pct}%</span>
+                  </div>
+                ))}
               </div>
-              <Badge variant="outline">4 Priority Segments</Badge>
             </div>
-          </CardHeader>
-          <CardContent className="p-0">
+          </ChartCard>
+        </div>
+      </section>
+
+      {/* Priority Segments & Alerts */}
+      <section className="space-y-6">
+        <div className="flex items-baseline justify-between border-b border-[var(--border-hairline)] pb-3">
+          <div>
+            <h3 className="text-base font-serif font-semibold text-[var(--text-main)]">
+              High-Risk Vulnerability Segments & Policy Alerts
+            </h3>
+            <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+              Empirical priority clusters requiring targeted programmatic intervention
+            </p>
+          </div>
+          <span className="text-[11px] font-mono text-[var(--text-faint)]">N=4 Clusters</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Segments Ruled Table */}
+          <div className="lg:col-span-8 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-slate-950/80 text-slate-400 border-y border-slate-800">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)]">
                   <tr>
-                    <th className="py-2.5 px-4 font-medium">Population Segment</th>
-                    <th className="py-2.5 px-3 font-medium">Est. Cohort</th>
-                    <th className="py-2.5 px-3 font-medium">NEET Rate</th>
-                    <th className="py-2.5 px-4 font-medium">Key Driver / Barrier</th>
-                    <th className="py-2.5 px-4 font-medium">Policy Action</th>
+                    <th className="py-2.5 px-4 font-serif font-semibold">Priority Segment</th>
+                    <th className="py-2.5 px-3 font-serif font-semibold">Est. Cohort</th>
+                    <th className="py-2.5 px-3 font-serif font-semibold">Prevalence</th>
+                    <th className="py-2.5 px-4 font-serif font-semibold">Primary Constraint</th>
+                    <th className="py-2.5 px-4 font-serif font-semibold">Recommended Pathway</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-[var(--border-hairline)] font-sans">
                   {DEMO_OVERVIEW.high_risk_segments.map((seg, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
-                      <td className="py-3 px-4 font-medium text-slate-200">{seg.segment_name}</td>
-                      <td className="py-3 px-3 text-slate-400 font-mono">{formatNumber(seg.estimated_size)}</td>
+                    <tr key={idx} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                      <td className="py-3 px-4 font-medium text-[var(--text-main)]">{seg.segment_name}</td>
+                      <td className="py-3 px-3 text-[var(--text-muted)] font-mono">{formatNumber(seg.estimated_size)}</td>
                       <td className="py-3 px-3">
-                        <span className="font-bold text-rose-400">{seg.neet_prevalence}%</span>
+                        <span className="font-mono font-bold text-saffron-500">{seg.neet_prevalence}%</span>
                       </td>
-                      <td className="py-3 px-4 text-slate-400">{seg.key_barriers}</td>
-                      <td className="py-3 px-4 text-blue-400">{seg.recommended_focus}</td>
+                      <td className="py-3 px-4 text-[var(--text-muted)]">{seg.key_barriers}</td>
+                      <td className="py-3 px-4 text-prussian-400 font-medium">{seg.recommended_focus}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Analytical Alerts Feed */}
-        <Card className="border-slate-800 bg-slate-900/90">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm">Analytical Intelligence Alerts</CardTitle>
-              <Badge variant="default">LIVE FEED</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3 p-4">
-            {DEMO_OVERVIEW.analytical_alerts.map((alt) => (
-              <div
-                key={alt.id}
-                className="p-3 rounded-lg border border-slate-800 bg-slate-950/60 text-xs space-y-1.5"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    {alt.severity === "Warning" && <AlertTriangle className="h-3.5 w-3.5 text-amber-400" />}
-                    {alt.severity === "Info" && <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />}
-                    {alt.severity === "Notice" && <Info className="h-3.5 w-3.5 text-teal-400" />}
-                    <span className="font-semibold text-slate-200">{alt.title}</span>
+          {/* Analytical Intelligence Field Notes */}
+          <div className="lg:col-span-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-4">
+            <h4 className="text-xs font-serif font-semibold text-[var(--text-main)] uppercase tracking-wider pb-2 border-b border-[var(--border-hairline)]">
+              Analytical Field Dispatches
+            </h4>
+            <div className="space-y-3.5">
+              {DEMO_OVERVIEW.analytical_alerts.map((alt) => (
+                <div
+                  key={alt.id}
+                  className="p-3 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] text-xs space-y-1.5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-saffron-500 font-semibold uppercase tracking-wider">
+                      {alt.severity} Dispatch
+                    </span>
+                    <span className="text-[10px] text-[var(--text-faint)] font-mono">2026.W6</span>
                   </div>
-                  <span className="text-[10px] text-slate-500 font-mono">Recent</span>
+                  <h5 className="font-serif font-semibold text-[var(--text-main)] text-xs leading-snug">
+                    {alt.title}
+                  </h5>
+                  <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                    {alt.message}
+                  </p>
                 </div>
-                <p className="text-slate-400 leading-relaxed">{alt.message}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
+

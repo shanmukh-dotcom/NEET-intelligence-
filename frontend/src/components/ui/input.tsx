@@ -9,7 +9,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "flex h-9 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-1 text-xs text-slate-100 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-8 w-full rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--text-main)] placeholder:text-[var(--text-faint)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-saffron-500 disabled:cursor-not-allowed disabled:opacity-50 font-sans transition-colors",
           className
         )}
         ref={ref}
@@ -27,7 +27,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <select
         className={cn(
-          "flex h-9 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-1 text-xs text-slate-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-8 w-full rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--text-main)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-saffron-500 disabled:cursor-not-allowed disabled:opacity-50 font-sans transition-colors",
           className
         )}
         ref={ref}

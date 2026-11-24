@@ -91,34 +91,48 @@ export default function ScenarioSimulatorPage() {
   const estimatedExits = Math.round((50000 * (coverage / 100) * (completion / 100) * (transitionRate / 100) * 1.6));
 
   return (
-    <div className="space-y-6">
-      {/* Mathematical Integrity Banner */}
-      <div className="p-4 rounded-xl border border-blue-500/30 bg-blue-950/20 text-xs text-blue-200 flex items-start gap-3">
-        <Info className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <span className="font-semibold text-blue-300">MATHEMATICAL INTEGRITY & PROJECTION DISCLAIMER: </span>
-          The simulation engine clearly separates historical observations (2021–2026, solid line) from forward policy
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter V</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Scenario Projections</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            2021–2031 Forward Policy Scenario Simulator
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Interactive multi-scenario projections, resource envelope sensitivity, and cumulative transition flows.
+          </p>
+        </div>
+      </div>
+
+      {/* Mathematical Integrity Banner */}
+      <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-xs text-[var(--text-muted)] flex items-start gap-3">
+        <span className="font-serif italic text-saffron-500 font-semibold shrink-0">Accounting Note.</span>
+        <div className="font-sans leading-relaxed">
+          The simulation engine strictly separates historical observations (2021–2026, solid line) from forward policy
           scenarios (2027–2031, projected trajectory). Future estimates reflect stated parametric coverage and arithmetic
-          cohort flow accounting. They are NOT guaranteed empirically identified causal effects.
+          cohort flow accounting. They are not guaranteed empirically identified causal treatment effects.
         </div>
       </div>
 
       {/* Main Grid: Controls vs Timeline */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Controls Column */}
-        <Card className="lg:col-span-1 border-slate-800 bg-slate-900/90 text-xs">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-sm">Policy Scenario Controls</CardTitle>
-              <Badge variant="teal">LIVE SIMULATOR</Badge>
-            </div>
-            <CardDescription>Adjust intervention parameters to recalculate 2027-2031 trajectory</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <div className="lg:col-span-5 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-5 text-xs font-sans">
+          <div className="pb-3 border-b border-[var(--border-hairline)]">
+            <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Policy Scenario Controls</h4>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">Adjust intervention parameters to recalculate 2027–2031 trajectory</p>
+          </div>
+
+          <div className="space-y-4">
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Target Programme Coverage</label>
-                <span className="text-blue-400 font-mono font-bold">{coverage}%</span>
+                <label className="text-[var(--text-main)] font-medium">Target Programme Coverage</label>
+                <span className="text-saffron-500 font-mono font-bold">{coverage}%</span>
               </div>
               <input
                 type="range"
@@ -126,15 +140,15 @@ export default function ScenarioSimulatorPage() {
                 max="90"
                 value={coverage}
                 onChange={(e) => setCoverage(Number(e.target.value))}
-                className="w-full accent-blue-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-saffron-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
               />
-              <span className="text-[10px] text-slate-500">Share of high-risk eligible youth enrolled</span>
+              <span className="text-[10px] text-[var(--text-faint)]">Share of high-risk eligible youth enrolled</span>
             </div>
 
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Assumed Completion Rate</label>
-                <span className="text-teal-400 font-mono font-bold">{completion}%</span>
+                <label className="text-[var(--text-main)] font-medium">Assumed Completion Rate</label>
+                <span className="text-sage-500 font-mono font-bold">{completion}%</span>
               </div>
               <input
                 type="range"
@@ -142,15 +156,15 @@ export default function ScenarioSimulatorPage() {
                 max="95"
                 value={completion}
                 onChange={(e) => setCompletion(Number(e.target.value))}
-                className="w-full accent-teal-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-sage-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
               />
-              <span className="text-[10px] text-slate-500">Proportion completing full credential/apprenticeship</span>
+              <span className="text-[10px] text-[var(--text-faint)]">Proportion completing full credential/apprenticeship</span>
             </div>
 
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Employment / Training Transition</label>
-                <span className="text-emerald-400 font-mono font-bold">{transitionRate}%</span>
+                <label className="text-[var(--text-main)] font-medium">Employment / Training Transition</label>
+                <span className="text-prussian-400 font-mono font-bold">{transitionRate}%</span>
               </div>
               <input
                 type="range"
@@ -158,15 +172,15 @@ export default function ScenarioSimulatorPage() {
                 max="75"
                 value={transitionRate}
                 onChange={(e) => setTransitionRate(Number(e.target.value))}
-                className="w-full accent-emerald-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-prussian-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
               />
-              <span className="text-[10px] text-slate-500">Post-programme placement rate into non-NEET state</span>
+              <span className="text-[10px] text-[var(--text-faint)]">Post-programme placement rate into non-NEET state</span>
             </div>
 
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Budget Envelope (INR Crores)</label>
-                <span className="text-amber-400 font-mono font-bold">₹{investment} Cr</span>
+                <label className="text-[var(--text-main)] font-medium">Budget Envelope (INR Crores)</label>
+                <span className="text-ochre-400 font-mono font-bold">₹{investment} Cr</span>
               </div>
               <input
                 type="range"
@@ -175,62 +189,60 @@ export default function ScenarioSimulatorPage() {
                 step="0.5"
                 value={investment}
                 onChange={(e) => setInvestment(Number(e.target.value))}
-                className="w-full accent-amber-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-ochre-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
               />
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between">
+            <div className="p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)] flex items-center justify-between">
               <div>
-                <span className="font-semibold text-slate-200 block">Co-Provision Childcare & Crèches</span>
-                <span className="text-[10px] text-slate-400">Unlocks female participation multiplier</span>
+                <span className="font-serif font-semibold text-[var(--text-main)] block text-xs">Co-Provision Childcare & Crèches</span>
+                <span className="text-[10px] text-[var(--text-muted)]">Unlocks female participation multiplier</span>
               </div>
               <input
                 type="checkbox"
                 checked={careSupport}
                 onChange={(e) => setCareSupport(e.target.checked)}
-                className="h-4 w-4 rounded border-slate-700 accent-blue-500 cursor-pointer"
+                className="h-4 w-4 rounded accent-saffron-500 cursor-pointer"
               />
             </div>
 
             {/* Quick Stat Highlights */}
-            <div className="p-3.5 rounded-lg bg-slate-950/80 border border-slate-800 space-y-2">
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">Simulated 2031 Outcome</span>
+            <div className="p-4 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)] space-y-2.5">
+              <span className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider block font-serif font-semibold">Simulated 2031 Outcome</span>
               <div className="flex justify-between items-baseline">
-                <span className="text-slate-400">Projected NEET Rate:</span>
-                <span className="text-xl font-bold text-emerald-400 font-mono">{finalRate}%</span>
+                <span className="text-[var(--text-muted)]">Projected NEET Rate:</span>
+                <span className="text-2xl font-numeral font-bold text-saffron-500">{finalRate}%</span>
               </div>
               <div className="flex justify-between items-baseline">
-                <span className="text-slate-400">Net Rate Reduction:</span>
-                <span className="text-sm font-semibold text-blue-400 font-mono">▼ -{reductionPts}% pts</span>
+                <span className="text-[var(--text-muted)]">Net Rate Reduction:</span>
+                <span className="text-sm font-semibold text-sage-500 font-mono">▼ -{reductionPts}% pts</span>
               </div>
               <div className="flex justify-between items-baseline">
-                <span className="text-slate-400">Cumulative Net Transitions:</span>
-                <span className="text-sm font-semibold text-slate-200 font-mono">{formatNumber(estimatedExits)} youth</span>
+                <span className="text-[var(--text-muted)]">Cumulative Net Exits:</span>
+                <span className="text-sm font-semibold text-[var(--text-main)] font-mono">{formatNumber(estimatedExits)} youth</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Timeline Visualization Column */}
-        <div className="lg:col-span-2 space-y-4">
+        <div className="lg:col-span-7 space-y-4">
           <ChartCard
-            title="NEET Prevalence Trajectory (2021-2026 Historical vs 2027-2031 Projected)"
+            title="NEET Prevalence Trajectory (2021–2026 Historical vs 2027–2031 Projected)"
             description="Comparison of Baseline Status Quo, Moderate, Expanded, and Custom Interactive Scenario"
             heightClass="h-96"
           >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={timelineData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="year" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-                <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} domain={[10, 30]} unit="%" />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-                />
-                <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }} />
-                <Line type="monotone" dataKey="Baseline" name="Baseline (Status Quo)" stroke="#94a3b8" strokeWidth={2} strokeDasharray="3 3" />
-                <Line type="monotone" dataKey="Moderate" name="Moderate Targeted" stroke="#f59e0b" strokeWidth={2} strokeDasharray="4 4" />
-                <Line type="monotone" dataKey="Expanded" name="Expanded Comprehensive" stroke="#3b82f6" strokeWidth={2.5} strokeDasharray="4 4" />
-                <Line type="monotone" dataKey="Custom" name="Your Custom Scenario" stroke="#10b981" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+              <LineChart data={timelineData} margin={{ top: 12, right: 24, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" vertical={false} />
+                <XAxis dataKey="year" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                <YAxis stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} domain={[10, 30]} unit="%" />
+                <Tooltip />
+                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "12px", fontFamily: "Instrument Sans" }} />
+                <Line type="monotone" dataKey="Baseline" name="Baseline (Status Quo)" stroke="#8a8e9b" strokeWidth={1.5} strokeDasharray="3 3" dot={false} />
+                <Line type="monotone" dataKey="Moderate" name="Moderate Targeted" stroke="#c89547" strokeWidth={1.75} strokeDasharray="3 3" dot={false} />
+                <Line type="monotone" dataKey="Expanded" name="Expanded Comprehensive" stroke="#446b82" strokeWidth={2} strokeDasharray="4 4" dot={false} />
+                <Line type="monotone" dataKey="Custom" name="Your Custom Scenario" stroke="#d46539" strokeWidth={2.75} dot={{ r: 3, fill: "#d46539" }} activeDot={{ r: 5 }} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -238,42 +250,40 @@ export default function ScenarioSimulatorPage() {
       </div>
 
       {/* Row 2: 3-Scenario Comparison Table */}
-      <Card className="border-slate-800 bg-slate-900/90 text-xs">
-        <CardHeader>
-          <CardTitle className="text-sm">Canonical Policy Scenarios Comparison Dossier</CardTitle>
-          <CardDescription>Comprehensive side-by-side assessment across resource envelopes and projected outcomes</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
-                <tr>
-                  <th className="py-2.5 px-4 font-medium">Policy Scenario</th>
-                  <th className="py-2.5 px-4 font-medium">Coverage</th>
-                  <th className="py-2.5 px-4 font-medium">Budget Required</th>
-                  <th className="py-2.5 px-4 font-medium">Observed Rate (2026)</th>
-                  <th className="py-2.5 px-4 font-medium">Projected Rate (2031)</th>
-                  <th className="py-2.5 px-4 font-medium">Net Reduction</th>
-                  <th className="py-2.5 px-4 font-medium">Cumulative Exits</th>
+      <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden text-xs">
+        <div className="p-5 border-b border-[var(--border-hairline)]">
+          <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Canonical Policy Scenarios Comparison Dossier</h4>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Comprehensive side-by-side assessment across resource envelopes and projected outcomes</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left font-sans">
+            <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-serif">
+              <tr>
+                <th className="py-2.5 px-4 font-semibold">Policy Scenario</th>
+                <th className="py-2.5 px-4 font-semibold">Coverage</th>
+                <th className="py-2.5 px-4 font-semibold">Budget Required</th>
+                <th className="py-2.5 px-4 font-semibold">Observed Rate (2026)</th>
+                <th className="py-2.5 px-4 font-semibold">Projected Rate (2031)</th>
+                <th className="py-2.5 px-4 font-semibold">Net Reduction</th>
+                <th className="py-2.5 px-4 font-semibold">Cumulative Exits</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
+              {DEMO_SCENARIO_COMPARISON.summary_cards.map((s, idx) => (
+                <tr key={idx} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                  <td className="py-3 px-4 font-sans font-medium text-[var(--text-main)]">{s.scenario}</td>
+                  <td className="py-3 px-4 text-[var(--text-muted)]">{s.coverage}</td>
+                  <td className="py-3 px-4 text-ochre-400">₹{s.investment_cr} Cr</td>
+                  <td className="py-3 px-4 text-[var(--text-muted)]">{s.rate_2026}%</td>
+                  <td className="py-3 px-4 text-[var(--text-main)] font-bold">{s.rate_2031}%</td>
+                  <td className="py-3 px-4 text-sage-500">▼ -{s.reduction_pts}% pts</td>
+                  <td className="py-3 px-4 text-saffron-500 font-bold">{formatNumber(s.cumulative_exits)}</td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
-                {DEMO_SCENARIO_COMPARISON.summary_cards.map((s, idx) => (
-                  <tr key={idx} className="hover:bg-slate-800/30">
-                    <td className="py-3 px-4 font-sans font-semibold text-slate-200">{s.scenario}</td>
-                    <td className="py-3 px-4 text-slate-300">{s.coverage}</td>
-                    <td className="py-3 px-4 text-amber-400">₹{s.investment_cr} Cr</td>
-                    <td className="py-3 px-4 text-slate-400">{s.rate_2026}%</td>
-                    <td className="py-3 px-4 text-slate-100 font-bold">{s.rate_2031}%</td>
-                    <td className="py-3 px-4 text-blue-400">▼ -{s.reduction_pts}% pts</td>
-                    <td className="py-3 px-4 text-emerald-400 font-bold">{formatNumber(s.cumulative_exits)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -82,13 +82,29 @@ export default function TransitionIntelligencePage() {
   const survivalData = liveSurvival || DEMO_TRANSITIONS.survival_curve;
 
   return (
-    <div className="space-y-6">
-      {/* Warning Callout on State Dependence vs Heterogeneity */}
-      <div className="p-4 rounded-xl border border-teal-500/30 bg-teal-950/20 text-xs text-teal-200 flex items-start gap-3">
-        <Info className="h-5 w-5 text-teal-400 shrink-0 mt-0.5" />
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <span className="font-semibold text-teal-300">METHODOLOGICAL CAUTION (STATE DEPENDENCE VS HETEROGENEITY): </span>
-          A positive statistical association between past NEET status and current NEET status does NOT prove that past
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter III</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Transition Dynamics</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Transition Intelligence & Longitudinal Flow Dynamics
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            First-order Markov matrices, sequence pathways, and Kaplan-Meier duration hazard curves.
+          </p>
+        </div>
+      </div>
+
+      {/* Methodological Caution on State Dependence vs Heterogeneity */}
+      <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-xs text-[var(--text-muted)] flex items-start gap-3">
+        <span className="font-serif italic text-saffron-500 font-semibold shrink-0">Methodological Note.</span>
+        <div className="font-sans leading-relaxed">
+          A positive statistical association between past NEET status and current NEET status does not prove that past
           inactivity causally causes future scarring. Unobserved individual effects (health, family care norms, local labor demand)
           often drive both. Transition matrices describe empirical flows, not pure causal mechanisms.
         </div>
@@ -103,12 +119,12 @@ export default function TransitionIntelligencePage() {
         </TabsList>
 
         {/* Tab 1: Transition Matrix */}
-        <TabsContent value="matrix" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
+        <TabsContent value="matrix" className="space-y-6 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden">
+            <div className="flex flex-row items-center justify-between p-5 border-b border-[var(--border-hairline)]">
               <div>
-                <CardTitle className="text-sm">First-Order Markov Transition Matrix (Wave t → Wave t+1)</CardTitle>
-                <CardDescription>Observed probability of moving between activity states across consecutive survey waves</CardDescription>
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">First-Order Markov Transition Matrix (Wave t → Wave t+1)</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Observed probability of moving between activity states across consecutive survey waves</p>
               </div>
               <div className="w-48">
                 <Select value={matrixFilter} onChange={(e) => setMatrixFilter(e.target.value)}>
@@ -119,70 +135,68 @@ export default function TransitionIntelligencePage() {
                   <option value="urban">Urban Localities</option>
                 </Select>
               </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs text-center border-collapse">
-                  <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
-                    <tr>
-                      <th className="py-3 px-4 text-left font-medium">Origin State (Wave t)</th>
-                      <th className="py-3 px-4 font-medium text-blue-400">→ Education</th>
-                      <th className="py-3 px-4 font-medium text-emerald-400">→ Employment</th>
-                      <th className="py-3 px-4 font-medium text-purple-400">→ Training</th>
-                      <th className="py-3 px-4 font-medium text-rose-400">→ NEET Inactivity</th>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-center border-collapse">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-serif">
+                  <tr>
+                    <th className="py-3 px-4 text-left font-semibold">Origin State (Wave t)</th>
+                    <th className="py-3 px-4 font-semibold text-prussian-400">→ Education</th>
+                    <th className="py-3 px-4 font-semibold text-sage-500">→ Employment</th>
+                    <th className="py-3 px-4 font-semibold text-ochre-400">→ Training</th>
+                    <th className="py-3 px-4 font-semibold text-saffron-500">→ NEET Inactivity</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
+                  {matrixData.map((row, idx) => (
+                    <tr key={idx} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                      <td className="py-3.5 px-4 text-left font-semibold text-[var(--text-main)] font-sans">{row.from_state}</td>
+                      <td className="py-3.5 px-4">
+                        <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${row.to_education > 50 ? "bg-prussian-500/15 text-prussian-300 font-bold" : "text-[var(--text-muted)]"}`}>
+                          {row.to_education}%
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${row.to_employment > 50 ? "bg-sage-500/15 text-sage-400 font-bold" : "text-[var(--text-muted)]"}`}>
+                          {row.to_employment}%
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${row.to_training > 20 ? "bg-ochre-500/15 text-ochre-400 font-bold" : "text-[var(--text-muted)]"}`}>
+                          {row.to_training}%
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${row.to_neet > 50 ? "bg-saffron-500/15 text-saffron-400 font-bold" : "text-[var(--text-muted)]"}`}>
+                          {row.to_neet}%
+                        </span>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 font-mono">
-                    {matrixData.map((row, idx) => (
-                      <tr key={idx} className="hover:bg-slate-800/30">
-                        <td className="py-3.5 px-4 text-left font-semibold text-slate-200 font-sans">{row.from_state}</td>
-                        <td className="py-3.5 px-4">
-                          <span className={`inline-block px-3 py-1 rounded text-xs ${row.to_education > 50 ? "bg-blue-600/20 text-blue-300 font-bold" : "text-slate-300"}`}>
-                            {row.to_education}%
-                          </span>
-                        </td>
-                        <td className="py-3.5 px-4">
-                          <span className={`inline-block px-3 py-1 rounded text-xs ${row.to_employment > 50 ? "bg-emerald-600/20 text-emerald-300 font-bold" : "text-slate-300"}`}>
-                            {row.to_employment}%
-                          </span>
-                        </td>
-                        <td className="py-3.5 px-4">
-                          <span className={`inline-block px-3 py-1 rounded text-xs ${row.to_training > 20 ? "bg-purple-600/20 text-purple-300 font-bold" : "text-slate-300"}`}>
-                            {row.to_training}%
-                          </span>
-                        </td>
-                        <td className="py-3.5 px-4">
-                          <span className={`inline-block px-3 py-1 rounded text-xs ${row.to_neet > 50 ? "bg-rose-600/25 text-rose-300 font-bold" : "text-slate-300"}`}>
-                            {row.to_neet}%
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           {/* Key Findings Callout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded-lg border border-slate-800 bg-slate-950/70 space-y-1">
-              <span className="font-semibold text-rose-400 block">70.2% NEET Inactivity Persistence</span>
-              <p className="text-slate-400">Individuals identified as NEET in Wave t face a 70.2% likelihood of remaining NEET in Wave t+1.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-sans">
+            <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-1">
+              <span className="font-serif font-semibold text-saffron-500 text-sm block">70.2% NEET Inactivity Persistence</span>
+              <p className="text-[var(--text-muted)] leading-relaxed">Individuals identified as NEET in Wave t face a 70.2% likelihood of remaining NEET in Wave t+1.</p>
             </div>
-            <div className="p-4 rounded-lg border border-slate-800 bg-slate-950/70 space-y-1">
-              <span className="font-semibold text-emerald-400 block">45.2% Training Transition Success</span>
-              <p className="text-slate-400">Completing vocational training triples subsequent wave formal employment transition relative to untreated NEET (45.2% vs 15.1%).</p>
+            <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-1">
+              <span className="font-serif font-semibold text-sage-500 text-sm block">45.2% Training Transition Success</span>
+              <p className="text-[var(--text-muted)] leading-relaxed">Completing vocational training triples subsequent wave formal employment transition relative to untreated NEET (45.2% vs 15.1%).</p>
             </div>
-            <div className="p-4 rounded-lg border border-slate-800 bg-slate-950/70 space-y-1">
-              <span className="font-semibold text-blue-400 block">10.2% Education-to-NEET Drop</span>
-              <p className="text-slate-400">10.2% of individuals exiting schooling enter immediate inactivity, disproportionately concentrated in rural females.</p>
+            <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-1">
+              <span className="font-serif font-semibold text-prussian-400 text-sm block">10.2% Education-to-NEET Drop</span>
+              <p className="text-[var(--text-muted)] leading-relaxed">10.2% of individuals exiting schooling enter immediate inactivity, disproportionately concentrated in rural females.</p>
             </div>
           </div>
         </TabsContent>
 
         {/* Tab 2: Persistence & Churn */}
-        <TabsContent value="persistence" className="space-y-4 pt-2">
+        <TabsContent value="persistence" className="space-y-4 pt-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ChartCard
               title="Longitudinal NEET Duration Decomposition"
@@ -198,91 +212,87 @@ export default function TransitionIntelligencePage() {
                     cx="50%"
                     cy="50%"
                     outerRadius={80}
-                    innerRadius={45}
-                    paddingAngle={3}
+                    innerRadius={50}
+                    paddingAngle={2}
                   >
                     {persistenceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color === "#f43f5e" ? "#d46539" : entry.color === "#10b981" ? "#5e916a" : entry.color === "#f59e0b" ? "#c89547" : "#446b82"} />
                     ))}
                   </Pie>
-                  <Tooltip
-                    contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-                  />
-                  <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
+                  <Tooltip />
+                  <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px", fontFamily: "Instrument Sans" }} />
                 </PieChart>
               </ResponsiveContainer>
             </ChartCard>
 
-            <Card className="border-slate-800 bg-slate-900/90">
-              <CardHeader>
-                <CardTitle className="text-sm">Persistence Strata Breakdown (N = 42,100)</CardTitle>
-                <CardDescription>Repeated observations do not automatically indicate uninterrupted persistence</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
+            <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+              <div className="pb-3 border-b border-[var(--border-hairline)]">
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Persistence Strata Breakdown (N = 42,100)</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Repeated observations do not automatically indicate uninterrupted persistence</p>
+              </div>
+              <div className="space-y-3">
                 {persistenceData.map((p, i) => (
-                  <div key={i} className="p-3 rounded-lg border border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs">
+                  <div key={i} className="p-3.5 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-between text-xs font-sans">
                     <div className="flex items-center gap-2.5">
-                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: p.color }} />
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: p.color === "#f43f5e" ? "#d46539" : p.color === "#10b981" ? "#5e916a" : p.color === "#f59e0b" ? "#c89547" : "#446b82" }} />
                       <div>
-                        <span className="font-semibold text-slate-200 block">{p.pattern}</span>
-                        <span className="text-[11px] text-slate-500 font-mono">{formatNumber(p.count)} individuals</span>
+                        <span className="font-medium text-[var(--text-main)] block">{p.pattern}</span>
+                        <span className="text-[11px] text-[var(--text-faint)] font-mono">{formatNumber(p.count)} individuals</span>
                       </div>
                     </div>
-                    <span className="font-bold text-slate-100 font-mono text-sm">{p.percentage}%</span>
+                    <span className="font-numeral font-bold text-[var(--text-main)] text-sm">{p.percentage}%</span>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </TabsContent>
 
         {/* Tab 3: Sequence Pathways */}
-        <TabsContent value="sequences" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">Modal Longitudinal Trajectories (6-Wave Life Course Sequence)</CardTitle>
-              <CardDescription>Top activity sequences clustered across 2021-2026 panel</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
+        <TabsContent value="sequences" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <div className="pb-3 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Modal Longitudinal Trajectories (6-Wave Sequence Clusters)</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Top activity sequences clustered across 2021-2026 panel</p>
+            </div>
+            <div className="space-y-3">
               {SEQUENCES.map((seq) => (
-                <div key={seq.rank} className="p-3.5 rounded-lg border border-slate-800 bg-slate-950/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+                <div key={seq.rank} className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs font-sans">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="h-5 w-5 rounded bg-slate-800 text-slate-300 font-mono text-[10px] flex items-center justify-center font-bold">
-                        #{seq.rank}
+                      <span className="h-5 w-5 rounded border border-[var(--border-muted)] bg-[var(--bg-surface)] text-[var(--text-muted)] font-serif text-[11px] flex items-center justify-center font-bold">
+                        {seq.rank}
                       </span>
-                      <span className="font-semibold text-slate-200">{seq.label}</span>
+                      <span className="font-medium text-[var(--text-main)]">{seq.label}</span>
                     </div>
-                    <p className="font-mono text-blue-400 text-xs pl-7">{seq.path}</p>
+                    <p className="font-mono text-saffron-500 text-xs pl-7">{seq.path}</p>
                   </div>
-                  <span className="font-mono font-bold text-slate-100 bg-slate-800/80 px-2.5 py-1 rounded text-xs">
+                  <span className="font-mono font-medium text-[var(--text-muted)] bg-[var(--bg-surface)] border border-[var(--border-hairline)] px-2.5 py-1 rounded text-xs shrink-0">
                     {seq.share} of cohort
                   </span>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 4: Survival Hazard Curves */}
-        <TabsContent value="survival" className="space-y-4 pt-2">
+        <TabsContent value="survival" className="space-y-4 pt-4">
           <ChartCard
             title="Kaplan-Meier Survival Curves (Probability of Remaining NEET)"
             description="Hazard of exit into employment or training across waves elapsed since initial NEET observation"
             heightClass="h-80"
           >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={survivalData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="wave" stroke="#94a3b8" tick={{ fontSize: 12 }} unit=" Waves" />
-                <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} domain={[0, 1.0]} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-                />
-                <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }} />
-                <Line type="stepAfter" dataKey="General" name="General Youth Cohort" stroke="#3b82f6" strokeWidth={2.5} />
-                <Line type="stepAfter" dataKey="With Training" name="Vocational Training Access" stroke="#10b981" strokeWidth={2.5} />
-                <Line type="stepAfter" dataKey="Rural Female Care" name="Rural Females High Care Burden" stroke="#f43f5e" strokeWidth={2.5} />
+              <LineChart data={survivalData} margin={{ top: 12, right: 24, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" vertical={false} />
+                <XAxis dataKey="wave" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} unit=" Waves" />
+                <YAxis stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} domain={[0, 1.0]} />
+                <Tooltip />
+                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "12px", fontFamily: "Instrument Sans" }} />
+                <Line type="stepAfter" dataKey="General" name="General Youth Cohort" stroke="#446b82" strokeWidth={2} />
+                <Line type="stepAfter" dataKey="With Training" name="Vocational Training Access" stroke="#5e916a" strokeWidth={2} />
+                <Line type="stepAfter" dataKey="Rural Female Care" name="Rural Females High Care Burden" stroke="#d46539" strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>

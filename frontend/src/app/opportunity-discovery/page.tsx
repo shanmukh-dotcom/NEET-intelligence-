@@ -172,16 +172,20 @@ export default function OpportunityDiscoveryPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-slate-100">Opportunity Intelligence & Pathway Matching</h3>
-            <Badge variant="teal">EVIDENCE-GRADED</Badge>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter IV</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Opportunity Intelligence</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Discover promising livelihood and skilling pathways associated with successful NEET exits, and match comparable populations.
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Opportunity Discovery & Multi-Factor Matching
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Discover promising livelihood and skilling pathways associated with successful NEET exits, and match comparable cohorts.
           </p>
         </div>
       </div>
@@ -193,83 +197,83 @@ export default function OpportunityDiscoveryPage() {
         </TabsList>
 
         {/* Tab 1: Library */}
-        <TabsContent value="library" className="space-y-4 pt-2">
+        <TabsContent value="library" className="space-y-6 pt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {OPPORTUNITIES.map((opp) => (
-              <Card
+              <div
                 key={opp.id}
-                className="border-slate-800 bg-slate-950/60 hover:border-slate-700 transition-all flex flex-col justify-between"
+                className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 hover:border-[var(--border-muted)] transition-all flex flex-col justify-between"
               >
-                <CardHeader className="p-4 pb-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-slate-500">{opp.category}</span>
+                <div>
+                  <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)]">
+                    <span className="text-[10px] font-mono text-[var(--text-faint)]">{opp.category}</span>
                     <Badge variant={opp.grade_color === "emerald" ? "success" : opp.grade_color === "blue" ? "default" : "warning"}>
                       {opp.grade}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xs font-semibold text-slate-100 mt-2 line-clamp-2">{opp.name}</CardTitle>
-                  <CardDescription className="text-[11px] text-slate-400 mt-1 line-clamp-2">{opp.target}</CardDescription>
-                </CardHeader>
-                <CardContent className="p-4 pt-2 space-y-2 text-xs">
-                  <div className="p-2.5 rounded bg-slate-900 border border-slate-800 space-y-1 text-[11px]">
+                  <h4 className="text-xs font-serif font-semibold text-[var(--text-main)] mt-2.5 line-clamp-2 leading-snug">{opp.name}</h4>
+                  <p className="text-[11px] text-[var(--text-muted)] font-sans mt-1 line-clamp-2 leading-relaxed">{opp.target}</p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-[var(--border-hairline)] space-y-3 font-sans text-xs">
+                  <div className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)] space-y-1 text-[11px]">
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Initial Setup:</span>
-                      <span className="text-slate-200 font-medium">{opp.investment}</span>
+                      <span className="text-[var(--text-faint)]">Initial Setup:</span>
+                      <span className="text-[var(--text-main)] font-medium font-mono">{opp.investment}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Duration:</span>
-                      <span className="text-slate-200 font-medium">{opp.duration}</span>
+                      <span className="text-[var(--text-faint)]">Duration:</span>
+                      <span className="text-[var(--text-main)] font-medium">{opp.duration}</span>
                     </div>
-                    <div className="flex justify-between border-t border-slate-800 pt-1">
-                      <span className="text-slate-400">Observed Exit:</span>
-                      <span className="text-emerald-400 font-bold">{opp.observed_exit}</span>
+                    <div className="flex justify-between border-t border-[var(--border-hairline)] pt-1">
+                      <span className="text-[var(--text-faint)]">Observed Exit:</span>
+                      <span className="text-sage-500 font-mono font-bold">{opp.observed_exit}</span>
                     </div>
                   </div>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
+
                   <Button variant="outline" size="sm" className="w-full text-xs" onClick={() => setSelectedOpp(opp)}>
                     View Full Profile & Evidence
                   </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
 
-          {/* Modal / Detailed Drawer if selected */}
+          {/* Detailed Drawer if selected */}
           {selectedOpp && (
-            <Card className="border-blue-500/40 bg-slate-900/95 mt-4 p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="rounded border border-saffron-500/40 bg-[var(--bg-elevated)] mt-6 p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-[var(--border-hairline)] pb-3">
                 <div>
-                  <h4 className="text-sm font-bold text-white">{selectedOpp.name}</h4>
-                  <p className="text-xs text-slate-400">{selectedOpp.category} | {selectedOpp.grade} Evidence</p>
+                  <h4 className="text-base font-serif font-semibold text-[var(--text-main)]">{selectedOpp.name}</h4>
+                  <p className="text-xs text-[var(--text-muted)] font-sans">{selectedOpp.category} | {selectedOpp.grade} Evidence</p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setSelectedOpp(null)}>Close</Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                <div className="space-y-2">
-                  <span className="font-semibold text-slate-300 block">Required Technical & Soft Skills:</span>
-                  <p className="text-slate-400 bg-slate-950 p-3 rounded border border-slate-800">{selectedOpp.skills}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
+                <div className="space-y-1.5">
+                  <span className="font-serif font-semibold text-[var(--text-main)] block">Required Technical & Soft Skills:</span>
+                  <p className="text-[var(--text-muted)] bg-[var(--bg-surface)] p-3.5 rounded border border-[var(--border-hairline)] leading-relaxed">{selectedOpp.skills}</p>
                 </div>
-                <div className="space-y-2">
-                  <span className="font-semibold text-slate-300 block">Required Local Infrastructure:</span>
-                  <p className="text-slate-400 bg-slate-950 p-3 rounded border border-slate-800">{selectedOpp.infrastructure}</p>
+                <div className="space-y-1.5">
+                  <span className="font-serif font-semibold text-[var(--text-main)] block">Required Local Infrastructure:</span>
+                  <p className="text-[var(--text-muted)] bg-[var(--bg-surface)] p-3.5 rounded border border-[var(--border-hairline)] leading-relaxed">{selectedOpp.infrastructure}</p>
                 </div>
               </div>
-            </Card>
+            </div>
           )}
         </TabsContent>
 
         {/* Tab 2: Matching */}
-        <TabsContent value="matching" className="space-y-4 pt-2">
+        <TabsContent value="matching" className="space-y-6 pt-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="lg:col-span-1 border-slate-800 bg-slate-900/90">
-              <CardHeader>
-                <CardTitle className="text-sm">Define Target Population Profile</CardTitle>
-                <CardDescription>Specify demographic and institutional characteristics for matching</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4 text-xs">
+            <div className="lg:col-span-1 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+              <div className="pb-3 border-b border-[var(--border-hairline)]">
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Target Population Profile</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Specify demographic and institutional characteristics</p>
+              </div>
+              <div className="space-y-4 text-xs font-sans">
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Target Locality Cluster</label>
+                  <label className="text-[var(--text-main)] font-medium block mb-1">Target Locality Cluster</label>
                   <Select defaultValue="B3">
                     <option value="B3">Fictional District B3 (Rural Dryland)</option>
                     <option value="C2">Fictional District C2 (Forest Fringe)</option>
@@ -278,8 +282,8 @@ export default function OpportunityDiscoveryPage() {
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-slate-300 font-medium">Rural Share</label>
-                    <span className="text-slate-400">{targetRural}%</span>
+                    <label className="text-[var(--text-main)] font-medium">Rural Share</label>
+                    <span className="text-[var(--text-muted)] font-mono">{targetRural}%</span>
                   </div>
                   <input
                     type="range"
@@ -287,13 +291,13 @@ export default function OpportunityDiscoveryPage() {
                     max="100"
                     value={targetRural}
                     onChange={(e) => setTargetRural(Number(e.target.value))}
-                    className="w-full accent-blue-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                    className="w-full accent-saffron-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
                   />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-slate-300 font-medium">Female Share</label>
-                    <span className="text-slate-400">{targetFemale}%</span>
+                    <label className="text-[var(--text-main)] font-medium">Female Share</label>
+                    <span className="text-[var(--text-muted)] font-mono">{targetFemale}%</span>
                   </div>
                   <input
                     type="range"
@@ -301,13 +305,13 @@ export default function OpportunityDiscoveryPage() {
                     max="100"
                     value={targetFemale}
                     onChange={(e) => setTargetFemale(Number(e.target.value))}
-                    className="w-full accent-blue-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                    className="w-full accent-saffron-500 h-1.5 bg-[var(--bg-elevated)] rounded cursor-pointer"
                   />
                 </div>
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Unpaid Caregiving Burden</label>
+                  <label className="text-[var(--text-main)] font-medium block mb-1">Unpaid Caregiving Burden</label>
                   <Select value={targetCare} onChange={(e) => setTargetCare(e.target.value)}>
-                    <option value="High">High (>4 hours/day average)</option>
+                    <option value="High">High (&gt;4 hours/day average)</option>
                     <option value="Moderate">Moderate (2-4 hours/day)</option>
                     <option value="Low">Low (&lt;2 hours/day)</option>
                   </Select>
@@ -315,64 +319,63 @@ export default function OpportunityDiscoveryPage() {
                 <Button onClick={runMatching} className="w-full">
                   <Sparkles className="h-3.5 w-3.5 mr-1.5" /> Execute Multi-Factor Matching
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Results Display */}
             <div className="lg:col-span-2 space-y-4">
               {!matchedResults ? (
-                <div className="h-80 rounded-xl border border-dashed border-slate-800 flex flex-col items-center justify-center text-center p-6 text-slate-500 text-xs">
-                  <Lightbulb className="h-8 w-8 mb-2 opacity-50" />
+                <div className="h-80 rounded border border-dashed border-[var(--border-hairline)] flex flex-col items-center justify-center text-center p-6 text-[var(--text-faint)] text-xs font-sans">
+                  <Lightbulb className="h-8 w-8 mb-2 opacity-40 text-saffron-500" />
                   <span>Configure your target population parameters on the left and click 'Execute Multi-Factor Matching'</span>
                 </div>
               ) : (
                 matchedResults.map((m, idx) => (
-                  <Card key={idx} className="border-slate-800 bg-slate-900/90 text-xs">
-                    <CardHeader className="p-4 pb-2">
-                      <div className="flex items-center justify-between">
-                        <Badge variant="teal">RANK #{idx + 1} MATCH</Badge>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-slate-400">Match Score:</span>
-                          <span className="text-base font-bold text-blue-400 font-mono">{m.score}%</span>
-                        </div>
+                  <div key={idx} className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-3 text-xs font-sans">
+                    <div className="flex items-center justify-between pb-3 border-b border-[var(--border-hairline)]">
+                      <div className="flex items-center gap-2">
+                        <span className="font-serif italic text-saffron-500 font-semibold text-xs">Rank #{idx + 1}</span>
+                        <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">{m.opp.name}</h4>
                       </div>
-                      <CardTitle className="text-sm font-semibold text-slate-100 mt-1">{m.opp.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-2 space-y-3">
-                      <div className="grid grid-cols-4 gap-2 text-center font-mono text-[11px]">
-                        <div className="p-2 rounded bg-slate-950 border border-slate-800">
-                          <span className="text-slate-500 block text-[10px]">Geographic</span>
-                          <span className="font-semibold text-slate-200">{m.dims.geographic}</span>
-                        </div>
-                        <div className="p-2 rounded bg-slate-950 border border-slate-800">
-                          <span className="text-slate-500 block text-[10px]">Gender</span>
-                          <span className="font-semibold text-slate-200">{m.dims.gender}</span>
-                        </div>
-                        <div className="p-2 rounded bg-slate-950 border border-slate-800">
-                          <span className="text-slate-500 block text-[10px]">Economic</span>
-                          <span className="font-semibold text-slate-200">{m.dims.economic}</span>
-                        </div>
-                        <div className="p-2 rounded bg-slate-950 border border-slate-800">
-                          <span className="text-slate-500 block text-[10px]">Care Burden</span>
-                          <span className="font-semibold text-slate-200">{m.dims.care}</span>
-                        </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[var(--text-faint)] text-[11px]">Match Score:</span>
+                        <span className="text-base font-numeral font-bold text-saffron-500">{m.score}%</span>
                       </div>
+                    </div>
 
-                      <div className="space-y-1.5 pt-1">
-                        <span className="font-semibold text-slate-300 block">Key Similarities:</span>
-                        <ul className="list-disc list-inside text-slate-400 space-y-0.5">
-                          {m.similarities.map((s: string, i: number) => (
-                            <li key={i}>{s}</li>
-                          ))}
-                        </ul>
+                    <div className="grid grid-cols-4 gap-2 text-center font-mono text-[11px]">
+                      <div className="p-2.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                        <span className="text-[var(--text-faint)] block text-[10px]">Geographic</span>
+                        <span className="font-semibold text-[var(--text-main)]">{m.dims.geographic}</span>
                       </div>
+                      <div className="p-2.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                        <span className="text-[var(--text-faint)] block text-[10px]">Gender</span>
+                        <span className="font-semibold text-[var(--text-main)]">{m.dims.gender}</span>
+                      </div>
+                      <div className="p-2.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                        <span className="text-[var(--text-faint)] block text-[10px]">Economic</span>
+                        <span className="font-semibold text-[var(--text-main)]">{m.dims.economic}</span>
+                      </div>
+                      <div className="p-2.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                        <span className="text-[var(--text-faint)] block text-[10px]">Care Burden</span>
+                        <span className="font-semibold text-[var(--text-main)]">{m.dims.care}</span>
+                      </div>
+                    </div>
 
-                      <div className="p-3 rounded bg-blue-950/20 border border-blue-500/30 text-blue-300">
-                        <span className="font-semibold block mb-0.5">Required Local Adaptation:</span>
-                        {m.adaptation}
-                      </div>
-                    </CardContent>
-                  </Card>
+                    <div className="space-y-1 pt-1">
+                      <span className="font-serif font-semibold text-[var(--text-main)] block">Key Similarities:</span>
+                      <ul className="list-disc list-inside text-[var(--text-muted)] space-y-0.5">
+                        {m.similarities.map((s: string, i: number) => (
+                          <li key={i}>{s}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="p-3.5 rounded bg-saffron-500/10 border border-saffron-500/25 text-saffron-300">
+                      <span className="font-serif font-semibold block mb-0.5 text-xs text-saffron-400">Required Local Adaptation:</span>
+                      <p className="text-[11px] leading-relaxed">{m.adaptation}</p>
+                    </div>
+                  </div>
                 ))
               )}
             </div>

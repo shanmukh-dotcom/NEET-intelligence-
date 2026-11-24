@@ -56,41 +56,85 @@ const PAGE_TITLES: Record<string, { title: string; subtitle: string }> = {
   }
 };
 
+import React, { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
+
 export function Header() {
   const pathname = usePathname();
+  const [isPaperTheme, setIsPaperTheme] = useState(false);
+
+  useEffect(() => {
+    // Check initial theme
+    const saved = localStorage.getItem("neet-theme");
+    if (saved === "paper") {
+      setIsPaperTheme(true);
+      document.documentElement.setAttribute("data-theme", "paper");
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const next = !isPaperTheme;
+    setIsPaperTheme(next);
+    if (next) {
+      document.documentElement.setAttribute("data-theme", "paper");
+      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
+      localStorage.setItem("neet-theme", "paper");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("neet-theme", "ink");
+    }
+  };
+
   const pageMeta = PAGE_TITLES[pathname] || {
     title: "NEET Intelligence Platform",
     subtitle: "Research-grade youth labor transition analytics"
   };
 
   return (
-    <header className="h-16 border-b border-slate-800 bg-slate-950/80 backdrop-blur-md flex items-center justify-between px-8 select-none z-10 sticky top-0">
-      <div>
-        <h2 className="text-sm font-bold text-white tracking-tight">{pageMeta.title}</h2>
-        <p className="text-[11px] text-slate-400">{pageMeta.subtitle}</p>
+    <header className="h-14 border-b border-[var(--border-hairline)] bg-[var(--bg-base)]/90 backdrop-blur-sm flex items-center justify-between px-7 select-none z-10 sticky top-0 transition-colors duration-200">
+      <div className="flex items-baseline gap-3">
+        <h2 className="text-sm font-serif font-semibold text-[var(--text-main)] tracking-tight">
+          {pageMeta.title}
+        </h2>
+        <span className="hidden md:inline text-[var(--text-faint)] text-xs">/</span>
+        <p className="hidden md:inline text-xs text-[var(--text-muted)] font-sans">
+          {pageMeta.subtitle}
+        </p>
       </div>
 
-      <div className="flex items-center gap-3">
-        {/* Dataset Status Pill */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
-          <Database className="h-3.5 w-3.5 text-blue-400" />
-          <span className="text-slate-300 font-medium">Cohort: 50,000 Records</span>
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-400">20 Localities</span>
+      <div className="flex items-center gap-4">
+        {/* Dataset Status Monogram */}
+        <div className="hidden lg:flex items-center gap-2 text-[11px] font-data text-[var(--text-muted)]">
+          <span>50,000 Cohort</span>
+          <span className="text-[var(--text-faint)]">·</span>
+          <span>20 Localities</span>
+          <span className="text-[var(--text-faint)]">·</span>
+          <span className="text-saffron-500 font-medium">Wave 6</span>
         </div>
 
-        {/* Global Demo Pill */}
-        <Badge variant="synthetic">SYNTHETIC</Badge>
-
-        <div className="h-4 w-px bg-slate-800 mx-1" />
-
-        {/* Action Icons */}
-        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
-          <Bell className="h-4 w-4" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white">
-          <HelpCircle className="h-4 w-4" />
-        </Button>
+        {/* Paper / Ink Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] text-[11px] text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
+          title="Toggle between Deep Ink and Paper Reading Theme"
+        >
+          {isPaperTheme ? (
+            <>
+              <Moon className="h-3 w-3 text-saffron-500" />
+              <span>Ink</span>
+            </>
+          ) : (
+            <>
+              <Sun className="h-3 w-3 text-ochre-400" />
+              <span>Paper</span>
+            </>
+          )}
+        </button>
       </div>
     </header>
   );

@@ -11,12 +11,14 @@ import {
   Layers,
   BookOpen,
   Calendar,
-  User
+  User,
+  Quote
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getReportCsvDownloadUrl, getReportsList, getReportById } from "@/lib/api-client";
 
 const REPORT_SECTIONS = [
   {
@@ -94,8 +96,6 @@ const REPORT_SECTIONS = [
   }
 ];
 
-import { getReportCsvDownloadUrl, getReportsList, getReportById } from "@/lib/api-client";
-
 export default function ResearchReportsPage() {
   const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
   const [reportList, setReportList] = useState<any[]>([]);
@@ -134,7 +134,6 @@ export default function ResearchReportsPage() {
 
     setDownloadNotice(`Downloading complete research dossier (${format})... Generated with full audit provenance.`);
     setTimeout(() => {
-      // Create a downloadable text file for demonstration
       const blob = new Blob([
         `# NEET INTELLIGENCE PLATFORM - RESEARCH REPORT\n\n` +
         `TITLE: Comprehensive Youth NEET Intelligence & Transition Assessment (2021-2026)\n` +
@@ -154,82 +153,94 @@ export default function ResearchReportsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Editorial Chapter Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-slate-100">Research Dossiers & Reproducible Reports</h3>
-            <Badge variant="synthetic">SYNTHETIC RESEARCH PROVENANCE</Badge>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Publications</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Policy Monographs</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Generate and export academic policy monographs, executive summaries, and empirical transition tables.
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Research Dossiers & Reproducible Reports
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Academic policy monographs, reproducible transition ledgers, and formal econometric documentation.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Button variant="outline" size="sm" onClick={() => handleDownload("CSV")}>
-            <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5 text-emerald-400" /> Export CSV Data
+            <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5 text-sage-500" /> Export CSV
           </Button>
           <Button variant="default" size="sm" onClick={() => handleDownload("TXT")}>
-            <Download className="h-3.5 w-3.5 mr-1.5" /> Download Full Dossier
+            <Download className="h-3.5 w-3.5 mr-1.5" /> Download Dossier
           </Button>
         </div>
       </div>
 
       {downloadNotice && (
-        <div className="p-3.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-xs text-emerald-300 flex items-center justify-between">
+        <div className="p-3.5 rounded border border-sage-500/30 bg-sage-500/10 text-xs text-sage-300 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-emerald-400" />
-            <span>{downloadNotice}</span>
+            <CheckCircle className="h-4 w-4 text-sage-400" />
+            <span className="font-sans">{downloadNotice}</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => setDownloadNotice(null)}>Dismiss</Button>
         </div>
       )}
 
-      {/* Report Reader Card */}
-      <Card className="border-slate-800 bg-slate-900/95 max-w-4xl mx-auto shadow-xl">
-        <CardHeader className="p-8 pb-6 border-b border-slate-800 space-y-4">
+      {/* Editorial Journal Monograph Document */}
+      <Card className="max-w-4xl mx-auto shadow-sm">
+        <CardHeader className="p-8 sm:p-10 pb-6 border-b border-[var(--border-hairline)] space-y-4">
           <div className="flex items-center justify-between">
-            <Badge variant="teal">PEER-REVIEWED RESEARCH DOSSIER</Badge>
-            <span className="text-xs text-slate-500 font-mono">DOC ID: REP-2026-NEET-01</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-saffron-500 font-medium">
+              Working Paper Series · 2026-NEET-01
+            </span>
+            <span className="font-mono text-[11px] text-[var(--text-faint)]">
+              ISSN 2831-9022
+            </span>
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-main)] tracking-tight leading-tight">
               Comprehensive Youth NEET Intelligence & Transition Assessment (2021–2026)
             </h1>
-            <p className="text-sm text-slate-300 mt-1">
+            <p className="text-sm font-serif italic text-[var(--text-muted)] mt-2">
               Longitudinal Microdata Evidence, Predictive Risk Stratification, and 2027–2031 Policy Scenarios
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+          <div className="flex flex-wrap items-center gap-6 text-xs text-[var(--text-muted)] pt-3 border-t border-[var(--border-hairline)] font-sans">
             <div className="flex items-center gap-1.5">
-              <User className="h-3.5 w-3.5 text-blue-400" />
+              <User className="h-3.5 w-3.5 text-saffron-500" />
               <span>NEET Research Consortium & Policy Analytics Unit</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Calendar className="h-3.5 w-3.5 text-slate-500" />
+              <Calendar className="h-3.5 w-3.5 text-[var(--text-faint)]" />
               <span>November 2026</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Badge variant="synthetic">50,000 SYNTHETIC YOUTH COHORT</Badge>
+            <div className="flex items-center gap-1.5 font-mono text-[11px] text-[var(--text-faint)]">
+              <span>N = 50,000 synthetic cohort</span>
             </div>
           </div>
         </CardHeader>
 
-        <CardContent className="p-8 space-y-8 text-xs text-slate-300 leading-relaxed">
+        <CardContent className="p-8 sm:p-10 space-y-8 text-xs font-sans text-[var(--text-muted)] leading-relaxed">
           {REPORT_SECTIONS.map((sec) => (
-            <div key={sec.id} className="space-y-2 border-b border-slate-800/60 pb-6 last:border-b-0">
-              <h3 className="text-sm font-bold text-slate-100 tracking-tight">{sec.title}</h3>
-              <p className="text-slate-300 leading-relaxed text-xs">{sec.content}</p>
+            <div key={sec.id} className="space-y-2 border-b border-[var(--border-hairline)] pb-6 last:border-b-0">
+              <h3 className="text-sm font-serif font-semibold text-[var(--text-main)] tracking-tight">
+                {sec.title}
+              </h3>
+              <p className="text-[var(--text-muted)] leading-relaxed text-xs">
+                {sec.content}
+              </p>
             </div>
           ))}
         </CardContent>
 
-        <CardFooter className="p-8 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500">
+        <CardFooter className="p-8 sm:p-10 pt-4 border-t border-[var(--border-hairline)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[var(--text-faint)] font-sans">
           <span>Registered Research Project: From NEET Status to NEET Persistence</span>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => window.print()}>
-              <Printer className="h-3.5 w-3.5 mr-1.5" /> Print Dossier
+              <Printer className="h-3.5 w-3.5 mr-1.5" /> Print Monograph
             </Button>
           </div>
         </CardFooter>

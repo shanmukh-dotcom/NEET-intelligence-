@@ -60,12 +60,29 @@ export default function PopulationExplorerPage() {
   });
 
   return (
-    <div className="space-y-6">
-      {/* Filters Bar */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-wrap items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Editorial Chapter Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter I</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Demographic Stratification</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Population & Locality Explorer
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Cross-sectional demographic profiles, age pyramids, and district-level vulnerability breakdowns across 20 representative localities.
+          </p>
+        </div>
+      </div>
+
+      {/* Ruled Filter Bar */}
+      <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-blue-400" />
-          <span className="text-xs font-semibold text-slate-200">Population Filters:</span>
+          <Filter className="h-3.5 w-3.5 text-saffron-500" />
+          <span className="text-xs font-serif font-semibold text-[var(--text-main)]">Filter Sub-Cohorts:</span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="w-40">
@@ -75,7 +92,7 @@ export default function PopulationExplorerPage() {
               <option value="male">Males Only</option>
             </Select>
           </div>
-          <div className="w-44">
+          <div className="w-48">
             <Select value={selectedSector} onChange={(e) => setSelectedSector(e.target.value)}>
               <option value="all">All Sectors (Rural/Urban)</option>
               <option value="rural">Rural Localities</option>
@@ -88,13 +105,13 @@ export default function PopulationExplorerPage() {
               placeholder="Search 20 Localities..."
               value={searchLocality}
               onChange={(e) => setSearchLocality(e.target.value)}
-              className="flex h-9 w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-1 text-xs text-slate-100 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500"
+              className="flex h-9 w-full rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-3 py-1 text-xs text-[var(--text-main)] placeholder:text-[var(--text-faint)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-saffron-500 font-sans"
             />
           </div>
         </div>
       </div>
 
-      {/* Row 1: Population Pyramid & Education Distribution */}
+      {/* Row 1: Population Pyramid & Education Distribution Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartCard
           title="Age-Gender Population Pyramid & NEET Burden"
@@ -103,17 +120,23 @@ export default function PopulationExplorerPage() {
         >
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={PYRAMID_DATA} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis dataKey="bracket" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="2 2" stroke="var(--border-hairline)" vertical={false} />
+              <XAxis dataKey="bracket" stroke="var(--text-faint)" tick={{ fontSize: 11 }} />
+              <YAxis stroke="var(--text-faint)" tick={{ fontSize: 11 }} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
+                contentStyle={{
+                  backgroundColor: "var(--bg-elevated)",
+                  borderColor: "var(--border-hairline)",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  color: "var(--text-main)"
+                }}
               />
-              <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }} />
-              <Bar dataKey="female_total" name="Female Youth Total" fill="#475569" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="female_neet" name="Female NEET" fill="#f43f5e" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="male_total" name="Male Youth Total" fill="#334155" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="male_neet" name="Male NEET" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "12px" }} />
+              <Bar dataKey="female_total" name="Female Youth Total" fill="#94a3b8" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="female_neet" name="Female NEET" fill="#d46539" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="male_total" name="Male Youth Total" fill="#475569" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="male_neet" name="Male NEET" fill="#446b82" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -124,34 +147,42 @@ export default function PopulationExplorerPage() {
           heightClass="h-80"
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={EDUCATION_LEVELS} layout="vertical" margin={{ top: 10, right: 30, left: 80, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-              <XAxis type="number" stroke="#94a3b8" domain={[0, 45]} unit="%" tick={{ fontSize: 11 }} />
-              <YAxis type="category" dataKey="level" stroke="#94a3b8" tick={{ fontSize: 11 }} width={120} />
+            <BarChart data={EDUCATION_LEVELS} layout="vertical" margin={{ top: 10, right: 30, left: 100, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="2 2" stroke="var(--border-hairline)" horizontal={false} />
+              <XAxis type="number" stroke="var(--text-faint)" domain={[0, 45]} unit="%" tick={{ fontSize: 11 }} />
+              <YAxis type="category" dataKey="level" stroke="var(--text-faint)" tick={{ fontSize: 11 }} width={120} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
+                contentStyle={{
+                  backgroundColor: "var(--bg-elevated)",
+                  borderColor: "var(--border-hairline)",
+                  borderRadius: "4px",
+                  fontSize: "12px",
+                  color: "var(--text-main)"
+                }}
               />
-              <Bar dataKey="neet_rate" name="NEET Rate %" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="neet_rate" name="NEET Rate %" fill="#d46539" radius={[0, 2, 2, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
       {/* Row 2: 20 Fictional Localities Breakdown Table */}
-      <Card className="border-slate-800 bg-slate-900/90">
+      <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-sm">Geographic Locality Distribution (All 20 Fictional Districts)</CardTitle>
               <CardDescription>Observed cohort population, classification, and domestic care burden</CardDescription>
             </div>
-            <Badge variant="outline">Showing {filteredLocalities.length} of 20 Localities</Badge>
+            <Badge variant="outline" className="font-mono text-[10px]">
+              Showing {filteredLocalities.length} of 20 Localities
+            </Badge>
           </div>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto max-h-96">
             <table className="w-full text-xs text-left">
-              <thead className="bg-slate-950 text-slate-400 border-y border-slate-800 sticky top-0">
+              <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-y border-[var(--border-hairline)] sticky top-0">
                 <tr>
                   <th className="py-2.5 px-4 font-medium">Locality ID</th>
                   <th className="py-2.5 px-4 font-medium">District Name</th>
@@ -161,27 +192,27 @@ export default function PopulationExplorerPage() {
                   <th className="py-2.5 px-4 font-medium">Median Care Hours</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
+              <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
                 {filteredLocalities.map((loc) => (
-                  <tr key={loc.id} className="hover:bg-slate-800/30 transition-colors">
-                    <td className="py-2.5 px-4 text-slate-500">{loc.id}</td>
-                    <td className="py-2.5 px-4 font-semibold text-slate-200 font-sans">{loc.name}</td>
-                    <td className="py-2.5 px-4 text-slate-300 font-sans">{loc.type}</td>
-                    <td className="py-2.5 px-4 text-slate-300">{formatNumber(loc.population)}</td>
+                  <tr key={loc.id} className="hover:bg-[var(--bg-elevated)]/60 transition-colors">
+                    <td className="py-2.5 px-4 text-[var(--text-faint)]">{loc.id}</td>
+                    <td className="py-2.5 px-4 font-serif font-semibold text-[var(--text-main)]">{loc.name}</td>
+                    <td className="py-2.5 px-4 text-[var(--text-muted)] font-sans">{loc.type}</td>
+                    <td className="py-2.5 px-4 text-[var(--text-muted)]">{formatNumber(loc.population)}</td>
                     <td className="py-2.5 px-4">
                       <span
-                        className={`font-bold ${
+                        className={`font-semibold ${
                           loc.neet_rate > 32
-                            ? "text-rose-400"
+                            ? "text-saffron-500"
                             : loc.neet_rate > 26
-                            ? "text-amber-400"
-                            : "text-emerald-400"
+                            ? "text-ochre-500"
+                            : "text-sage-500"
                         }`}
                       >
                         {loc.neet_rate}%
                       </span>
                     </td>
-                    <td className="py-2.5 px-4 text-slate-400">{loc.care_hours} hrs/day</td>
+                    <td className="py-2.5 px-4 text-[var(--text-faint)]">{loc.care_hours} hrs/day</td>
                   </tr>
                 ))}
               </tbody>

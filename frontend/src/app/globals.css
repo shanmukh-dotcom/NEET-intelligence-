@@ -2,91 +2,150 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --navy-900: #0f172a;
-  --navy-800: #1e293b;
-  --navy-700: #334155;
-  --navy-600: #475569;
-  --navy-500: #64748b;
-  --brand-blue: #3b82f6;
-  --brand-blue-dark: #2563eb;
-  --brand-teal: #14b8a6;
-  --brand-teal-dark: #0d9488;
+  --bg-base: #0c0d10;
+  --bg-surface: #13151a;
+  --bg-elevated: #181b22;
+  --border-hairline: #232730;
+  --border-muted: #2d3340;
+  --text-main: #f4f2eb;
+  --text-muted: #9ba2b5;
+  --text-faint: #636a7e;
+  --accent-saffron: #d46539;
+  --accent-prussian: #446b82;
+  --accent-ochre: #c89547;
+  --accent-sage: #6f8d7b;
+}
+
+[data-theme="paper"], .light {
+  --bg-base: #f9f8f5;
+  --bg-surface: #f1ede4;
+  --bg-elevated: #e8e2d5;
+  --border-hairline: #dfd7c9;
+  --border-muted: #cfc5b4;
+  --text-main: #181715;
+  --text-muted: #5e594f;
+  --text-faint: #8a8273;
+  --accent-saffron: #b84e27;
+  --accent-prussian: #345468;
+  --accent-ochre: #a77834;
+  --accent-sage: #557060;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #334155 #0f172a;
+  scrollbar-color: var(--border-hairline) var(--bg-base);
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: var(--bg-base);
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: var(--border-muted);
+  border-radius: 2px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--text-faint);
 }
 
 body {
-  background-color: #0f172a;
-  color: #f8fafc;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(212, 101, 57, 0.28);
+  color: #fff;
 }
 
 @layer base {
-  html {
-    @apply antialiased;
+  h1, h2, h3, .font-editorial {
+    font-family: Fraunces, Georgia, serif;
+    letter-spacing: -0.02em;
+    font-feature-settings: "onum" 1, "pnum" 1;
+  }
+
+  .font-numeral {
+    font-family: Fraunces, Georgia, serif;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .font-data {
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl;
+  .editorial-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-hairline);
+    border-radius: 4px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
-  .data-source-badge {
-    @apply inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded-full;
+  .hairline-divider {
+    border-top: 1px solid var(--border-hairline);
   }
 
-  .chart-container {
-    @apply w-full h-full min-h-[300px];
+  .hairline-b {
+    border-bottom: 1px solid var(--border-hairline);
+  }
+
+  .hairline-r {
+    border-right: 1px solid var(--border-hairline);
   }
 }
 
-/* Recharts dark theme overrides */
+/* Recharts Editorial Styling */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #334155 !important;
+  stroke: var(--border-hairline) !important;
+  stroke-dasharray: 2 4 !important;
+}
+
+.recharts-cartesian-axis-line {
+  stroke: var(--border-hairline) !important;
+}
+
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--border-hairline) !important;
 }
 
 .recharts-text {
-  fill: #94a3b8 !important;
-  font-size: 12px !important;
+  fill: var(--text-muted) !important;
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 11px !important;
 }
 
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background-color: #1e293b !important;
-  border: 1px solid #334155 !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
+  background-color: var(--bg-elevated) !important;
+  border: 1px solid var(--border-muted) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45) !important;
+  padding: 8px 12px !important;
+  font-family: "Instrument Sans", sans-serif !important;
 }
 
 .recharts-tooltip-item {
-  color: #e2e8f0 !important;
+  color: var(--text-main) !important;
+  font-size: 11px !important;
+  font-variant-numeric: tabular-nums !important;
 }
 
 .recharts-legend-item-text {
-  color: #94a3b8 !important;
+  color: var(--text-muted) !important;
+  font-size: 11px !important;
 }

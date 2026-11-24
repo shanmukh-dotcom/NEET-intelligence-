@@ -150,14 +150,30 @@ export default function NeetPredictionPage() {
   const heterogeneityPct = probitData?.persistence_decomposition?.unobserved_heterogeneity_pct || 18.1;
 
   return (
-    <div className="space-y-6">
-      {/* Top Warning Banner */}
-      <div className="p-4 rounded-xl border border-blue-500/30 bg-blue-950/20 text-xs text-blue-200 flex items-start gap-3">
-        <Shield className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <span className="font-semibold text-blue-300">ETHICAL MACHINE LEARNING & ECONOMETRICS NOTICE: </span>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter II</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Predictive Intelligence</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            NEET Risk Prediction & Econometric Panel Estimation
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Machine learning risk models, TreeSHAP feature explanations, and Mundlak dynamic panel probit.
+          </p>
+        </div>
+      </div>
+
+      {/* Ethical Econometric Principle Note */}
+      <div className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-xs text-[var(--text-muted)] flex items-start gap-3">
+        <span className="font-serif italic text-saffron-500 font-semibold shrink-0">Ethical Note.</span>
+        <div className="font-sans leading-relaxed">
           Predictive risk models identify structural population vulnerability to prioritize community support services
-          and vocational resource allocation. Predictive scores must NEVER be used to automatically gate, deny, or restrict
+          and vocational resource allocation. Predictive risk scores must never be utilized to automatically gate, deny, or restrict
           individual benefits or employment opportunities.
         </div>
       </div>
@@ -172,81 +188,75 @@ export default function NeetPredictionPage() {
         </TabsList>
 
         {/* Tab 1: Models Catalog */}
-        <TabsContent value="models" className="space-y-4 pt-2">
+        <TabsContent value="models" className="space-y-4 pt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {modelsList.map((m) => (
-              <Card
+              <div
                 key={m.id}
                 onClick={() => setSelectedModel(m)}
-                className={`cursor-pointer border transition-all ${
+                className={`cursor-pointer rounded p-5 border transition-all ${
                   selectedModel.id === m.id
-                    ? "border-blue-500 bg-slate-900 shadow-md"
-                    : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                    ? "border-saffron-500/70 bg-[var(--bg-elevated)] shadow-subtle ring-1 ring-saffron-500/20"
+                    : "border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:border-[var(--border-muted)]"
                 }`}
               >
-                <CardHeader className="p-4 pb-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-slate-500">{m.type || m.model_type}</span>
-                    <Badge variant={m.status === "Estimated" ? "teal" : "success"}>{m.status}</Badge>
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)]">
+                  <span className="text-[10px] font-mono text-[var(--text-faint)]">{m.type || m.model_type}</span>
+                  <Badge variant={m.status === "Estimated" ? "teal" : "success"}>{m.status}</Badge>
+                </div>
+                <h4 className="text-xs font-serif font-semibold text-[var(--text-main)] line-clamp-2 mt-2 leading-snug">{m.name}</h4>
+                <div className="grid grid-cols-3 gap-1 py-2 my-2 border-y border-[var(--border-hairline)] text-center font-mono">
+                  <div>
+                    <span className="text-[10px] text-[var(--text-faint)] block">ROC-AUC</span>
+                    <span className="text-xs font-bold text-saffron-500">{m.auc_roc}</span>
                   </div>
-                  <CardTitle className="text-xs font-semibold text-slate-200 line-clamp-2 mt-2">{m.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 pt-2">
-                  <div className="grid grid-cols-3 gap-1 py-2 my-1 border-y border-slate-800/80 text-center">
-                    <div>
-                      <span className="text-[10px] text-slate-500 block">ROC-AUC</span>
-                      <span className="text-xs font-bold font-mono text-blue-400">{m.auc_roc}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-slate-500 block">Accuracy</span>
-                      <span className="text-xs font-bold font-mono text-slate-200">{m.accuracy}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-slate-500 block">F1 Score</span>
-                      <span className="text-xs font-bold font-mono text-emerald-400">{m.f1_score}</span>
-                    </div>
+                  <div>
+                    <span className="text-[10px] text-[var(--text-faint)] block">Accuracy</span>
+                    <span className="text-xs font-bold text-[var(--text-main)]">{m.accuracy}</span>
                   </div>
-                  <span className="text-[10px] text-blue-400 block text-right mt-2 font-medium">View Detailed Metrics →</span>
-                </CardContent>
-              </Card>
+                  <div>
+                    <span className="text-[10px] text-[var(--text-faint)] block">F1 Score</span>
+                    <span className="text-xs font-bold text-sage-500">{m.f1_score}</span>
+                  </div>
+                </div>
+                <span className="text-[10px] text-saffron-500 block text-right font-medium">View Detailed Metrics →</span>
+              </div>
             ))}
           </div>
         </TabsContent>
 
         {/* Tab 2: Results */}
-        <TabsContent value="results" className="space-y-6 pt-2">
+        <TabsContent value="results" className="space-y-6 pt-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Confusion Matrix */}
-            <Card className="border-slate-800 bg-slate-900/90">
-              <CardHeader>
-                <CardTitle className="text-sm">Confusion Matrix (Holdout Test Wave)</CardTitle>
-                <CardDescription>Evaluation on 9,228 held-out longitudinal records</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3 text-center font-mono">
-                  <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/30">
-                    <span className="text-[10px] text-slate-400 uppercase block">True Negative (Non-NEET)</span>
-                    <span className="text-lg font-bold text-emerald-400">5,820</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">63.1% correctly non-NEET</span>
-                  </div>
-                  <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/20">
-                    <span className="text-[10px] text-slate-400 uppercase block">False Positive</span>
-                    <span className="text-lg font-bold text-amber-400">780</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Type I prediction error</span>
-                  </div>
-                  <div className="p-3 rounded-lg bg-rose-950/20 border border-rose-500/20">
-                    <span className="text-[10px] text-slate-400 uppercase block">False Negative</span>
-                    <span className="text-lg font-bold text-rose-400">660</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">Uncaptured NEET entry</span>
-                  </div>
-                  <div className="p-3 rounded-lg bg-blue-950/30 border border-blue-500/30">
-                    <span className="text-[10px] text-slate-400 uppercase block">True Positive (NEET)</span>
-                    <span className="text-lg font-bold text-blue-400">1,968</span>
-                    <span className="text-[10px] text-slate-500 block mt-1">21.3% verified NEET</span>
-                  </div>
+            <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-4">
+              <div className="pb-3 border-b border-[var(--border-hairline)]">
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Confusion Matrix (Holdout Test Wave)</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Evaluation on 9,228 held-out longitudinal records</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-center font-mono">
+                <div className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="text-[10px] text-[var(--text-faint)] uppercase block">True Negative (Non-NEET)</span>
+                  <span className="text-lg font-bold text-sage-500 mt-1 block">5,820</span>
+                  <span className="text-[10px] text-[var(--text-muted)] block mt-0.5">63.1% non-NEET</span>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="text-[10px] text-[var(--text-faint)] uppercase block">False Positive</span>
+                  <span className="text-lg font-bold text-ochre-400 mt-1 block">780</span>
+                  <span className="text-[10px] text-[var(--text-muted)] block mt-0.5">Type I error</span>
+                </div>
+                <div className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="text-[10px] text-[var(--text-faint)] uppercase block">False Negative</span>
+                  <span className="text-lg font-bold text-crimson-400 mt-1 block">660</span>
+                  <span className="text-[10px] text-[var(--text-muted)] block mt-0.5">Uncaptured NEET</span>
+                </div>
+                <div className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="text-[10px] text-[var(--text-faint)] uppercase block">True Positive (NEET)</span>
+                  <span className="text-lg font-bold text-saffron-500 mt-1 block">1,968</span>
+                  <span className="text-[10px] text-[var(--text-muted)] block mt-0.5">21.3% verified NEET</span>
+                </div>
+              </div>
+            </div>
 
             {/* Feature Importance Chart */}
             <ChartCard
@@ -257,15 +267,13 @@ export default function NeetPredictionPage() {
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={FEATURE_IMPORTANCE} layout="vertical" margin={{ top: 10, right: 30, left: 100, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                  <XAxis type="number" stroke="#94a3b8" domain={[0, 35]} unit="%" tick={{ fontSize: 11 }} />
-                  <YAxis type="category" dataKey="feature" stroke="#94a3b8" tick={{ fontSize: 10 }} width={130} />
-                  <Tooltip
-                    contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "12px" }}
-                  />
-                  <Bar dataKey="importance" name="Importance %" radius={[0, 4, 4, 0]}>
+                  <CartesianGrid strokeDasharray="2 4" stroke="var(--border-hairline)" horizontal={false} />
+                  <XAxis type="number" stroke="var(--text-muted)" domain={[0, 35]} unit="%" tickLine={false} tick={{ fontSize: 11, fontFamily: "JetBrains Mono" }} />
+                  <YAxis type="category" dataKey="feature" stroke="var(--text-muted)" tickLine={false} tick={{ fontSize: 10, fontFamily: "Instrument Sans" }} width={140} />
+                  <Tooltip />
+                  <Bar dataKey="importance" name="Importance %" radius={[0, 2, 2, 0]}>
                     {FEATURE_IMPORTANCE.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color === "#f43f5e" ? "#d46539" : entry.color === "#10b981" ? "#5e916a" : entry.color === "#f59e0b" ? "#c89547" : "#446b82"} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -274,158 +282,148 @@ export default function NeetPredictionPage() {
           </div>
 
           {/* Subgroup Calibration */}
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">Demographic Subgroup Performance Calibration</CardTitle>
-              <CardDescription>Ensures fairness and absence of catastrophic accuracy degradation across strata</CardDescription>
-            </CardHeader>
-            <CardContent className="p-0">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden">
+            <div className="p-5 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Demographic Subgroup Performance Calibration</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Ensures fairness and absence of catastrophic accuracy degradation across strata</p>
+            </div>
+            <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-serif">
                   <tr>
-                    <th className="py-2.5 px-4 font-medium">Subgroup Stratum</th>
-                    <th className="py-2.5 px-4 font-medium">Test Sample</th>
-                    <th className="py-2.5 px-4 font-medium">Precision</th>
-                    <th className="py-2.5 px-4 font-medium">Recall</th>
-                    <th className="py-2.5 px-4 font-medium">ROC-AUC</th>
+                    <th className="py-2.5 px-4 font-semibold">Subgroup Stratum</th>
+                    <th className="py-2.5 px-4 font-semibold">Test Sample</th>
+                    <th className="py-2.5 px-4 font-semibold">Precision</th>
+                    <th className="py-2.5 px-4 font-semibold">Recall</th>
+                    <th className="py-2.5 px-4 font-semibold">ROC-AUC</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-mono">
+                <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
                   {SUBGROUP_PERF.map((s, i) => (
-                    <tr key={i} className="hover:bg-slate-800/30">
-                      <td className="py-2.5 px-4 font-sans font-medium text-slate-200">{s.stratum}</td>
-                      <td className="py-2.5 px-4 text-slate-400">{s.sample}</td>
-                      <td className="py-2.5 px-4 text-slate-200">{s.precision}</td>
-                      <td className="py-2.5 px-4 text-slate-200">{s.recall}</td>
-                      <td className="py-2.5 px-4 text-emerald-400 font-bold">{s.auc}</td>
+                    <tr key={i} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                      <td className="py-2.5 px-4 font-sans font-medium text-[var(--text-main)]">{s.stratum}</td>
+                      <td className="py-2.5 px-4 text-[var(--text-muted)]">{s.sample}</td>
+                      <td className="py-2.5 px-4 text-[var(--text-main)]">{s.precision}</td>
+                      <td className="py-2.5 px-4 text-[var(--text-main)]">{s.recall}</td>
+                      <td className="py-2.5 px-4 text-sage-500 font-bold">{s.auc}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 3: SHAP */}
-        <TabsContent value="shap" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">TreeSHAP Explainability Decomposition</CardTitle>
-              <CardDescription>Shows directional push of features on model prediction odds</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-xs">
+        <TabsContent value="shap" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <div className="pb-3 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">TreeSHAP Explainability Decomposition</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Shows directional push of features on model prediction odds</p>
+            </div>
+            <div className="space-y-3 text-xs font-sans">
               {SHAP_FEATURES.map((f, i) => (
-                <div key={i} className="p-3 rounded-lg border border-slate-800 bg-slate-950/60 flex items-center justify-between">
+                <div key={i} className="p-3.5 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-between">
                   <div>
-                    <span className="font-semibold text-slate-200 block">{f.feature}</span>
-                    <span className="text-slate-400 text-[11px] block mt-0.5">{f.impact}</span>
+                    <span className="font-medium text-[var(--text-main)] block">{f.feature}</span>
+                    <span className="text-[var(--text-faint)] text-[11px] block mt-0.5">{f.impact}</span>
                   </div>
                   <div className="text-right font-mono">
-                    <span className={`font-bold ${f.shap_val > 0 ? "text-rose-400" : "text-emerald-400"}`}>
+                    <span className={`font-bold ${f.shap_val > 0 ? "text-saffron-500" : "text-sage-500"}`}>
                       {f.shap_val > 0 ? `+${f.shap_val}` : f.shap_val}
                     </span>
-                    <span className="text-[10px] text-slate-500 block">mean |SHAP|</span>
+                    <span className="text-[10px] text-[var(--text-faint)] block">mean |SHAP|</span>
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 4: Dynamic Panel Probit Econometrics */}
-        <TabsContent value="probit" className="space-y-6 pt-2">
+        <TabsContent value="probit" className="space-y-6 pt-4">
           {/* Probit Header & Decomposition */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="border-slate-800 bg-slate-900/90">
-              <CardHeader className="p-4 pb-2">
-                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Model Specification</span>
-                <CardTitle className="text-sm font-semibold text-slate-200 mt-1">Wooldridge/Mundlak Panel Estimator</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 pt-1 text-xs">
-                <p className="font-mono text-blue-300 text-[11px] bg-slate-950 p-2 rounded border border-slate-800">
-                  Φ⁻¹(P(y_it=1)) = α y_i,t-1 + β x_it + δ x̄_i + γ z_i
-                </p>
-                <p className="text-[11px] text-slate-400 mt-2">
-                  Controls for individual unobserved heterogeneity via Mundlak time-averages.
-                </p>
-              </CardContent>
-            </Card>
+            <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-2">
+              <span className="text-[10px] text-[var(--text-faint)] uppercase tracking-wider font-semibold font-sans block">Model Specification</span>
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Wooldridge/Mundlak Panel Estimator</h4>
+              <p className="font-mono text-saffron-500 text-[11px] bg-[var(--bg-elevated)] p-2 rounded border border-[var(--border-hairline)] mt-2">
+                Φ⁻¹(P(y_it=1)) = α y_i,t-1 + β x_it + δ x̄_i + γ z_i
+              </p>
+              <p className="text-[11px] text-[var(--text-muted)] font-sans mt-1">
+                Controls for individual unobserved heterogeneity via Mundlak time-averages.
+              </p>
+            </div>
 
-            <Card className="border-slate-800 bg-slate-900/90">
-              <CardHeader className="p-4 pb-2">
-                <span className="text-[10px] text-rose-400 uppercase tracking-wider font-semibold">True State Dependence (Scarring)</span>
-                <CardTitle className="text-2xl font-bold font-mono text-rose-400 mt-1">{scarringPct}%</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 pt-1 text-xs text-slate-400">
+            <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-2">
+              <span className="text-[10px] text-saffron-500 uppercase tracking-wider font-semibold font-sans block">True State Dependence (Scarring)</span>
+              <div className="text-3xl font-numeral font-bold text-saffron-500">{scarringPct}%</div>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-1">
                 Share of observed persistence caused by the scarring effect of being in NEET (Average Partial Effect).
-              </CardContent>
-            </Card>
+              </p>
+            </div>
 
-            <Card className="border-slate-800 bg-slate-900/90">
-              <CardHeader className="p-4 pb-2">
-                <span className="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">Unobserved Heterogeneity & Selection</span>
-                <CardTitle className="text-2xl font-bold font-mono text-amber-400 mt-1">{heterogeneityPct}%</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 pt-1 text-xs text-slate-400">
+            <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 space-y-2">
+              <span className="text-[10px] text-prussian-400 uppercase tracking-wider font-semibold font-sans block">Unobserved Heterogeneity & Selection</span>
+              <div className="text-3xl font-numeral font-bold text-prussian-400">{heterogeneityPct}%</div>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-1">
                 Share explained by persistent demographic selection, structural care duties, and geographic constraints.
-              </CardContent>
-            </Card>
+              </p>
+            </div>
           </div>
 
           {/* Econometric Parameter Estimates Table */}
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-sm">Econometric Maximum Likelihood Parameter Estimates</CardTitle>
-                  <CardDescription>Correlated Random-Effects Panel Probit coefficients and z-statistics</CardDescription>
-                </div>
-                <Badge variant="outline">Mundlak CRE Probit</Badge>
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden">
+            <div className="p-5 border-b border-[var(--border-hairline)] flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Econometric Maximum Likelihood Parameter Estimates</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Correlated Random-Effects Panel Probit coefficients and z-statistics</p>
               </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
-                    <tr>
-                      <th className="py-2.5 px-4 font-medium">Variable Description</th>
-                      <th className="py-2.5 px-3 font-medium">Coefficient</th>
-                      <th className="py-2.5 px-3 font-medium">Std Error</th>
-                      <th className="py-2.5 px-3 font-medium">z-statistic</th>
-                      <th className="py-2.5 px-3 font-medium">p-value</th>
-                      <th className="py-2.5 px-3 font-medium">Signif.</th>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-[var(--border-hairline)] text-saffron-500 bg-[var(--bg-elevated)]">
+                Mundlak CRE Probit
+              </span>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-serif">
+                  <tr>
+                    <th className="py-2.5 px-4 font-semibold">Variable Description</th>
+                    <th className="py-2.5 px-3 font-semibold">Coefficient</th>
+                    <th className="py-2.5 px-3 font-semibold">Std Error</th>
+                    <th className="py-2.5 px-3 font-semibold">z-statistic</th>
+                    <th className="py-2.5 px-3 font-semibold">p-value</th>
+                    <th className="py-2.5 px-3 font-semibold">Signif.</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
+                  {probitParams.map((p: any, i: number) => (
+                    <tr key={i} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                      <td className="py-2.5 px-4 font-sans font-medium text-[var(--text-main)]">{p.display_name}</td>
+                      <td className={`py-2.5 px-3 font-bold ${p.coefficient > 0 ? "text-saffron-500" : "text-prussian-400"}`}>
+                        {p.coefficient > 0 ? `+${p.coefficient}` : p.coefficient}
+                      </td>
+                      <td className="py-2.5 px-3 text-[var(--text-faint)]">{p.std_error}</td>
+                      <td className="py-2.5 px-3 text-[var(--text-muted)]">{p.z_statistic}</td>
+                      <td className="py-2.5 px-3 text-[var(--text-muted)]">{p.p_value}</td>
+                      <td className="py-2.5 px-3 text-saffron-500 font-bold">{p.significance}</td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 font-mono">
-                    {probitParams.map((p: any, i: number) => (
-                      <tr key={i} className="hover:bg-slate-800/30">
-                        <td className="py-2.5 px-4 font-sans font-medium text-slate-200">{p.display_name}</td>
-                        <td className={`py-2.5 px-3 font-bold ${p.coefficient > 0 ? "text-rose-400" : "text-blue-400"}`}>
-                          {p.coefficient > 0 ? `+${p.coefficient}` : p.coefficient}
-                        </td>
-                        <td className="py-2.5 px-3 text-slate-400">{p.std_error}</td>
-                        <td className="py-2.5 px-3 text-slate-300">{p.z_statistic}</td>
-                        <td className="py-2.5 px-3 text-slate-300">{p.p_value}</td>
-                        <td className="py-2.5 px-3 text-amber-400 font-bold">{p.significance}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 5: Train New Model */}
-        <TabsContent value="train" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90 max-w-xl">
-            <CardHeader>
-              <CardTitle className="text-sm">Train / Retrain Youth NEET Classifier</CardTitle>
-              <CardDescription>Select model algorithm, feature sets, and temporal holdouts</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4 text-xs">
+        <TabsContent value="train" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 max-w-xl space-y-4">
+            <div className="pb-3 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Train / Retrain Youth NEET Classifier</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Select model algorithm, feature sets, and temporal holdouts</p>
+            </div>
+            <div className="space-y-4 text-xs font-sans">
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Model Architecture</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Model Architecture</label>
                 <Select value={trainModelType} onChange={(e) => setTrainModelType(e.target.value)}>
                   <option value="XGBoost">Extreme Gradient Boosting (XGBoost)</option>
                   <option value="Random Forest">Random Forest Classifier (100 Trees)</option>
@@ -434,11 +432,11 @@ export default function NeetPredictionPage() {
                 </Select>
               </div>
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Target Variable</label>
-                <Input value="neet_status_next_wave (Binary 0/1)" disabled className="bg-slate-900 text-slate-400 font-mono" />
+                <label className="text-[var(--text-main)] font-medium block mb-1">Target Variable</label>
+                <Input value="neet_status_next_wave (Binary 0/1)" disabled className="bg-[var(--bg-elevated)] text-[var(--text-faint)] font-mono" />
               </div>
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Train / Test Temporal Partition</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Train / Test Temporal Partition</label>
                 <Select defaultValue="80">
                   <option value="80">80% Train (Waves 1-4) / 20% Holdout Test (Waves 5-6)</option>
                   <option value="70">70% Train / 30% Holdout</option>
@@ -448,12 +446,12 @@ export default function NeetPredictionPage() {
                 {isTraining ? "Executing Model Training Pipeline..." : "Execute Model Training"}
               </Button>
               {trainDone && (
-                <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/30 text-emerald-300 text-xs">
+                <div className="p-3 rounded border border-sage-500/30 bg-sage-500/10 text-sage-300 text-xs">
                   Model training complete. Evaluated on test records with ROC-AUC and subgroup calibration updated.
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

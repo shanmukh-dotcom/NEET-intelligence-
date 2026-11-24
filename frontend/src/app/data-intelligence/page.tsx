@@ -121,17 +121,23 @@ export default function DataIntelligencePage() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <h3 className="text-sm font-semibold text-slate-100">Dataset Management & Ingestion Hub</h3>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Preserve 3 analytical layers: Raw Data → Harmonised Representation → Analytical Layer.
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter I</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Data Foundations</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Dataset Management & Ingestion Hub
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Strict preservation of 3 analytical layers: Raw Ingestion → Harmonised Representation → Analytical Layer.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="synthetic">5 REGISTERED DATASETS</Badge>
+        <div className="flex items-center gap-3">
           <Button variant="default" size="sm" onClick={() => setUploadSuccess(true)}>
             <Upload className="h-3.5 w-3.5 mr-1.5" /> Ingest New Dataset
           </Button>
@@ -139,9 +145,9 @@ export default function DataIntelligencePage() {
       </div>
 
       {uploadSuccess && (
-        <div className="p-3.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-xs text-emerald-300 flex items-center justify-between">
+        <div className="p-3.5 rounded border border-sage-500/30 bg-sage-500/10 text-xs text-sage-300 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-emerald-400" />
+            <CheckCircle className="h-4 w-4 text-sage-400" />
             <span>Dataset successfully uploaded, inspected, and harmonised with 3-tier layer preservation.</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => setUploadSuccess(false)}>Dismiss</Button>
@@ -158,109 +164,105 @@ export default function DataIntelligencePage() {
         </TabsList>
 
         {/* Tab 1: Catalog */}
-        <TabsContent value="catalog" className="space-y-4 pt-2">
+        <TabsContent value="catalog" className="space-y-6 pt-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {REGISTERED_DATASETS.map((ds) => (
-              <Card
+              <div
                 key={ds.id}
                 onClick={() => setSelectedDataset(ds)}
-                className={`cursor-pointer border transition-all ${
+                className={`cursor-pointer rounded p-5 border transition-all ${
                   selectedDataset.id === ds.id
-                    ? "border-blue-500/80 bg-slate-900 shadow-md"
-                    : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                    ? "border-saffron-500/70 bg-[var(--bg-elevated)] shadow-subtle ring-1 ring-saffron-500/20"
+                    : "border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:border-[var(--border-muted)]"
                 }`}
               >
-                <CardHeader className="p-4 pb-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-slate-500">{ds.id}</span>
-                    <Badge variant={ds.status === "Harmonised" ? "success" : "default"}>{ds.status}</Badge>
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)]">
+                  <span className="text-[10px] font-mono text-[var(--text-faint)]">{ds.id}</span>
+                  <Badge variant={ds.status === "Harmonised" ? "success" : "default"}>{ds.status}</Badge>
+                </div>
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)] mt-2.5 line-clamp-1">{ds.name}</h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5 line-clamp-1">{ds.source}</p>
+                
+                <div className="grid grid-cols-2 gap-2 py-2.5 my-3 border-y border-[var(--border-hairline)] text-[11px] font-sans">
+                  <div>
+                    <span className="text-[var(--text-faint)] block text-[10px]">Records</span>
+                    <span className="font-mono font-medium text-[var(--text-main)]">{formatNumber(ds.records)}</span>
                   </div>
-                  <CardTitle className="text-sm font-semibold text-slate-100 mt-1.5 line-clamp-1">{ds.name}</CardTitle>
-                  <CardDescription className="text-xs text-slate-400">{ds.source}</CardDescription>
-                </CardHeader>
-                <CardContent className="p-4 pt-2 space-y-2 text-xs">
-                  <div className="grid grid-cols-2 gap-2 py-2 border-y border-slate-800/80 text-[11px]">
-                    <div>
-                      <span className="text-slate-500 block">Records</span>
-                      <span className="font-semibold text-slate-200">{formatNumber(ds.records)}</span>
-                    </div>
-                    <div>
-                      <span className="text-slate-500 block">Survey Waves</span>
-                      <span className="font-semibold text-slate-200">{ds.waves} ({ds.years})</span>
-                    </div>
+                  <div>
+                    <span className="text-[var(--text-faint)] block text-[10px]">Waves</span>
+                    <span className="font-mono font-medium text-[var(--text-main)]">{ds.waves} ({ds.years})</span>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] pt-1">
-                    <span className="text-slate-400">Quality Score:</span>
-                    <span className="font-bold text-emerald-400">{ds.quality_score}%</span>
-                  </div>
-                </CardContent>
-              </Card>
+                </div>
+                
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-[var(--text-muted)]">Quality Score:</span>
+                  <span className="font-mono font-bold text-sage-500">{ds.quality_score}%</span>
+                </div>
+              </div>
             ))}
           </div>
 
           {/* Detailed Selected Dataset Dossier */}
-          <Card className="border-slate-800 bg-slate-900/90 mt-4">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-sm">Active Inspection Dossier: {selectedDataset.name}</CardTitle>
-                  <CardDescription>Longitudinal individual-level microdata structure</CardDescription>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Badge variant="synthetic">SYNTHETIC</Badge>
-                  <Button variant="outline" size="sm">
-                    <Download className="h-3 w-3 mr-1" /> Export Schema
-                  </Button>
-                </div>
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border-hairline)]">
+              <div>
+                <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">
+                  Active Inspection Dossier: {selectedDataset.name}
+                </h4>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+                  Longitudinal individual-level microdata structure
+                </p>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="text-slate-500 block">Total Person-Waves</span>
-                  <span className="text-base font-bold text-white mt-1 block">{formatNumber(selectedDataset.records)}</span>
-                </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="text-slate-500 block">Variables Tracked</span>
-                  <span className="text-base font-bold text-white mt-1 block">{selectedDataset.columns} Columns</span>
-                </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="text-slate-500 block">Temporal Coverage</span>
-                  <span className="text-base font-bold text-white mt-1 block">{selectedDataset.years}</span>
-                </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="text-slate-500 block">Raw Layer Immutability</span>
-                  <span className="text-base font-bold text-emerald-400 mt-1 block">Preserved (Read-Only)</span>
-                </div>
+              <Button variant="outline" size="sm">
+                <Download className="h-3 w-3 mr-1" /> Export Schema
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-sans">
+              <div className="p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                <span className="text-[var(--text-faint)] block text-[11px]">Total Person-Waves</span>
+                <span className="text-base font-numeral font-semibold text-[var(--text-main)] mt-1 block">{formatNumber(selectedDataset.records)}</span>
               </div>
-            </CardContent>
-          </Card>
+              <div className="p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                <span className="text-[var(--text-faint)] block text-[11px]">Variables Tracked</span>
+                <span className="text-base font-numeral font-semibold text-[var(--text-main)] mt-1 block">{selectedDataset.columns} Columns</span>
+              </div>
+              <div className="p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                <span className="text-[var(--text-faint)] block text-[11px]">Temporal Coverage</span>
+                <span className="text-base font-numeral font-semibold text-[var(--text-main)] mt-1 block">{selectedDataset.years}</span>
+              </div>
+              <div className="p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                <span className="text-[var(--text-faint)] block text-[11px]">Raw Layer Immutability</span>
+                <span className="text-base font-numeral font-semibold text-sage-500 mt-1 block">Preserved (Read-Only)</span>
+              </div>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 2: Inspection */}
-        <TabsContent value="inspection" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">Automated Concept Mapping & Variable Recognition</CardTitle>
-              <CardDescription>Mapped source columns to standardized NEET analytical taxonomy</CardDescription>
-            </CardHeader>
-            <CardContent className="p-0">
+        <TabsContent value="inspection" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] overflow-hidden">
+            <div className="p-5 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Automated Concept Mapping & Variable Recognition</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Mapped source columns to standardized NEET analytical taxonomy</p>
+            </div>
+            <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-serif">
                   <tr>
-                    <th className="py-2.5 px-4 font-medium">Source Column</th>
-                    <th className="py-2.5 px-4 font-medium">Mapped Standard Concept</th>
-                    <th className="py-2.5 px-4 font-medium">Detection Confidence</th>
-                    <th className="py-2.5 px-4 font-medium">Survey Comparability</th>
+                    <th className="py-2.5 px-4 font-semibold">Source Column</th>
+                    <th className="py-2.5 px-4 font-semibold">Mapped Standard Concept</th>
+                    <th className="py-2.5 px-4 font-semibold">Detection Confidence</th>
+                    <th className="py-2.5 px-4 font-semibold">Survey Comparability</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-[var(--border-hairline)] font-sans">
                   {RECOGNIZED_VARIABLES.map((v, i) => (
-                    <tr key={i} className="hover:bg-slate-800/30">
-                      <td className="py-3 px-4 font-mono text-blue-400">{v.source_column}</td>
-                      <td className="py-3 px-4 font-medium text-slate-200">{v.mapped_concept}</td>
+                    <tr key={i} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
+                      <td className="py-3 px-4 font-mono text-saffron-500 font-medium">{v.source_column}</td>
+                      <td className="py-3 px-4 font-medium text-[var(--text-main)]">{v.mapped_concept}</td>
                       <td className="py-3 px-4">
-                        <span className="inline-block px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[11px]">
+                        <span className="inline-block px-2 py-0.5 rounded bg-sage-500/10 text-sage-400 font-mono text-[11px]">
                           {v.confidence}
                         </span>
                       </td>
@@ -281,18 +283,18 @@ export default function DataIntelligencePage() {
                   ))}
                 </tbody>
               </table>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 3: Validation */}
-        <TabsContent value="validation" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">Data Integrity & Longitudinal Consistency Audit</CardTitle>
-              <CardDescription>Automated tests executed against person-wave records</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
+        <TabsContent value="validation" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <div className="pb-3 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Data Integrity & Longitudinal Consistency Audit</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">Automated econometric tests executed against person-wave records</p>
+            </div>
+            <div className="space-y-3">
               {[
                 { test: "Person Identifier Uniqueness across waves", detail: "Zero cross-person collisions detected in SYN cohort.", status: "Passed" },
                 { test: "Valid Age Range Eligibility (15-29)", detail: "100% of youth records satisfy age bounds.", status: "Passed" },
@@ -300,32 +302,32 @@ export default function DataIntelligencePage() {
                 { test: "Unpaid Domestic Care Hours Range Check (0-16 hrs)", detail: "No extreme negative or implausible values.", status: "Passed" },
                 { test: "Longitudinal Wave Ordering & Attrition Flagging", detail: "Wave temporal sequence monotonic. Attrition verified at 8.2% by Wave 6.", status: "Passed" }
               ].map((chk, i) => (
-                <div key={i} className="p-3 rounded-lg border border-slate-800 bg-slate-950/60 flex items-center justify-between text-xs">
+                <div key={i} className="p-3.5 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-between text-xs font-sans">
                   <div>
-                    <span className="font-semibold text-slate-200 block">{chk.test}</span>
-                    <span className="text-slate-400 text-[11px] mt-0.5 block">{chk.detail}</span>
+                    <span className="font-medium text-[var(--text-main)] block">{chk.test}</span>
+                    <span className="text-[var(--text-faint)] text-[11px] mt-0.5 block">{chk.detail}</span>
                   </div>
                   <Badge variant="success">{chk.status}</Badge>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Tab 4: Comparability Framework */}
-        <TabsContent value="comparability" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90">
-            <CardHeader>
-              <CardTitle className="text-sm">Research Comparability Framework</CardTitle>
-              <CardDescription>
+        <TabsContent value="comparability" className="space-y-4 pt-4">
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 space-y-4">
+            <div className="pb-3 border-b border-[var(--border-hairline)]">
+              <h4 className="text-sm font-serif font-semibold text-[var(--text-main)]">Research Comparability Framework</h4>
+              <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
                 Strict scientific rules preventing illegitimate merging of incompatible survey measures (PLFS, IHDS, UDAYA).
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4 text-xs">
+              </p>
+            </div>
+            <div className="space-y-4 text-xs font-sans">
               {COMPARABILITY_EXPLANATIONS.map((c, i) => (
-                <div key={i} className="p-4 rounded-lg border border-slate-800 bg-slate-950/70 space-y-2">
+                <div key={i} className="p-4 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-slate-100 text-sm">{c.variable}</span>
+                    <span className="font-serif font-semibold text-[var(--text-main)] text-sm">{c.variable}</span>
                     <Badge
                       variant={
                         c.grade === "Comparable"
@@ -338,11 +340,11 @@ export default function DataIntelligencePage() {
                       {c.grade}
                     </Badge>
                   </div>
-                  <p className="text-slate-300 leading-relaxed">{c.rationale}</p>
+                  <p className="text-[var(--text-muted)] leading-relaxed">{c.rationale}</p>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

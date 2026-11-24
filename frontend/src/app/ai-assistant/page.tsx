@@ -16,6 +16,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { queryResearchAssistant } from "@/lib/api-client";
 
 interface ChatMessage {
   id: string;
@@ -48,8 +49,6 @@ const SUGGESTED_QUESTIONS = [
   "What happens if programme coverage increases to 60%?",
   "What are the limitations of this dataset?"
 ];
-
-import { queryResearchAssistant } from "@/lib/api-client";
 
 export default function AiAssistantPage() {
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
@@ -192,33 +191,46 @@ export default function AiAssistantPage() {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Disclaimer */}
-      <div className="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 text-xs text-slate-300 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Bot className="h-4 w-4 text-blue-400" />
-          <span>Evidence-grounded assistant. Every response contains findings, tabular evidence, sources, and explicit limitations.</span>
+    <div className="space-y-6">
+      {/* Editorial Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Inquiry</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Evidence-Grounded Assistant</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Ask NEET Intelligence
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Statistical research assistant strictly grounded in verified computational tables, transition matrices, and econometric models.
+          </p>
         </div>
-        <Badge variant="synthetic">COMPUTATION BACKED</Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="font-mono text-[10px]">
+            Zero Hallucination Grounding
+          </Badge>
+        </div>
       </div>
 
-      {/* Suggested Questions Bar */}
+      {/* Suggested Questions Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
-        <span className="text-slate-500 text-[11px] shrink-0 font-medium">Suggested queries:</span>
+        <span className="text-[var(--text-faint)] text-[11px] shrink-0 font-sans font-medium">Suggested queries:</span>
         {SUGGESTED_QUESTIONS.map((sq, i) => (
           <button
             key={i}
             onClick={() => handleSend(sq)}
-            className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-800 text-slate-300 text-[11px] whitespace-nowrap transition-colors"
+            className="px-3 py-1 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:border-saffron-500/50 hover:bg-[var(--bg-elevated)] text-[var(--text-muted)] hover:text-[var(--text-main)] text-[11px] font-sans whitespace-nowrap transition-colors"
           >
             {sq}
           </button>
         ))}
       </div>
 
-      {/* Chat Messages Feed */}
-      <Card className="border-slate-800 bg-slate-900/80 min-h-[500px] flex flex-col justify-between">
-        <CardContent className="p-5 space-y-5 overflow-y-auto max-h-[550px]">
+      {/* Chat Messages Feed Card */}
+      <Card className="min-h-[500px] flex flex-col justify-between">
+        <CardContent className="p-6 space-y-6 overflow-y-auto max-h-[550px]">
           {messages.map((m) => (
             <div
               key={m.id}
@@ -227,39 +239,41 @@ export default function AiAssistantPage() {
               }`}
             >
               {m.sender === "assistant" && (
-                <div className="h-7 w-7 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0 mt-0.5">
+                <div className="h-7 w-7 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-center text-saffron-500 shrink-0 mt-0.5">
                   <Bot className="h-4 w-4" />
                 </div>
               )}
 
               <div
-                className={`max-w-3xl rounded-xl p-4 space-y-3 ${
+                className={`max-w-2xl rounded p-4 space-y-3 ${
                   m.sender === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-slate-950 border border-slate-800 text-slate-200"
+                    ? "bg-[var(--bg-elevated)] border border-saffron-500/40 text-[var(--text-main)] font-sans"
+                    : "bg-[var(--bg-surface)] border border-[var(--border-hairline)] text-[var(--text-main)]"
                 }`}
               >
-                {m.text && <p className="leading-relaxed">{m.text}</p>}
+                {m.text && <p className="leading-relaxed font-sans text-xs text-[var(--text-main)]">{m.text}</p>}
 
                 {m.finding && (
                   <div className="space-y-3">
-                    <div className="font-medium text-slate-100 leading-relaxed">{m.finding}</div>
+                    <div className="font-serif text-sm font-medium text-[var(--text-main)] leading-relaxed">
+                      {m.finding}
+                    </div>
 
                     {m.supporting_data && m.supporting_data.length > 0 && (
-                      <div className="overflow-x-auto border border-slate-800 rounded-lg">
+                      <div className="overflow-x-auto border border-[var(--border-hairline)] rounded">
                         <table className="w-full text-[11px] text-left">
-                          <thead className="bg-slate-900 text-slate-400 border-b border-slate-800 font-mono">
+                          <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-b border-[var(--border-hairline)] font-mono">
                             <tr>
                               {Object.keys(m.supporting_data[0]).map((k, idx) => (
-                                <th key={idx} className="py-2 px-3">{k}</th>
+                                <th key={idx} className="py-2 px-3 font-medium">{k}</th>
                               ))}
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-slate-800/60">
+                          <tbody className="divide-y divide-[var(--border-hairline)]">
                             {m.supporting_data.map((row, rIdx) => (
-                              <tr key={rIdx} className="hover:bg-slate-900/40">
+                              <tr key={rIdx} className="hover:bg-[var(--bg-elevated)]/50 transition-colors">
                                 {Object.values(row).map((val: any, cIdx) => (
-                                  <td key={cIdx} className="py-2 px-3 font-mono text-slate-300">{val}</td>
+                                  <td key={cIdx} className="py-2 px-3 font-mono text-[var(--text-muted)]">{val}</td>
                                 ))}
                               </tr>
                             ))}
@@ -269,15 +283,15 @@ export default function AiAssistantPage() {
                     )}
 
                     {/* Metadata & Limits Panel */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[10px] text-slate-400 pt-2 border-t border-slate-800/80">
-                      <div><span className="text-slate-300 font-medium">Source: </span>{m.source}</div>
-                      <div><span className="text-slate-300 font-medium">Method: </span>{m.method}</div>
-                      <div><span className="text-slate-300 font-medium">Time Period: </span>{m.time_period}</div>
-                      <div><span className="text-slate-300 font-medium">Uncertainty: </span>{m.uncertainty}</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[10px] text-[var(--text-faint)] pt-2 border-t border-[var(--border-hairline)] font-mono">
+                      <div><span className="text-[var(--text-muted)] font-sans font-medium">Source: </span>{m.source}</div>
+                      <div><span className="text-[var(--text-muted)] font-sans font-medium">Method: </span>{m.method}</div>
+                      <div><span className="text-[var(--text-muted)] font-sans font-medium">Time Period: </span>{m.time_period}</div>
+                      <div><span className="text-[var(--text-muted)] font-sans font-medium">Uncertainty: </span>{m.uncertainty}</div>
                     </div>
 
                     {m.limitations && (
-                      <div className="p-2 rounded bg-amber-950/20 border border-amber-500/30 text-[10px] text-amber-300/90">
+                      <div className="p-2.5 rounded bg-ochre-500/10 border border-ochre-500/25 text-[11px] text-ochre-400 font-sans leading-relaxed">
                         <span className="font-semibold block mb-0.5">Documented Limitation:</span>
                         {m.limitations}
                       </div>
@@ -287,7 +301,7 @@ export default function AiAssistantPage() {
               </div>
 
               {m.sender === "user" && (
-                <div className="h-7 w-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 text-xs shrink-0 mt-0.5">
+                <div className="h-7 w-7 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-center text-[var(--text-muted)] text-xs shrink-0 mt-0.5">
                   <User className="h-4 w-4" />
                 </div>
               )}
@@ -295,16 +309,16 @@ export default function AiAssistantPage() {
           ))}
 
           {isProcessing && (
-            <div className="flex gap-3 text-xs items-center text-slate-400">
-              <div className="h-7 w-7 rounded-lg bg-blue-600 flex items-center justify-center text-white shrink-0">
+            <div className="flex gap-3 text-xs items-center text-[var(--text-muted)] font-sans">
+              <div className="h-7 w-7 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] flex items-center justify-center text-saffron-500 shrink-0">
                 <Bot className="h-4 w-4 animate-spin" />
               </div>
-              <span>Retrieving verified empirical microdata and evaluating statistical computations...</span>
+              <span className="italic">Retrieving verified empirical microdata and evaluating statistical computations...</span>
             </div>
           )}
         </CardContent>
 
-        <CardFooter className="p-4 border-t border-slate-800">
+        <CardFooter className="p-4 border-t border-[var(--border-hairline)]">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -318,7 +332,7 @@ export default function AiAssistantPage() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               disabled={isProcessing}
-              className="flex h-10 w-full rounded-md border border-slate-700 bg-slate-950 px-4 py-2 text-xs text-slate-100 placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500"
+              className="flex h-10 w-full rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-4 py-2 text-xs text-[var(--text-main)] placeholder:text-[var(--text-faint)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-saffron-500 font-sans"
             />
             <Button type="submit" disabled={isProcessing || !inputText.trim()} size="default">
               <Send className="h-4 w-4 mr-1.5" /> Ask

@@ -11,7 +11,8 @@ import {
   AlertTriangle,
   Play,
   Sliders,
-  Database
+  Database,
+  ArrowRight
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -155,19 +156,23 @@ export default function SyntheticGeneratorPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Banner */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Editorial Chapter Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-slate-100">Workspace 1: Synthetic Youth Microdata Generator</h3>
-            <Badge variant="synthetic">IS_SYNTHETIC=TRUE</Badge>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter I</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Microdata Simulation</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Synthetic Youth Microdata Generator
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
             Generates internally consistent longitudinal youth life-courses using first-order Markov probability matrices.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Button variant="default" size="sm" onClick={handleGenerate} disabled={isGenerating}>
             {isGenerating ? <RefreshCw className="h-3.5 w-3.5 mr-1.5 animate-spin" /> : <Play className="h-3.5 w-3.5 mr-1.5" />}
             {isGenerating ? "Simulating Cohorts..." : "Generate Cohort"}
@@ -176,16 +181,16 @@ export default function SyntheticGeneratorPage() {
       </div>
 
       {generationDone && (
-        <div className="p-3.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-xs text-emerald-300 flex items-center justify-between">
+        <div className="p-3.5 rounded border border-sage-500/30 bg-sage-500/10 text-xs text-sage-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-emerald-400" />
-            <span>
+            <CheckCircle className="h-4 w-4 text-sage-400 shrink-0" />
+            <span className="font-sans">
               Successfully generated {formatNumber(popSize)} synthetic individuals across {wavesCount} waves (
               {formatNumber(popSize * wavesCount)} person-wave observations). All rows tagged is_synthetic=True.
               {generatedStats?.observed_neet_rate && ` (Observed NEET Rate: ${generatedStats.observed_neet_rate}%)`}
             </span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 shrink-0">
             <Button variant="outline" size="sm">
               <Download className="h-3 w-3 mr-1" /> Export CSV
             </Button>
@@ -196,39 +201,52 @@ export default function SyntheticGeneratorPage() {
         </div>
       )}
 
-      {/* Preset Scenarios Grid */}
+      {/* Preset Scenarios Section */}
       <div>
-        <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Pre-Configured Policy Presets (Scenarios A – G)</h4>
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-xs font-sans font-medium text-[var(--text-faint)] uppercase tracking-wider">
+            Pre-Configured Policy Presets (Scenarios A – G)
+          </h4>
+          <span className="text-[11px] font-sans text-[var(--text-muted)] italic">
+            Click any archetype to populate demographic ratios
+          </span>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {FALLBACK_PRESETS.map((p) => (
-            <Card
+            <div
               key={p.id}
               onClick={() => applyPreset(p)}
-              className="border-slate-800 bg-slate-950/60 hover:border-slate-700 hover:bg-slate-900 cursor-pointer transition-all"
+              className="p-3.5 rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:border-saffron-500/40 hover:bg-[var(--bg-elevated)] cursor-pointer transition-all group"
             >
-              <CardHeader className="p-3.5 pb-2">
-                <CardTitle className="text-xs font-semibold text-slate-200">{p.name}</CardTitle>
-                <CardDescription className="text-[11px] text-slate-400 line-clamp-2 mt-1">{p.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-3.5 pt-0 text-[10px] text-slate-400 flex items-center justify-between">
-                <span>{Math.round(p.female_ratio * 100)}% Female | {Math.round(p.rural_ratio * 100)}% Rural</span>
-                <span className="font-semibold text-blue-400">Load Preset →</span>
-              </CardContent>
-            </Card>
+              <div className="flex items-start justify-between gap-2 mb-1.5">
+                <h5 className="text-xs font-serif font-semibold text-[var(--text-main)] group-hover:text-saffron-400 transition-colors">
+                  {p.name}
+                </h5>
+              </div>
+              <p className="text-[11px] text-[var(--text-muted)] font-sans line-clamp-2 leading-relaxed mb-3">
+                {p.description}
+              </p>
+              <div className="pt-2 border-t border-[var(--border-hairline)] flex items-center justify-between text-[10px] font-mono text-[var(--text-faint)]">
+                <span>{Math.round(p.female_ratio * 100)}% Female · {Math.round(p.rural_ratio * 100)}% Rural</span>
+                <span className="font-sans font-medium text-saffron-500 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+                  Load <ArrowRight className="h-2.5 w-2.5" />
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Configuration Controls */}
+      {/* Configuration Controls & Live Preview Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1 border-slate-800 bg-slate-900/90">
+        <Card className="lg:col-span-1">
           <CardHeader>
             <CardTitle className="text-sm">Cohort Generation Parameters</CardTitle>
             <CardDescription>Adjust demographic distributions and Markov parameters</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-xs">
+          <CardContent className="space-y-4 text-xs font-sans">
             <div>
-              <label className="text-slate-300 font-medium block mb-1">Population Size</label>
+              <label className="text-[var(--text-main)] font-medium block mb-1">Population Size</label>
               <Input
                 type="number"
                 value={popSize}
@@ -239,8 +257,8 @@ export default function SyntheticGeneratorPage() {
             </div>
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Female Share</label>
-                <span className="text-slate-400">{femaleRatio}%</span>
+                <label className="text-[var(--text-main)] font-medium">Female Share</label>
+                <span className="font-mono text-[var(--text-muted)]">{femaleRatio}%</span>
               </div>
               <input
                 type="range"
@@ -248,13 +266,13 @@ export default function SyntheticGeneratorPage() {
                 max="90"
                 value={femaleRatio}
                 onChange={(e) => setFemaleRatio(Number(e.target.value))}
-                className="w-full accent-blue-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-saffron-500 h-1.5 bg-[var(--border-hairline)] rounded cursor-pointer"
               />
             </div>
             <div>
               <div className="flex justify-between mb-1">
-                <label className="text-slate-300 font-medium">Rural Share</label>
-                <span className="text-slate-400">{ruralRatio}%</span>
+                <label className="text-[var(--text-main)] font-medium">Rural Share</label>
+                <span className="font-mono text-[var(--text-muted)]">{ruralRatio}%</span>
               </div>
               <input
                 type="range"
@@ -262,12 +280,12 @@ export default function SyntheticGeneratorPage() {
                 max="95"
                 value={ruralRatio}
                 onChange={(e) => setRuralRatio(Number(e.target.value))}
-                className="w-full accent-blue-500 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-saffron-500 h-1.5 bg-[var(--border-hairline)] rounded cursor-pointer"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Survey Waves</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Survey Waves</label>
                 <Select value={wavesCount} onChange={(e) => setWavesCount(Number(e.target.value))}>
                   <option value={3}>3 Waves (2024-26)</option>
                   <option value={4}>4 Waves (2023-26)</option>
@@ -276,7 +294,7 @@ export default function SyntheticGeneratorPage() {
                 </Select>
               </div>
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Random Seed</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Random Seed</label>
                 <Input
                   type="number"
                   value={randomSeed}
@@ -288,20 +306,20 @@ export default function SyntheticGeneratorPage() {
         </Card>
 
         {/* Live Longitudinal Preview Table */}
-        <Card className="lg:col-span-2 border-slate-800 bg-slate-900/90">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-sm">Sample Longitudinal Activity Histories (Synthetic Microdata)</CardTitle>
+                <CardTitle className="text-sm">Sample Longitudinal Activity Histories</CardTitle>
                 <CardDescription>Multi-wave individual trajectory records with care hours and state transitions</CardDescription>
               </div>
-              <Badge variant="outline">Preview: {tableRows.length} Records</Badge>
+              <Badge variant="outline" className="font-mono text-[10px]">Preview: {tableRows.length} Records</Badge>
             </div>
           </CardHeader>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-y border-[var(--border-hairline)]">
                   <tr>
                     <th className="py-2.5 px-3 font-medium">Person ID</th>
                     <th className="py-2.5 px-2 font-medium">Wave</th>
@@ -314,32 +332,32 @@ export default function SyntheticGeneratorPage() {
                     <th className="py-2.5 px-2 font-medium">NEET?</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-mono">
+                <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
                   {tableRows.map((r, i) => (
-                    <tr key={i} className="hover:bg-slate-800/30">
-                      <td className="py-2.5 px-3 text-blue-400">{r.pid}</td>
-                      <td className="py-2.5 px-2 text-slate-300">{r.wave}</td>
-                      <td className="py-2.5 px-2 text-slate-300">{r.age}</td>
-                      <td className="py-2.5 px-2 text-slate-300">{r.sex}</td>
-                      <td className="py-2.5 px-3 text-slate-300">{r.sector}</td>
-                      <td className="py-2.5 px-3 text-slate-300 font-sans">{r.education}</td>
+                    <tr key={i} className="hover:bg-[var(--bg-elevated)]/60 transition-colors">
+                      <td className="py-2.5 px-3 text-saffron-500 font-medium">{r.pid}</td>
+                      <td className="py-2.5 px-2 text-[var(--text-muted)]">{r.wave}</td>
+                      <td className="py-2.5 px-2 text-[var(--text-muted)]">{r.age}</td>
+                      <td className="py-2.5 px-2 text-[var(--text-muted)]">{r.sex}</td>
+                      <td className="py-2.5 px-3 text-[var(--text-muted)] font-sans">{r.sector}</td>
+                      <td className="py-2.5 px-3 text-[var(--text-muted)] font-sans">{r.education}</td>
                       <td className="py-2.5 px-3">
                         <span
-                          className={`inline-block px-2 py-0.5 rounded text-[11px] font-sans font-medium ${
+                          className={`inline-block px-2 py-0.5 rounded text-[10px] font-sans font-medium border ${
                             r.state === "NEET"
-                              ? "bg-rose-500/15 text-rose-400"
+                              ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
                               : r.state === "Employment"
-                              ? "bg-emerald-500/15 text-emerald-400"
+                              ? "bg-sage-500/10 text-sage-400 border-sage-500/20"
                               : r.state === "Education"
-                              ? "bg-blue-500/15 text-blue-400"
-                              : "bg-purple-500/15 text-purple-400"
+                              ? "bg-prussian-500/10 text-prussian-400 border-prussian-500/20"
+                              : "bg-ochre-500/10 text-ochre-400 border-ochre-500/20"
                           }`}
                         >
                           {r.state}
                         </span>
                       </td>
-                      <td className="py-2.5 px-2 text-slate-400">{r.care_hrs}h</td>
-                      <td className="py-2.5 px-2 font-bold text-slate-200">{r.neet}</td>
+                      <td className="py-2.5 px-2 text-[var(--text-faint)]">{r.care_hrs}h</td>
+                      <td className="py-2.5 px-2 font-semibold text-[var(--text-main)]">{r.neet}</td>
                     </tr>
                   ))}
                 </tbody>

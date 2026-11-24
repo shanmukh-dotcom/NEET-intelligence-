@@ -16,29 +16,33 @@ interface ChartCardProps {
 export function ChartCard({
   title,
   description,
-  badge = "SYNTHETIC DEMO",
+  badge,
   actions,
   children,
   className,
   heightClass = "h-72"
 }: ChartCardProps) {
   return (
-    <Card className={cn("border border-slate-800 bg-slate-900/90 shadow-sm", className)}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <CardTitle className="text-sm font-semibold text-slate-100">{title}</CardTitle>
-            {badge && <Badge variant="synthetic">{badge}</Badge>}
+    <div className={cn("rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 transition-colors", className)}>
+      <div className="flex flex-row items-baseline justify-between pb-3 border-b border-[var(--border-hairline)] gap-4">
+        <div>
+          <div className="flex items-baseline gap-2.5">
+            <h4 className="text-sm font-serif font-semibold text-[var(--text-main)] tracking-tight">{title}</h4>
+            {badge && (
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-[var(--border-hairline)] text-[var(--text-faint)] bg-[var(--bg-elevated)]">
+                {badge}
+              </span>
+            )}
           </div>
-          {description && <CardDescription className="text-xs text-slate-400">{description}</CardDescription>}
+          {description && <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">{description}</p>}
         </div>
-        {actions && <div className="flex items-center gap-2">{actions}</div>}
-      </CardHeader>
-      <CardContent className="pt-4">
+        {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+      </div>
+      <div className="pt-4">
         <div className={cn("w-full", heightClass)}>
           {children}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

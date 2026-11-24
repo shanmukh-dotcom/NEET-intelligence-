@@ -88,24 +88,28 @@ export default function InterventionCentrePage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="space-y-8">
+      {/* Editorial Header Banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-slate-100">Intervention Intelligence & Policy Governance</h3>
-            <Badge variant="synthetic">HUMAN APPROVAL MANDATORY</Badge>
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Chapter V</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Policy Interventions</span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Intervention Intelligence & Policy Governance
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
             Translate transition patterns into structured intervention proposals with transparent coverage and arithmetic accounting.
           </p>
         </div>
       </div>
 
       {actionNotice && (
-        <div className="p-3.5 rounded-lg border border-blue-500/30 bg-blue-950/20 text-xs text-blue-300 flex items-center justify-between">
+        <div className="p-3.5 rounded border border-sage-500/30 bg-sage-500/10 text-xs text-sage-300 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-blue-400" />
+            <CheckCircle className="h-4 w-4 text-sage-400" />
             <span>{actionNotice}</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => setActionNotice(null)}>Dismiss</Button>
@@ -114,137 +118,134 @@ export default function InterventionCentrePage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Proposals List */}
-        <div className="space-y-3">
-          <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registered Policy Proposals</h4>
+        <div className="space-y-3 font-sans">
+          <h4 className="text-xs font-serif font-semibold text-[var(--text-muted)] uppercase tracking-wider">Registered Proposals</h4>
           {interventions.map((item) => (
-            <Card
+            <div
               key={item.id}
               onClick={() => setSelectedIntervention(item)}
-              className={`cursor-pointer border transition-all ${
+              className={`cursor-pointer rounded p-4 border transition-all ${
                 selectedIntervention.id === item.id
-                  ? "border-blue-500 bg-slate-900 shadow-md"
-                  : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
+                  ? "border-saffron-500/70 bg-[var(--bg-elevated)] shadow-subtle ring-1 ring-saffron-500/20"
+                  : "border-[var(--border-hairline)] bg-[var(--bg-surface)] hover:border-[var(--border-muted)]"
               }`}
             >
-              <CardHeader className="p-4 pb-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-slate-500">{item.id}</span>
-                  <Badge
-                    variant={
-                      item.status === "Approved"
-                        ? "success"
-                        : item.status === "Under Review"
-                        ? "warning"
-                        : "default"
-                    }
-                  >
-                    {item.status}
-                  </Badge>
-                </div>
-                <CardTitle className="text-xs font-semibold text-slate-200 mt-1.5 line-clamp-2">{item.title}</CardTitle>
-                <CardDescription className="text-[11px] text-slate-400 mt-1">{item.locality}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 pt-2 text-xs flex items-center justify-between">
-                <span className="text-slate-400">Est. Exits:</span>
-                <span className="font-bold text-emerald-400 font-mono">{item.projected_exits} youth</span>
-              </CardContent>
-            </Card>
+              <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-hairline)]">
+                <span className="text-[10px] font-mono text-[var(--text-faint)]">{item.id}</span>
+                <Badge
+                  variant={
+                    item.status === "Approved"
+                      ? "success"
+                      : item.status === "Under Review"
+                      ? "warning"
+                      : "default"
+                  }
+                >
+                  {item.status}
+                </Badge>
+              </div>
+              <h4 className="text-xs font-serif font-semibold text-[var(--text-main)] mt-2 line-clamp-2 leading-snug">{item.title}</h4>
+              <p className="text-[11px] text-[var(--text-muted)] font-sans mt-0.5">{item.locality}</p>
+              
+              <div className="mt-3 pt-2 border-t border-[var(--border-hairline)] text-xs flex items-center justify-between">
+                <span className="text-[var(--text-faint)] text-[11px]">Est. Exits:</span>
+                <span className="font-bold text-sage-500 font-mono text-xs">{item.projected_exits} youth</span>
+              </div>
+            </div>
           ))}
         </div>
 
         {/* Right Column: Detailed Proposal Dossier & Governance Actions */}
         <div className="lg:col-span-2 space-y-4">
-          <Card className="border-slate-800 bg-slate-900/90 text-xs">
-            <CardHeader className="p-5 pb-3 border-b border-slate-800">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-mono text-blue-400">{selectedIntervention.id}</span>
-                  <CardTitle className="text-sm font-bold text-slate-100 mt-1">{selectedIntervention.title}</CardTitle>
-                  <CardDescription className="text-xs text-slate-400 mt-0.5">{selectedIntervention.locality}</CardDescription>
-                </div>
-                <Badge
-                  variant={
-                    selectedIntervention.status === "Approved"
-                      ? "success"
-                      : selectedIntervention.status === "Under Review"
-                      ? "warning"
-                      : "default"
-                  }
-                >
-                  {selectedIntervention.status}
-                </Badge>
+          <div className="rounded border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-xs font-sans">
+            <div className="p-5 pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono text-saffron-500">{selectedIntervention.id}</span>
+                <h3 className="text-sm font-serif font-semibold text-[var(--text-main)] mt-1">{selectedIntervention.title}</h3>
+                <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">{selectedIntervention.locality}</p>
               </div>
-            </CardHeader>
+              <Badge
+                variant={
+                  selectedIntervention.status === "Approved"
+                    ? "success"
+                    : selectedIntervention.status === "Under Review"
+                    ? "warning"
+                    : "default"
+                }
+              >
+                {selectedIntervention.status}
+              </Badge>
+            </div>
 
-            <CardContent className="p-5 space-y-4">
+            <div className="p-5 space-y-5">
               {/* Problem & Evidence */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1 p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="font-semibold text-rose-400 block">Identified Structural Problem</span>
-                  <p className="text-slate-300 leading-relaxed">{selectedIntervention.problem}</p>
+                <div className="space-y-1.5 p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="font-serif font-semibold text-crimson-400 block text-xs">Identified Structural Problem</span>
+                  <p className="text-[var(--text-muted)] leading-relaxed text-[11px]">{selectedIntervention.problem}</p>
                 </div>
-                <div className="space-y-1 p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <span className="font-semibold text-blue-400 block">Empirical Model Evidence</span>
-                  <p className="text-slate-300 leading-relaxed">{selectedIntervention.evidence}</p>
+                <div className="space-y-1.5 p-3.5 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)]">
+                  <span className="font-serif font-semibold text-prussian-400 block text-xs">Empirical Model Evidence</span>
+                  <p className="text-[var(--text-muted)] leading-relaxed text-[11px]">{selectedIntervention.evidence}</p>
                 </div>
               </div>
 
               {/* Implementation Components */}
               <div className="space-y-2">
-                <span className="font-semibold text-slate-200 block">Core Implementation Components:</span>
+                <span className="font-serif font-semibold text-[var(--text-main)] block text-xs">Core Implementation Components:</span>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {selectedIntervention.components.map((c, i) => (
-                    <div key={i} className="p-2.5 rounded bg-slate-950/70 border border-slate-800/80 text-slate-300 flex items-start gap-2">
-                      <span className="text-blue-400 font-bold">•</span>
-                      <span>{c}</span>
+                    <div key={i} className="p-3 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)] text-[var(--text-muted)] flex items-start gap-2 text-[11px]">
+                      <span className="text-saffron-500 font-bold shrink-0">•</span>
+                      <span className="leading-normal">{c}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Parametric Coverage & Arithmetic Accounting */}
-              <div className="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-slate-200">Coverage & Exit Accounting Formula</span>
-                  <Badge variant="outline">ARITHMETIC PROJECTION</Badge>
+              <div className="p-4 rounded bg-[var(--bg-elevated)] border border-[var(--border-hairline)] space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)]">
+                  <span className="font-serif font-semibold text-[var(--text-main)] text-xs">Coverage & Exit Accounting Formula</span>
+                  <span className="text-[10px] font-mono text-[var(--text-faint)]">Arithmetic Model</span>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center font-mono text-[11px] pt-1">
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px]">Eligible Pool</span>
-                    <span className="font-bold text-slate-200">{formatNumber(selectedIntervention.eligible)}</span>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center font-mono text-[11px]">
+                  <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-[var(--border-hairline)]">
+                    <span className="text-[var(--text-faint)] block text-[10px]">Eligible Pool</span>
+                    <span className="font-bold text-[var(--text-main)] mt-0.5 block">{formatNumber(selectedIntervention.eligible)}</span>
                   </div>
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px]">Target Coverage</span>
-                    <span className="font-bold text-blue-400">{selectedIntervention.coverage}</span>
+                  <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-[var(--border-hairline)]">
+                    <span className="text-[var(--text-faint)] block text-[10px]">Target Coverage</span>
+                    <span className="font-bold text-prussian-400 mt-0.5 block">{selectedIntervention.coverage}</span>
                   </div>
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px]">Participants</span>
-                    <span className="font-bold text-slate-200">{formatNumber(selectedIntervention.participants)}</span>
+                  <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-[var(--border-hairline)]">
+                    <span className="text-[var(--text-faint)] block text-[10px]">Participants</span>
+                    <span className="font-bold text-[var(--text-main)] mt-0.5 block">{formatNumber(selectedIntervention.participants)}</span>
                   </div>
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px]">Assumed Transition</span>
-                    <span className="font-bold text-teal-400">{selectedIntervention.expected_transition}</span>
+                  <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-[var(--border-hairline)]">
+                    <span className="text-[var(--text-faint)] block text-[10px]">Assumed Exit</span>
+                    <span className="font-bold text-ochre-400 mt-0.5 block">{selectedIntervention.expected_transition}</span>
                   </div>
-                  <div className="p-2 rounded bg-slate-900 border border-slate-800">
-                    <span className="text-slate-500 block text-[10px]">Projected Exits</span>
-                    <span className="font-bold text-emerald-400">{selectedIntervention.projected_exits}</span>
+                  <div className="p-2.5 rounded bg-[var(--bg-surface)] border border-[var(--border-hairline)]">
+                    <span className="text-[var(--text-faint)] block text-[10px]">Projected Exits</span>
+                    <span className="font-bold text-sage-500 mt-0.5 block">{selectedIntervention.projected_exits}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-500 italic mt-1">
+                <p className="text-[10px] text-[var(--text-faint)] italic font-sans">
                   Accounting: Eligible ({selectedIntervention.eligible}) × Coverage ({selectedIntervention.coverage}) × Completion ({selectedIntervention.completion}) × Transition ({selectedIntervention.expected_transition}) = {selectedIntervention.projected_exits} exits.
                 </p>
               </div>
 
               {/* Resources & Partners */}
-              <div className="text-xs text-slate-400 space-y-1">
-                <div><span className="text-slate-300 font-semibold">Budget & Resources: </span>{selectedIntervention.resources}</div>
-                <div><span className="text-slate-300 font-semibold">Implementation Partners: </span>{selectedIntervention.partners.join(", ")}</div>
+              <div className="text-xs text-[var(--text-muted)] space-y-1.5 pt-1">
+                <div><span className="text-[var(--text-main)] font-serif font-semibold">Budget & Resources: </span>{selectedIntervention.resources}</div>
+                <div><span className="text-[var(--text-main)] font-serif font-semibold">Implementation Partners: </span>{selectedIntervention.partners.join(", ")}</div>
               </div>
-            </CardContent>
+            </div>
 
             {/* Governance Review Action Footer */}
-            <CardFooter className="p-5 pt-3 border-t border-slate-800 flex items-center justify-between">
-              <span className="text-[11px] text-slate-500">Proposal Author: {selectedIntervention.author}</span>
+            <div className="p-5 pt-3 border-t border-[var(--border-hairline)] flex flex-wrap items-center justify-between gap-3">
+              <span className="text-[11px] text-[var(--text-faint)]">Proposal Author: {selectedIntervention.author}</span>
               <div className="flex items-center gap-2">
                 <Button
                   variant="destructive"
@@ -263,14 +264,14 @@ export default function InterventionCentrePage() {
                 <Button
                   variant="default"
                   size="sm"
-                  className="bg-emerald-600 hover:bg-emerald-500"
+                  className="bg-sage-600 hover:bg-sage-500 border-sage-700/50"
                   onClick={() => handleUpdateStatus(selectedIntervention.id, "Approved")}
                 >
                   <ThumbsUp className="h-3.5 w-3.5 mr-1" /> Formal Approval
                 </Button>
               </div>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>

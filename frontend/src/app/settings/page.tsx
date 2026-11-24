@@ -46,22 +46,33 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner */}
-      <div className="p-4 rounded-xl border border-slate-800 bg-slate-900/60 flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Editorial Chapter Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[var(--border-hairline)]">
         <div>
-          <h3 className="text-sm font-semibold text-slate-100">Platform Governance & Measurement Configuration</h3>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Role-based access control, active measurement standards, and immutable audit logs.
+          <div className="flex items-center gap-2 text-xs font-sans text-saffron-500">
+            <span className="font-serif italic font-semibold">Governance</span>
+            <span className="text-[var(--text-faint)]">/</span>
+            <span>Measurement Standards & Security</span>
+          </div>
+          <h2 className="text-xl font-serif font-semibold text-[var(--text-main)] mt-1">
+            Platform Governance & Measurement Configuration
+          </h2>
+          <p className="text-xs text-[var(--text-muted)] font-sans mt-0.5">
+            Operational definitions, role-based privileges, and immutable cryptographic audit trails.
           </p>
         </div>
-        <Badge variant="teal">GOVERNANCE ENFORCED</Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="font-mono text-[10px]">
+            ILO / PLFS Harmonised
+          </Badge>
+        </div>
       </div>
 
       {savedNotice && (
-        <div className="p-3.5 rounded-lg border border-emerald-500/30 bg-emerald-950/20 text-xs text-emerald-300 flex items-center gap-2">
-          <CheckCircle className="h-4 w-4 text-emerald-400" />
-          <span>Measurement configuration updated and recorded in platform audit ledger.</span>
+        <div className="p-3.5 rounded border border-sage-500/30 bg-sage-500/10 text-xs text-sage-300 flex items-center gap-2">
+          <CheckCircle className="h-4 w-4 text-sage-400" />
+          <span className="font-sans">Measurement configuration updated and recorded in platform audit ledger.</span>
         </div>
       )}
 
@@ -73,34 +84,34 @@ export default function SettingsPage() {
         </TabsList>
 
         {/* Tab 1: Measurement Defaults */}
-        <TabsContent value="measurement" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90 max-w-2xl text-xs">
+        <TabsContent value="measurement" className="space-y-4 pt-4">
+          <Card className="max-w-2xl text-xs">
             <CardHeader>
               <CardTitle className="text-sm">Active NEET Classification Standard</CardTitle>
               <CardDescription>Configure default operational thresholds applied during microdata classification</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 font-sans">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Minimum Eligible Age</label>
+                  <label className="text-[var(--text-main)] font-medium block mb-1">Minimum Eligible Age</label>
                   <Input type="number" value={ageMin} onChange={(e) => setAgeMin(Number(e.target.value))} />
                 </div>
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Maximum Eligible Age</label>
+                  <label className="text-[var(--text-main)] font-medium block mb-1">Maximum Eligible Age</label>
                   <Input type="number" value={ageMax} onChange={(e) => setAgeMax(Number(e.target.value))} />
                 </div>
               </div>
 
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Weekly Work-Hour Threshold (0 = Standard ILO)</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Weekly Work-Hour Threshold (0 = Standard ILO)</label>
                 <Input type="number" value={workHours} onChange={(e) => setWorkHours(Number(e.target.value))} />
-                <span className="text-[10px] text-slate-500 mt-0.5 block">
+                <span className="text-[10px] text-[var(--text-faint)] mt-1 block">
                   Standard definition classifies individuals working 0 hours in reference week as potential NEET.
                 </span>
               </div>
 
               <div>
-                <label className="text-slate-300 font-medium block mb-1">Measurement Benchmark Standard</label>
+                <label className="text-[var(--text-main)] font-medium block mb-1">Measurement Benchmark Standard</label>
                 <Select defaultValue="ilo">
                   <option value="ilo">ILO / PLFS Reference Week Activity Definition</option>
                   <option value="un">UN Sustainable Development Goals (SDG 8.6.1)</option>
@@ -118,15 +129,15 @@ export default function SettingsPage() {
         </TabsContent>
 
         {/* Tab 2: Roles */}
-        <TabsContent value="roles" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90 text-xs">
+        <TabsContent value="roles" className="space-y-4 pt-4">
+          <Card className="text-xs">
             <CardHeader>
               <CardTitle className="text-sm">Authorized Stakeholders & Role-Based Permissions</CardTitle>
               <CardDescription>Granular privileges governing dataset mutation, model runs, and policy approvals</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <table className="w-full text-left">
-                <thead className="bg-slate-950 text-slate-400 border-y border-slate-800">
+                <thead className="bg-[var(--bg-elevated)] text-[var(--text-muted)] border-y border-[var(--border-hairline)] font-sans">
                   <tr>
                     <th className="py-2.5 px-4 font-medium">Authorized User</th>
                     <th className="py-2.5 px-4 font-medium">Institution / Email</th>
@@ -134,15 +145,15 @@ export default function SettingsPage() {
                     <th className="py-2.5 px-4 font-medium">Permission Scope</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-mono">
+                <tbody className="divide-y divide-[var(--border-hairline)] font-mono">
                   {USERS.map((u, i) => (
-                    <tr key={i} className="hover:bg-slate-800/30">
-                      <td className="py-3 px-4 font-sans font-semibold text-slate-200">{u.name}</td>
-                      <td className="py-3 px-4 text-slate-400">{u.email}</td>
+                    <tr key={i} className="hover:bg-[var(--bg-elevated)]/60 transition-colors">
+                      <td className="py-3 px-4 font-serif font-semibold text-[var(--text-main)]">{u.name}</td>
+                      <td className="py-3 px-4 text-[var(--text-muted)]">{u.email}</td>
                       <td className="py-3 px-4">
-                        <Badge variant="outline">{u.role}</Badge>
+                        <Badge variant="outline" className="font-sans text-[11px]">{u.role}</Badge>
                       </td>
-                      <td className="py-3 px-4 font-sans text-slate-300">{u.access}</td>
+                      <td className="py-3 px-4 font-sans text-[var(--text-muted)]">{u.access}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -152,24 +163,24 @@ export default function SettingsPage() {
         </TabsContent>
 
         {/* Tab 3: Audit Log */}
-        <TabsContent value="audit" className="space-y-4 pt-2">
-          <Card className="border-slate-800 bg-slate-900/90 text-xs">
+        <TabsContent value="audit" className="space-y-4 pt-4">
+          <Card className="text-xs">
             <CardHeader>
               <CardTitle className="text-sm">Platform Audit Ledger</CardTitle>
               <CardDescription>Cryptographically traceable trail of all analytical runs, harmonisations, and policy decisions</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="divide-y divide-slate-800/60">
+              <div className="divide-y divide-[var(--border-hairline)]">
                 {AUDIT_LOGS.map((log) => (
-                  <div key={log.id} className="p-4 flex items-center justify-between hover:bg-slate-800/20">
+                  <div key={log.id} className="p-4 flex items-center justify-between hover:bg-[var(--bg-elevated)]/60 transition-colors">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-blue-400 text-[11px]">{log.id}</span>
-                        <span className="font-semibold text-slate-200">{log.event}</span>
+                        <span className="font-mono text-saffron-500 text-[11px] font-medium">{log.id}</span>
+                        <span className="font-serif font-semibold text-[var(--text-main)]">{log.event}</span>
                       </div>
-                      <p className="text-slate-400 text-[11px]">{log.details}</p>
+                      <p className="text-[var(--text-muted)] font-sans text-[11px]">{log.details}</p>
                     </div>
-                    <span className="font-mono text-[10px] text-slate-500">{log.timestamp}</span>
+                    <span className="font-mono text-[10px] text-[var(--text-faint)] shrink-0">{log.timestamp}</span>
                   </div>
                 ))}
               </div>
