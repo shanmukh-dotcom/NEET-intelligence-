@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET Intelligence Platform — Frontend Interfaces Catalog</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .pulse-dot {
+      animation: pulse-slow 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-8 font-sans">
+  <div class="max-w-7xl mx-auto space-y-8">
+
+    <!-- Header / Brand Banner -->
+    <header class="border border-[var(--border)] bg-[var(--card)] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/20 text-lg">
+            N
+          </div>
+          <div>
+            <h1 class="text-xl font-bold tracking-tight text-[var(--foreground)]">NEET Intelligence Platform</h1>
+            <p class="text-xs text-[var(--muted-foreground)] tracking-wide font-mono uppercase">Interactive Frontend Interface Catalog & Design Showcase</p>
+          </div>
+        </div>
+        <p class="text-xs text-[var(--muted-foreground)] pt-1 max-w-2xl">
+          An AI-powered population intelligence framework for youth NEET prediction, longitudinal transition analysis, and evidence-informed intervention in India.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-xs font-medium text-emerald-400">
+          <span class="h-2 w-2 rounded-full bg-emerald-400 pulse-dot"></span>
+          5 Workspaces Active
+        </span>
+        <span class="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface-container-highest)] text-xs font-mono text-[var(--muted-foreground)]">
+          v1.2.0 • Microdata Engine
+        </span>
+      </div>
+    </header>
+
+    <!-- Workspace Selector Navigation -->
+    <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-2 shadow-sm flex flex-wrap gap-2">
+      <button onclick="switchTab('overview')" id="btn-overview" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow-sm">
+        Overview Dashboard
+      </button>
+      <button onclick="switchTab('w1')" id="btn-w1" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)]">
+        W1: Data Intelligence
+      </button>
+      <button onclick="switchTab('w2')" id="btn-w2" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)]">
+        W2: Prediction & Probit
+      </button>
+      <button onclick="switchTab('w3')" id="btn-w3" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)]">
+        W3: Transition Matrices
+      </button>
+      <button onclick="switchTab('w4')" id="btn-w4" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)]">
+        W4: Opportunity Matching
+      </button>
+      <button onclick="switchTab('w5')" id="btn-w5" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)]">
+        W5: 2021–31 Simulator
+      </button>
+      <button onclick="switchTab('design')" id="btn-design" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--surface-container-highest)] ml-auto">
+        Design Tokens & System
+      </button>
+    </div>
+
+    <!-- VIEW 0: Overview Dashboard Command Center -->
+    <section id="view-overview" class="view-panel space-y-6">
+      <div class="flex items-center justify-between border-b border-[var(--border)] pb-3">
+        <div>
+          <h2 class="text-base font-bold text-[var(--foreground)]">Executive Population Intelligence Overview</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">High-level demographic posture, historical trajectory (2021–2026), and active vulnerability segments.</p>
+        </div>
+        <span class="px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          PROVENANCE: SYNTHETIC BENCHMARK
+        </span>
+      </div>
+
+      <!-- Key Stat Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-4 shadow-sm space-y-1">
+          <span class="text-xs font-medium text-[var(--muted-foreground)] block">Total Analyzed Cohort</span>
+          <div class="text-2xl font-bold font-mono text-[var(--foreground)]">50,000</div>
+          <span class="text-xs text-blue-400 font-mono block">6 Longitudinal Waves</span>
+        </div>
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-4 shadow-sm space-y-1">
+          <span class="text-xs font-medium text-[var(--muted-foreground)] block">Observed NEET Prevalence</span>
+          <div class="text-2xl font-bold font-mono text-rose-400">26.1%</div>
+          <span class="text-xs text-emerald-400 block font-medium">▼ -2.3% since Wave 1</span>
+        </div>
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-4 shadow-sm space-y-1">
+          <span class="text-xs font-medium text-[var(--muted-foreground)] block">Female vs Male Rate Gap</span>
+          <div class="text-2xl font-bold font-mono text-amber-400">41.2% / 12.8%</div>
+          <span class="text-xs text-rose-400 block font-medium">28.4% point gender disparity</span>
+        </div>
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-4 shadow-sm space-y-1">
+          <span class="text-xs font-medium text-[var(--muted-foreground)] block">Model Predictive ROC-AUC</span>
+          <div class="text-2xl font-bold font-mono text-emerald-400">0.858</div>
+          <span class="text-xs text-[var(--muted-foreground)] block">Dynamic Panel Probit Estimator</span>
+        </div>
+      </div>
+
+      <!-- Trend Chart & Subgroup Matrix Preview -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- SVG Trajectory Plot -->
+        <div class="lg:col-span-2 border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-semibold text-[var(--foreground)]">Historical NEET Trajectory (2021–2026)</h3>
+              <p class="text-xs text-[var(--muted-foreground)]">Stratified by gender care burden and geographic sector</p>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-mono">
+              <span class="flex items-center gap-1.5 text-rose-400"><span class="h-2 w-2 rounded-full bg-rose-400"></span>Female</span>
+              <span class="flex items-center gap-1.5 text-blue-400"><span class="h-2 w-2 rounded-full bg-blue-400"></span>Overall</span>
+              <span class="flex items-center gap-1.5 text-emerald-400"><span class="h-2 w-2 rounded-full bg-emerald-400"></span>Male</span>
+            </div>
+          </div>
+
+          <div class="h-56 w-full flex items-end">
+            <!-- Simulated SVG Line Chart -->
+            <svg class="w-full h-full overflow-visible" viewBox="0 0 500 180">
+              <line x1="40" y1="20" x2="480" y2="20" stroke="currentColor" stroke-opacity="0.1" stroke-dasharray="4"/>
+              <line x1="40" y1="70" x2="480" y2="70" stroke="currentColor" stroke-opacity="0.1" stroke-dasharray="4"/>
+              <line x1="40" y1="120" x2="480" y2="120" stroke="currentColor" stroke-opacity="0.1" stroke-dasharray="4"/>
+              <line x1="40" y1="160" x2="480" y2="160" stroke="currentColor" stroke-opacity="0.2"/>
+              
+              <!-- Female Line -->
+              <path d="M 50 35 L 130 38 L 210 42 L 290 46 L 370 48 L 450 51" fill="none" stroke="#f43f5e" stroke-width="2.5" />
+              <!-- Overall Line -->
+              <path d="M 50 95 L 130 98 L 210 102 L 290 105 L 370 108 L 450 110" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+              <!-- Male Line -->
+              <path d="M 50 145 L 130 147 L 210 149 L 290 151 L 370 152 L 450 153" fill="none" stroke="#10b981" stroke-width="2.5" />
+
+              <!-- Points -->
+              <circle cx="450" cy="51" r="4" fill="#f43f5e"/>
+              <text x="455" y="47" font-size="10" fill="#f43f5e" font-weight="bold">41.2%</text>
+              <circle cx="450" cy="110" r="4" fill="#3b82f6"/>
+              <text x="455" y="106" font-size="10" fill="#3b82f6" font-weight="bold">26.1%</text>
+              <circle cx="450" cy="153" r="4" fill="#10b981"/>
+              <text x="455" y="149" font-size="10" fill="#10b981" font-weight="bold">12.8%</text>
+
+              <!-- X Axis Labels -->
+              <text x="50" y="176" font-size="10" fill="currentColor" opacity="0.6">2021</text>
+              <text x="130" y="176" font-size="10" fill="currentColor" opacity="0.6">2022</text>
+              <text x="210" y="176" font-size="10" fill="currentColor" opacity="0.6">2023</text>
+              <text x="290" y="176" font-size="10" fill="currentColor" opacity="0.6">2024</text>
+              <text x="370" y="176" font-size="10" fill="currentColor" opacity="0.6">2025</text>
+              <text x="450" y="176" font-size="10" fill="currentColor" opacity="0.6">2026</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Priority Vulnerability Clusters -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-3">
+          <h3 class="text-sm font-semibold text-[var(--foreground)]">Acute Vulnerability Cohorts</h3>
+          <p class="text-xs text-[var(--muted-foreground)]">Highest observed persistence risk</p>
+
+          <div class="space-y-2.5 pt-1">
+            <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-container-highest)] text-xs space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-[var(--foreground)]">Rural Married Young Mothers</span>
+                <span class="font-mono font-bold text-rose-400">78.4% NEET</span>
+              </div>
+              <p class="text-[var(--muted-foreground)] text-xs">Unpaid domestic care (>5h/day) + transport absence</p>
+            </div>
+
+            <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-container-highest)] text-xs space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-[var(--foreground)]">Economically Disadvantaged Dropouts</span>
+                <span class="font-mono font-bold text-amber-400">48.2% NEET</span>
+              </div>
+              <p class="text-[var(--muted-foreground)] text-xs">Poverty Q1/Q2, lack of accredited technical ITI credentials</p>
+            </div>
+
+            <div class="p-3 rounded-lg border border-[var(--border)] bg-[var(--surface-container-highest)] text-xs space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-[var(--foreground)]">Urban Technical Searchers</span>
+                <span class="font-mono font-bold text-blue-400">36.5% NEET</span>
+              </div>
+              <p class="text-[var(--muted-foreground)] text-xs">Diploma holders with skills mismatch in initial transition window</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 1: Data Intelligence -->
+    <section id="view-w1" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Workspace 1: Ingestion, Variable Mapping & Harmonisation</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">Preserving 3 distinct analytical layers across India's 5 major youth socioeconomic surveys.</p>
+      </div>
+
+      <!-- 3-Tier Layer Pipeline Banner -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="border border-blue-500/30 bg-blue-500/5 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-blue-400 font-mono">LAYER 1: RAW INGESTION</span>
+            <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Immutable</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Preserves exact microdata, survey skip codes, and original weights without destruction or overwriting.</p>
+        </div>
+        <div class="border border-purple-500/30 bg-purple-500/5 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-purple-400 font-mono">LAYER 2: HARMONISATION</span>
+            <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Concordance</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Translates survey-specific codes into standard concept entities while applying comparability guardrails.</p>
+        </div>
+        <div class="border border-emerald-500/30 bg-emerald-500/5 rounded-xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-emerald-400 font-mono">LAYER 3: ANALYTICAL CACHE</span>
+            <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Modeling Ready</span>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)]">Pre-computed Markov transition pairs, lagged dependent variables, and imputation audits for real-time models.</p>
+        </div>
+      </div>
+
+      <!-- 5 Survey Registries Table -->
+      <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl overflow-hidden shadow-sm">
+        <div class="p-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h3 class="text-xs font-semibold text-[var(--foreground)] uppercase tracking-wider">Canonical Registered Datasets</h3>
+          <span class="text-xs text-[var(--muted-foreground)] font-mono">5 Registries Configured</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-[var(--surface-container-highest)] text-[var(--muted-foreground)] border-b border-[var(--border)]">
+              <tr>
+                <th class="py-2.5 px-4 font-semibold">Survey Identifier</th>
+                <th class="py-2.5 px-4 font-semibold">Dataset Name</th>
+                <th class="py-2.5 px-3 font-semibold">Temporal Waves</th>
+                <th class="py-2.5 px-3 font-semibold">Records</th>
+                <th class="py-2.5 px-3 font-semibold">Quality Index</th>
+                <th class="py-2.5 px-4 font-semibold">NEET Comparability</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3 px-4 text-blue-400 font-bold">DS-PLFS-01</td>
+                <td class="py-3 px-4 font-sans text-[var(--foreground)] font-medium">Periodic Labour Force Survey (PLFS)</td>
+                <td class="py-3 px-3 text-[var(--muted-foreground)]">2021-2026 (6 Waves)</td>
+                <td class="py-3 px-3 text-[var(--foreground)]">50,000</td>
+                <td class="py-3 px-3 text-emerald-400">98.4%</td>
+                <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Fully Comparable</span></td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3 px-4 text-blue-400 font-bold">DS-IHDS-02</td>
+                <td class="py-3 px-4 font-sans text-[var(--foreground)] font-medium">India Human Development Survey (IHDS)</td>
+                <td class="py-3 px-3 text-[var(--muted-foreground)]">2021-2025 (5 Waves)</td>
+                <td class="py-3 px-3 text-[var(--foreground)]">24,000</td>
+                <td class="py-3 px-3 text-emerald-400">94.2%</td>
+                <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">Conditionally (Asset PCA)</span></td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3 px-4 text-blue-400 font-bold">DS-UDAYA-03</td>
+                <td class="py-3 px-4 font-sans text-[var(--foreground)] font-medium">UDAYA Adolescents & Young Adults Transition Cohort</td>
+                <td class="py-3 px-3 text-[var(--muted-foreground)]">2022-2026 (3 Waves)</td>
+                <td class="py-3 px-3 text-[var(--foreground)]">18,500</td>
+                <td class="py-3 px-3 text-emerald-400">96.8%</td>
+                <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Fully Comparable</span></td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3 px-4 text-blue-400 font-bold">DS-YOUNGLIVES-04</td>
+                <td class="py-3 px-4 font-sans text-[var(--foreground)] font-medium">Young Lives India Longitudinal Cohort Panel</td>
+                <td class="py-3 px-3 text-[var(--muted-foreground)]">2021-2026 (5 Waves)</td>
+                <td class="py-3 px-3 text-[var(--foreground)]">12,000</td>
+                <td class="py-3 px-3 text-emerald-400">97.2%</td>
+                <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Fully Comparable</span></td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3 px-4 text-blue-400 font-bold">DS-IHD-05</td>
+                <td class="py-3 px-4 font-sans text-[var(--foreground)] font-medium">Institute for Human Development (IHD) Village Studies</td>
+                <td class="py-3 px-3 text-[var(--muted-foreground)]">2022-2026 (4 Waves)</td>
+                <td class="py-3 px-3 text-[var(--foreground)]">9,500</td>
+                <td class="py-3 px-3 text-emerald-400">95.0%</td>
+                <td class="py-3 px-4 font-sans"><span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">Conditionally (Seasonal)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: Prediction Intelligence & Dynamic Probit -->
+    <section id="view-w2" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Workspace 2: NEET Prediction & Dynamic Probit Econometrics</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">Balancing high-accuracy ensemble ML prediction with formal econometric state-dependence panel estimation.</p>
+      </div>
+
+      <!-- Econometric Panel Estimator Card -->
+      <div class="border border-blue-500/30 bg-blue-950/10 rounded-2xl p-6 shadow-sm space-y-5">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/40">RESEARCH FORMULATION</span>
+              <h3 class="text-sm font-bold text-[var(--foreground)]">Correlated Random-Effects Probit with Lagged NEET (Wooldridge/Mundlak)</h3>
+            </div>
+            <p class="text-xs text-[var(--muted-foreground)] mt-1 font-mono">
+              P(y_it = 1 | y_i,t-1, x_it, c_i) = Φ( α y_i,t-1 + β x_it + δ x̄_i + γ z_i )
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-right">
+              <span class="text-xs text-[var(--muted-foreground)] block">Convergence Status</span>
+              <span class="text-xs font-mono font-bold text-emerald-400">L-BFGS-B (Exact Hessian)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decomposition Metric Tiles -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-4">
+            <span class="text-xs font-semibold text-[var(--muted-foreground)] block uppercase">Raw Observed Persistence</span>
+            <div class="text-2xl font-bold font-mono text-[var(--foreground)] mt-1">72.3%</div>
+            <p class="text-xs text-[var(--muted-foreground)] mt-1">P( NEET_t | NEET_t-1 ) across balanced panel</p>
+          </div>
+          <div class="border border-rose-500/30 bg-rose-500/5 rounded-xl p-4">
+            <span class="text-xs font-semibold text-rose-400 block uppercase">True State Dependence (Scarring α)</span>
+            <div class="text-2xl font-bold font-mono text-rose-400 mt-1">81.9%</div>
+            <p class="text-xs text-rose-300/80 mt-1">Average Partial Effect (APE = +0.592). Genuine scarring.</p>
+          </div>
+          <div class="border border-amber-500/30 bg-amber-500/5 rounded-xl p-4">
+            <span class="text-xs font-semibold text-amber-400 block uppercase">Unobserved Heterogeneity & Selection</span>
+            <div class="text-2xl font-bold font-mono text-amber-400 mt-1">18.1%</div>
+            <p class="text-xs text-amber-300/80 mt-1">Mundlak time-averages δ x̄_i and initial demographic conditions</p>
+          </div>
+        </div>
+
+        <!-- ML vs Econometric Comparison Matrix -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl overflow-hidden">
+          <div class="p-3 border-b border-[var(--border)] bg-[var(--surface-container-highest)]">
+            <span class="text-xs font-semibold uppercase text-[var(--muted-foreground)]">Model Registry & Performance Benchmark</span>
+          </div>
+          <table class="w-full text-xs text-left">
+            <thead class="text-[var(--muted-foreground)] border-b border-[var(--border)]">
+              <tr>
+                <th class="py-2.5 px-4 font-semibold">Model Class</th>
+                <th class="py-2.5 px-4 font-semibold">Algorithm</th>
+                <th class="py-2.5 px-3 font-semibold font-mono">ROC-AUC</th>
+                <th class="py-2.5 px-3 font-semibold font-mono">Precision</th>
+                <th class="py-2.5 px-3 font-semibold font-mono">Recall</th>
+                <th class="py-2.5 px-4 font-semibold">Primary Purpose</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)]">
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-2.5 px-4 font-medium text-[var(--foreground)]">Panel Econometric</td>
+                <td class="py-2.5 px-4 text-blue-400 font-mono">Dynamic Probit (Mundlak)</td>
+                <td class="py-2.5 px-3 font-mono font-bold text-emerald-400">0.858</td>
+                <td class="py-2.5 px-3 font-mono">0.789</td>
+                <td class="py-2.5 px-3 font-mono">0.772</td>
+                <td class="py-2.5 px-4 text-[var(--muted-foreground)]">Causal persistence & state scarring isolation</td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-2.5 px-4 font-medium text-[var(--foreground)]">Gradient Boosting</td>
+                <td class="py-2.5 px-4 text-blue-400 font-mono">XGBoost Classifier + SHAP</td>
+                <td class="py-2.5 px-3 font-mono font-bold text-emerald-400">0.842</td>
+                <td class="py-2.5 px-3 font-mono">0.771</td>
+                <td class="py-2.5 px-3 font-mono">0.748</td>
+                <td class="py-2.5 px-4 text-[var(--muted-foreground)]">High-resolution risk screening & non-linear rules</td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-2.5 px-4 font-medium text-[var(--foreground)]">Ensemble Trees</td>
+                <td class="py-2.5 px-4 text-blue-400 font-mono">Random Forest (100 Trees)</td>
+                <td class="py-2.5 px-3 font-mono font-bold text-blue-400">0.826</td>
+                <td class="py-2.5 px-3 font-mono">0.752</td>
+                <td class="py-2.5 px-3 font-mono">0.738</td>
+                <td class="py-2.5 px-4 text-[var(--muted-foreground)]">Feature importance stability & variance reduction</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: Transition Intelligence -->
+    <section id="view-w3" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Workspace 3: Markov Transitions & Trajectory Dynamics</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">Tracking empirical movement across Education, Employment, Training, and NEET states.</p>
+      </div>
+
+      <!-- 4x4 Markov Matrix -->
+      <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-semibold text-[var(--foreground)]">First-Order Markov Transition Matrix (Wave t → Wave t+1)</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">Row probabilities summing to 100% across origin activity states</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/30">
+            N = 44,820 Transitions
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-center border-collapse">
+            <thead class="bg-[var(--surface-container-highest)] text-[var(--muted-foreground)] border-y border-[var(--border)]">
+              <tr>
+                <th class="py-3 px-4 text-left font-semibold">Origin State (t)</th>
+                <th class="py-3 px-4 font-semibold text-blue-400">→ Education</th>
+                <th class="py-3 px-4 font-semibold text-emerald-400">→ Employment</th>
+                <th class="py-3 px-4 font-semibold text-purple-400">→ Training</th>
+                <th class="py-3 px-4 font-semibold text-rose-400">→ NEET Inactivity</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3.5 px-4 text-left font-semibold font-sans text-[var(--foreground)]">Education</td>
+                <td class="py-3.5 px-4 font-bold text-blue-400 bg-blue-500/10">64.8%</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">15.2%</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">9.8%</td>
+                <td class="py-3.5 px-4 text-rose-400">10.2%</td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3.5 px-4 text-left font-semibold font-sans text-[var(--foreground)]">Employment</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">2.8%</td>
+                <td class="py-3.5 px-4 font-bold text-emerald-400 bg-emerald-500/10">80.4%</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">4.9%</td>
+                <td class="py-3.5 px-4 text-rose-400">11.9%</td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3.5 px-4 text-left font-semibold font-sans text-[var(--foreground)]">Training</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">9.5%</td>
+                <td class="py-3.5 px-4 font-bold text-emerald-400 bg-emerald-500/15">45.2%</td>
+                <td class="py-3.5 px-4 text-purple-400">30.1%</td>
+                <td class="py-3.5 px-4 text-rose-400">15.2%</td>
+              </tr>
+              <tr class="hover:bg-[var(--surface-container-highest)]">
+                <td class="py-3.5 px-4 text-left font-semibold font-sans text-[var(--foreground)]">NEET</td>
+                <td class="py-3.5 px-4 text-[var(--foreground)]">7.6%</td>
+                <td class="py-3.5 px-4 text-emerald-400">15.1%</td>
+                <td class="py-3.5 px-4 text-purple-400">7.1%</td>
+                <td class="py-3.5 px-4 font-bold text-rose-400 bg-rose-500/15">70.2%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: Opportunity Intelligence -->
+    <section id="view-w4" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Workspace 4: Opportunity Discovery & Similarity Matching</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">Evidence-graded livelihood pathways (Grades A, B, C) and multi-factor population matching.</p>
+      </div>
+
+      <!-- Opportunity Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Card 1 -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-[var(--muted-foreground)]">Digital Employment</span>
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Grade A Evidence</span>
+            </div>
+            <h3 class="text-sm font-semibold text-[var(--foreground)]">Rural BPO & Localized Data Annotation Hubs</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">Secondary-educated rural youth (18-24). Vernacular typing & OCR verification.</p>
+          </div>
+          <div class="pt-3 border-t border-[var(--border)] space-y-1 text-xs">
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Setup:</span><span class="font-mono text-[var(--foreground)]">₹8.0 - 12.0L (15 Solar Hubs)</span></div>
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Observed Exit:</span><span class="font-mono text-emerald-400 font-bold">46.8% into digital work</span></div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-[var(--muted-foreground)]">Community Enterprise</span>
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30">Grade B Evidence</span>
+            </div>
+            <h3 class="text-sm font-semibold text-[var(--foreground)]">Food Processing & Digital SHG Cooperatives</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">Young rural mothers (18-29) with care duties. Batch preservation and direct delivery.</p>
+          </div>
+          <div class="pt-3 border-t border-[var(--border)] space-y-1 text-xs">
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Setup:</span><span class="font-mono text-[var(--foreground)]">₹4.5 - 6.0L per SHG cluster</span></div>
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Observed Exit:</span><span class="font-mono text-blue-400 font-bold">34.2% NEET exit</span></div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-[var(--muted-foreground)]">Green Apprenticeship</span>
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30">Grade B Evidence</span>
+            </div>
+            <h3 class="text-sm font-semibold text-[var(--foreground)]">Solar Micro-Grid & EV Fleet Diagnostics</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">Peri-urban and rural youth seeking industrial certifications. Battery balancing.</p>
+          </div>
+          <div class="pt-3 border-t border-[var(--border)] space-y-1 text-xs">
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Setup:</span><span class="font-mono text-[var(--foreground)]">₹5.0 - 7.5L equipment bay</span></div>
+            <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Observed Exit:</span><span class="font-mono text-blue-400 font-bold">52.1% permanent wage</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: Scenario Simulator Studio -->
+    <section id="view-w5" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Workspace 5: 2021–2031 Policy Simulator Studio</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">Forward projection with arithmetic accounting separating historical records (2021–2026) from scenarios (2027–2031).</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Interactive Sliders Control Card -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-4">
+          <h3 class="text-sm font-semibold text-[var(--foreground)]">Simulation Parameters</h3>
+          <p class="text-xs text-[var(--muted-foreground)]">Adjust policy coverage and support components</p>
+
+          <div class="space-y-4 pt-2 text-xs">
+            <div>
+              <div class="flex justify-between font-medium mb-1">
+                <span class="text-[var(--foreground)]">Programme Coverage</span>
+                <span id="coverage-val" class="text-blue-400 font-mono font-bold">45%</span>
+              </div>
+              <input type="range" id="coverage-slider" min="10" max="90" value="45" oninput="recalculateSimulation()" class="w-full accent-blue-500 h-1.5 bg-[var(--surface-container-highest)] rounded cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between font-medium mb-1">
+                <span class="text-[var(--foreground)]">Completion Rate</span>
+                <span id="completion-val" class="text-emerald-400 font-mono font-bold">78%</span>
+              </div>
+              <input type="range" id="completion-slider" min="30" max="95" value="78" oninput="recalculateSimulation()" class="w-full accent-emerald-500 h-1.5 bg-[var(--surface-container-highest)] rounded cursor-pointer">
+            </div>
+
+            <div>
+              <div class="flex justify-between font-medium mb-1">
+                <span class="text-[var(--foreground)]">Transition Assumption</span>
+                <span id="transition-val" class="text-purple-400 font-mono font-bold">42%</span>
+              </div>
+              <input type="range" id="transition-slider" min="15" max="80" value="42" oninput="recalculateSimulation()" class="w-full accent-purple-500 h-1.5 bg-[var(--surface-container-highest)] rounded cursor-pointer">
+            </div>
+
+            <div class="pt-2 border-t border-[var(--border)] flex items-center justify-between">
+              <div>
+                <span class="font-medium text-[var(--foreground)] block">Co-Provided Childcare Support</span>
+                <span class="text-[var(--muted-foreground)] text-xs block">Increases female retention by +15%</span>
+              </div>
+              <input type="checkbox" id="care-checkbox" checked onchange="recalculateSimulation()" class="h-4 w-4 accent-blue-500 rounded">
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Output Visualizer -->
+        <div class="lg:col-span-2 border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-semibold text-[var(--foreground)]">2021–2031 NEET Prevalence Projection</h3>
+              <p class="text-xs text-[var(--muted-foreground)]">Blue: Observed (2021–26) • Gold: Dynamic Projected Scenario (2027–31)</p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-[var(--muted-foreground)] block">2031 Projected NEET Rate</span>
+              <span id="proj-final-rate" class="text-xl font-bold font-mono text-emerald-400">18.2%</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Output Metrics -->
+          <div class="grid grid-cols-3 gap-3 p-3 rounded-lg bg-[var(--surface-container-highest)] border border-[var(--border)] text-xs">
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Prevalence Reduction</span>
+              <span id="proj-reduction" class="font-bold font-mono text-blue-400 text-sm">-7.9 pts</span>
+            </div>
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Projected Exits</span>
+              <span id="proj-exits" class="font-bold font-mono text-emerald-400 text-sm">3,850 youth</span>
+            </div>
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Data Classification</span>
+              <span class="font-mono text-amber-400 text-xs">Assumption-Driven</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: Design Tokens & System -->
+    <section id="view-design" class="view-panel space-y-6 hidden">
+      <div class="border-b border-[var(--border)] pb-3">
+        <h2 class="text-base font-bold text-[var(--foreground)]">Platform Design System & Component Atoms</h2>
+        <p class="text-xs text-[var(--muted-foreground)]">High-precision UI standards, data tokens, and state representations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Palette Tokens -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 space-y-4">
+          <h3 class="text-sm font-semibold text-[var(--foreground)]">Semantic Color Tokens</h3>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-lg bg-[#0f172a] border border-slate-700 text-slate-200">
+              <span class="font-bold block">Slate 900 (#0f172a)</span>
+              <span class="text-[var(--muted-foreground)] text-xs">Primary App Canvas</span>
+            </div>
+            <div class="p-3 rounded-lg bg-[#2563eb] text-white">
+              <span class="font-bold block">Electric Blue (#2563eb)</span>
+              <span class="text-blue-100 text-xs">Primary Action & Baseline</span>
+            </div>
+            <div class="p-3 rounded-lg bg-[#10b981] text-white">
+              <span class="font-bold block">Emerald (#10b981)</span>
+              <span class="text-emerald-100 text-xs">Successful Transitions / Good</span>
+            </div>
+            <div class="p-3 rounded-lg bg-[#f43f5e] text-white">
+              <span class="font-bold block">Rose Hazard (#f43f5e)</span>
+              <span class="text-rose-100 text-xs">Chronic NEET Persistence</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography & Data Standards -->
+        <div class="border border-[var(--border)] bg-[var(--card)] rounded-xl p-5 space-y-4">
+          <h3 class="text-sm font-semibold text-[var(--foreground)]">Typography & Data Representation Rules</h3>
+          <ul class="text-xs text-[var(--muted-foreground)] space-y-2 list-disc list-inside">
+            <li><strong class="text-[var(--foreground)]">Tabular Numerics:</strong> Monospace fonts used for all statistical values, percentages, and p-values to guarantee columnar alignment.</li>
+            <li><strong class="text-[var(--foreground)]">Uncertainty Reporting:</strong> Always pair point estimates with 95% confidence intervals or standard errors.</li>
+            <li><strong class="text-[var(--foreground)]">Provenance Badges:</strong> Every synthetic demo card must carry <code class="px-1 py-0.5 rounded bg-[var(--surface-container-highest)] text-amber-400 font-mono">IS_SYNTHETIC=TRUE</code>.</li>
+            <li><strong class="text-[var(--foreground)]">Minimum Floor Size:</strong> No sub-12px micro-text in interactive controls.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+        btn.classList.add('text-[var(--muted-foreground)]');
+      });
+
+      const target = document.getElementById('view-' + tabId);
+      if (target) target.classList.remove('hidden');
+
+      const activeBtn = document.getElementById('btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+        activeBtn.classList.remove('text-[var(--muted-foreground)]');
+      }
+    }
+
+    function recalculateSimulation() {
+      const cov = Number(document.getElementById('coverage-slider').value);
+      const comp = Number(document.getElementById('completion-slider').value);
+      const trans = Number(document.getElementById('transition-slider').value);
+      const care = document.getElementById('care-checkbox').checked;
+
+      document.getElementById('coverage-val').innerText = cov + '%';
+      document.getElementById('completion-val').innerText = comp + '%';
+      document.getElementById('transition-val').innerText = trans + '%';
+
+      const eff = (cov / 100) * (comp / 100) * (trans / 100);
+      const drop = eff * 5 * 1.8 * (care ? 1.15 : 0.85);
+      const finalRate = Math.max(12.0, (26.1 - drop)).toFixed(1);
+      const reduction = (26.1 - Number(finalRate)).toFixed(1);
+      const exits = Math.round(50000 * eff * 1.6);
+
+      document.getElementById('proj-final-rate').innerText = finalRate + '%';
+      document.getElementById('proj-reduction').innerText = '-' + reduction + ' pts';
+      document.getElementById('proj-exits').innerText = exits.toLocaleString() + ' youth';
+    }
+  </script>
+</body>
+</html>
