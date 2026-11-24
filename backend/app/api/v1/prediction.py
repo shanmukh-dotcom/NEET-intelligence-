@@ -201,3 +201,16 @@ def train_new_model(request: TrainModelRequest):
     }
     PRECONFIGURED_MODELS.append(new_model)
     return {"status": "success", "message": "Model trained and evaluated successfully", "model": new_model}
+
+
+@router.get("/dynamic-probit")
+def get_dynamic_probit_estimates():
+    """
+    Execute and return econometric Dynamic Random-Effects Panel Probit model estimates.
+    Separates True State Dependence (scarring) from Unobserved Individual Heterogeneity.
+    """
+    from app.services.prediction_service import estimate_dynamic_probit
+    from app.services.synthetic_service import generate_synthetic_population
+
+    df = generate_synthetic_population({"population_size": 1000, "waves_count": 4, "random_seed": 42})
+    return estimate_dynamic_probit(df)

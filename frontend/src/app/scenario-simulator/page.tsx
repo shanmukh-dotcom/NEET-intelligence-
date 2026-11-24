@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DEMO_SCENARIO_COMPARISON } from "@/lib/demo-data";
 import { formatNumber } from "@/lib/utils";
+import { simulatePolicyTimeline } from "@/lib/api-client";
 
 export default function ScenarioSimulatorPage() {
   const [coverage, setCoverage] = useState(45);
@@ -38,9 +39,42 @@ export default function ScenarioSimulatorPage() {
   const [transitionRate, setTransitionRate] = useState(42);
   const [careSupport, setCareSupport] = useState(true);
   const [investment, setInvestment] = useState(18.5);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulatedTimeline, setSimulatedTimeline] = useState<any[] | null>(null);
 
-  // Dynamic projection calculation for 2027-2031
-  const timelineData = DEMO_SCENARIO_COMPARISON.combined_timeline.map((row) => {
+  const runLiveSimulation = async () => {
+    setIsSimulating(true);
+    try {
+      const res: any = await simulatePolicyTimeline({
+        name: "Custom Interactive Simulation",
+        programme_coverage: coverage / 100,
+        participation_rate: 0.90,
+        completion_rate: completion / 100,
+        transition_assumption: transitionRate / 100,
+        investment_cr: investment,
+        care_support_included: careSupport,
+        initial_population: 50000,
+      });
+
+      if (res && res.timeline) {
+        const mapped = res.timeline.map((r: any) => ({
+          year: r.year,
+          Observed: r.is_projected ? null : r.neet_rate_pct,
+          Baseline: 26.1 - (r.is_projected ? (r.year - 2026) * 0.4 : 0),
+          Custom: r.neet_rate_pct,
+          is_projected: r.is_projected,
+        }));
+        setSimulatedTimeline(mapped);
+      }
+    } catch (e) {
+      console.warn("Using local simulation math fallback:", e);
+    } finally {
+      setIsSimulating(false);
+    }
+  };
+
+  // Dynamic projection calculation for 2027-2031 (fallback or instant preview)
+  const timelineData = simulatedTimeline || DEMO_SCENARIO_COMPARISON.combined_timeline.map((row) => {
     if (!row.is_projected) return row;
     const yearOffset = row.year - 2026;
     const efficiency = (coverage / 100) * (completion / 100) * (transitionRate / 100);
@@ -52,7 +86,7 @@ export default function ScenarioSimulatorPage() {
     };
   });
 
-  const finalRate = timelineData[timelineData.length - 1].Custom || 18.2;
+  const finalRate = timelineData[timelineData.length - 1]?.Custom || 18.2;
   const reductionPts = Number((26.1 - finalRate).toFixed(1));
   const estimatedExits = Math.round((50000 * (coverage / 100) * (completion / 100) * (transitionRate / 100) * 1.6));
 

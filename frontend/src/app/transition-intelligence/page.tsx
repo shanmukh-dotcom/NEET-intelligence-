@@ -33,6 +33,7 @@ import { Select } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { DEMO_TRANSITIONS } from "@/lib/demo-data";
 import { formatNumber } from "@/lib/utils";
+import { getTransitionMatrix, getPersistenceBreakdown, getSurvivalCurves } from "@/lib/api-client";
 
 const SEQUENCES = [
   { rank: 1, path: "EDU → EDU → EDU → EMP → EMP → EMP", share: "28.4%", label: "Direct School-to-Work Transition" },
@@ -46,10 +47,39 @@ const SEQUENCES = [
 
 export default function TransitionIntelligencePage() {
   const [matrixFilter, setMatrixFilter] = useState("all");
+  const [liveMatrix, setLiveMatrix] = useState<any>(null);
+  const [livePersistence, setLivePersistence] = useState<any>(null);
+  const [liveSurvival, setLiveSurvival] = useState<any>(null);
 
-  const matrixData = DEMO_TRANSITIONS.matrix;
-  const persistenceData = DEMO_TRANSITIONS.persistence;
-  const survivalData = DEMO_TRANSITIONS.survival_curve;
+  React.useEffect(() => {
+    const filters: Record<string, any> = {};
+    if (matrixFilter === "female") filters["gender"] = "Female";
+    if (matrixFilter === "male") filters["gender"] = "Male";
+    if (matrixFilter === "rural") filters["rural_urban"] = "Rural";
+    if (matrixFilter === "urban") filters["rural_urban"] = "Urban";
+
+    getTransitionMatrix(Object.keys(filters).length > 0 ? filters : undefined)
+      .then((data: any) => {
+        if (data && data.matrix) setLiveMatrix(data.matrix);
+      })
+      .catch((err) => console.warn("Transition matrix offline fallback:", err));
+
+    getPersistenceBreakdown()
+      .then((data: any) => {
+        if (data && data.breakdown) setLivePersistence(data.breakdown);
+      })
+      .catch((err) => console.warn("Persistence breakdown offline fallback:", err));
+
+    getSurvivalCurves()
+      .then((data: any) => {
+        if (data && data.survival_curve) setLiveSurvival(data.survival_curve);
+      })
+      .catch((err) => console.warn("Survival curve offline fallback:", err));
+  }, [matrixFilter]);
+
+  const matrixData = liveMatrix || DEMO_TRANSITIONS.matrix;
+  const persistenceData = livePersistence || DEMO_TRANSITIONS.persistence;
+  const survivalData = liveSurvival || DEMO_TRANSITIONS.survival_curve;
 
   return (
     <div className="space-y-6">

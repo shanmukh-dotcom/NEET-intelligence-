@@ -118,6 +118,10 @@ export async function trainPredictionModel(payload: {
   });
 }
 
+export async function getDynamicProbitEstimates() {
+  return fetchFromApi("/prediction/dynamic-probit", { method: "GET" });
+}
+
 // -------------------------------------------------------------
 // 4. Transition Intelligence
 // -------------------------------------------------------------
