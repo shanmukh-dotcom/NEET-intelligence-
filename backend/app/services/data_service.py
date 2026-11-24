@@ -58,6 +58,38 @@ REGISTERED_DATASETS: List[Dict[str, Any]] = [
         "is_synthetic": True,
         "status": "Harmonised",
         "created_at": "2026-10-22T15:30:00Z"
+    },
+    {
+        "id": "DS-YOUNGLIVES-SYNTH-04",
+        "name": "Young Lives India Longitudinal Cohort Study (Synthetic Representation)",
+        "source": "Young Lives India (Childhood to Youth Transitions Panel)",
+        "owner": "University of Oxford & CESS / Fictional Benchmark",
+        "years": "2021-2026",
+        "waves_count": 5,
+        "record_count": 12000,
+        "columns_count": 38,
+        "geographic_scope": "Longitudinal Panel Sites (Andhra Pradesh / Telangana)",
+        "measurement_definition": "Cohort life-course trajectory tracking with schooling and early work history",
+        "data_quality_score": 97.2,
+        "is_synthetic": True,
+        "status": "Harmonised",
+        "created_at": "2026-10-25T11:00:00Z"
+    },
+    {
+        "id": "DS-IHD-SYNTH-05",
+        "name": "Institute for Human Development (IHD) Rural Youth Panel Prototype",
+        "source": "Institute for Human Development Longitudinal Village Studies",
+        "owner": "Institute for Human Development / Fictional Calibrated",
+        "years": "2022-2026",
+        "waves_count": 4,
+        "record_count": 9500,
+        "columns_count": 30,
+        "geographic_scope": "Rural Agrarian Villages (Bihar / Eastern India Fictional)",
+        "measurement_definition": "Rural agrarian employment, circular migration, and seasonal agricultural inactivity",
+        "data_quality_score": 95.0,
+        "is_synthetic": True,
+        "status": "Harmonised",
+        "created_at": "2026-10-28T09:30:00Z"
     }
 ]
 

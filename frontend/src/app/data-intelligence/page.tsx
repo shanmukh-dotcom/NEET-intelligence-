@@ -55,6 +55,30 @@ const REGISTERED_DATASETS = [
     status: "Harmonised",
     quality_score: 96.8,
     is_synthetic: true
+  },
+  {
+    id: "DS-YOUNGLIVES-SYNTH-04",
+    name: "Young Lives India Longitudinal Cohort Study (Synthetic Representation)",
+    source: "Young Lives India Panel (Oxford & CESS Prototype)",
+    years: "2021-2026",
+    waves: 5,
+    records: 12000,
+    columns: 38,
+    status: "Harmonised",
+    quality_score: 97.2,
+    is_synthetic: true
+  },
+  {
+    id: "DS-IHD-SYNTH-05",
+    name: "Institute for Human Development (IHD) Rural Youth Panel",
+    source: "Institute for Human Development Longitudinal Village Studies",
+    years: "2022-2026",
+    waves: 4,
+    records: 9500,
+    columns: 30,
+    status: "Harmonised",
+    quality_score: 95.0,
+    is_synthetic: true
   }
 ];
 
@@ -107,7 +131,7 @@ export default function DataIntelligencePage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="synthetic">3 REGISTERED DATASETS</Badge>
+          <Badge variant="synthetic">5 REGISTERED DATASETS</Badge>
           <Button variant="default" size="sm" onClick={() => setUploadSuccess(true)}>
             <Upload className="h-3.5 w-3.5 mr-1.5" /> Ingest New Dataset
           </Button>
