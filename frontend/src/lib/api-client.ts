@@ -196,3 +196,18 @@ export async function queryResearchAssistant(query: string, context?: string) {
     body: JSON.stringify({ query, context }),
   });
 }
+
+// -------------------------------------------------------------
+// 8. Research Reports & Dossiers
+// -------------------------------------------------------------
+export async function getReportsList() {
+  return fetchFromApi("/reports/", { method: "GET" });
+}
+
+export async function getReportById(reportId: string = "REP-FULL-01") {
+  return fetchFromApi(`/reports/${reportId}`, { method: "GET" });
+}
+
+export function getReportCsvDownloadUrl(reportId: string = "REP-FULL-01") {
+  return `${API_BASE_URL}/reports/${reportId}/download-csv`;
+}

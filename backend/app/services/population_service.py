@@ -36,6 +36,7 @@ def get_population_summary(filters: Optional[Dict[str, Any]] = None) -> Dict[str
             "total_youth_records": 50000,
             "total_localities": 20,
             "overall_neet_rate": 26.1,
+            "neet_prevalence_pct": 26.1,
             "male_neet_rate": 12.8,
             "female_neet_rate": 41.2,
             "rural_neet_rate": 30.5,

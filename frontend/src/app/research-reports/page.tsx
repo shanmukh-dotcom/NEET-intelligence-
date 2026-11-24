@@ -94,10 +94,44 @@ const REPORT_SECTIONS = [
   }
 ];
 
+import { getReportCsvDownloadUrl, getReportsList, getReportById } from "@/lib/api-client";
+
 export default function ResearchReportsPage() {
   const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
+  const [reportList, setReportList] = useState<any[]>([]);
+  const [isLiveApi, setIsLiveApi] = useState(false);
+
+  React.useEffect(() => {
+    async function loadReports() {
+      try {
+        const res = await getReportsList();
+        if (res && res.reports) {
+          setReportList(res.reports);
+          setIsLiveApi(true);
+        }
+      } catch (e) {
+        setIsLiveApi(false);
+      }
+    }
+    loadReports();
+  }, []);
 
   const handleDownload = (format: string) => {
+    if (format === "CSV") {
+      setDownloadNotice("Exporting executive research indicators from live API (CSV)...");
+      try {
+        const directUrl = getReportCsvDownloadUrl("REP-FULL-01");
+        const a = document.createElement("a");
+        a.href = directUrl;
+        a.download = "neet_report_REP-FULL-01.csv";
+        a.target = "_blank";
+        a.click();
+        return;
+      } catch (err) {
+        console.warn("Direct CSV download fallback", err);
+      }
+    }
+
     setDownloadNotice(`Downloading complete research dossier (${format})... Generated with full audit provenance.`);
     setTimeout(() => {
       // Create a downloadable text file for demonstration
