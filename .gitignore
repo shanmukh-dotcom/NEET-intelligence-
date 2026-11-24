@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+frontend/node_modules/
+frontend/.pnpm-store/
+
+# Next.js Build Outputs
+.next/
+frontend/.next/
+out/
+dist/
+build/
+
+# Python & Caches
+__pycache__/
+backend/**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases and runtime data
+*.db
+*.sqlite
+*.sqlite3
+backend/data/*.db
+backend/data/neet_platform.db
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/exports/*
+!backend/data/exports/.gitkeep
+backend/data/synthetic/*
+!backend/data/synthetic/.gitkeep
+backend/data/models/*
+!backend/data/models/.gitkeep
+
+# Environment variables & secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
