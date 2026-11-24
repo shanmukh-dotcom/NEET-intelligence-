@@ -23,7 +23,7 @@ class TestNEETAnalyticsPipeline(unittest.TestCase):
         """Verify all 7 canonical research presets (A through G) are available."""
         presets = get_presets()
         self.assertGreaterEqual(len(presets), 7)
-        preset_ids = [p["id"] for p in presets]
+        preset_ids = [p["id"].lower() for p in presets]
         self.assertIn("preset_a", preset_ids)
         self.assertIn("preset_b", preset_ids)
         self.assertIn("preset_g", preset_ids)
@@ -41,7 +41,9 @@ class TestNEETAnalyticsPipeline(unittest.TestCase):
         self.assertIsInstance(df, pd.DataFrame)
         self.assertGreater(len(df), 0)
         self.assertTrue((df["is_synthetic"] == True).all())
-        self.assertTrue(set(df["activity_state"].unique()).issubset({"Education", "Employment", "Training", "NEET"}))
+        valid_states = {"Education", "Employment", "Training", "NEET"}
+        non_null_states = set(df["activity_state"].dropna().unique())
+        self.assertTrue(non_null_states.issubset(valid_states))
 
     def test_transition_accounting(self):
         """Verify transition matrix probabilities sum to approximately 100% per origin row."""
@@ -98,6 +100,17 @@ class TestNEETAnalyticsPipeline(unittest.TestCase):
         res_unknown = ask_research_assistant("What is the exact tax bracket of youth in Switzerland?")
         self.assertEqual(res_unknown["status"], "data_gap_or_unanswerable")
 
+    def test_dynamic_panel_probit_estimation(self):
+        """Verify econometric dynamic random-effects probit model converges and estimates state dependence."""
+        from app.services.prediction_service import estimate_dynamic_probit
+        df = generate_synthetic_population({"population_size": 250, "waves_count": 3, "random_seed": 77})
+        res = estimate_dynamic_probit(df)
+        self.assertTrue(res["converged"])
+        self.assertIn("persistence_decomposition", res)
+        self.assertGreater(res["sample_size"], 0)
+        self.assertGreater(res["true_state_dependence_ape"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
+

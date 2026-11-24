@@ -155,7 +155,7 @@ def init_database():
         else:
             print(f"      Evidence registry has {evidence_count} records")
 
-        print("\n✅ Database initialization complete!")
+        print("\n[OK] Database initialization complete!")
         print(f"   Database location: {settings.DATABASE_URL}")
         print(f"   Admin login: admin@neet.platform / admin123")
         print(f"   Researcher login: researcher@neet.platform / research123")

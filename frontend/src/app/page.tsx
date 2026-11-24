@@ -38,13 +38,30 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select } from "@/components/ui/input";
 import { DEMO_OVERVIEW, DEMO_LOCALITIES } from "@/lib/demo-data";
 import { formatNumber, formatPercent } from "@/lib/utils";
+import { getDashboardOverview } from "@/lib/api-client";
 
 export default function OverviewPage() {
   const [selectedSector, setSelectedSector] = useState("all");
   const [selectedGender, setSelectedGender] = useState("all");
+  const [liveData, setLiveData] = useState<any>(null);
 
-  const trendData = DEMO_OVERVIEW.historical_trend;
-  const metrics = DEMO_OVERVIEW.metrics;
+  React.useEffect(() => {
+    getDashboardOverview().then((data) => {
+      if (data) setLiveData(data);
+    }).catch((err) => console.warn("Using offline dashboard fallback:", err));
+  }, []);
+
+  const trendData = liveData?.historical_trajectory || DEMO_OVERVIEW.historical_trend;
+  const metrics = {
+    ...DEMO_OVERVIEW.metrics,
+    ...(liveData ? {
+      total_youth_records: liveData.total_records || DEMO_OVERVIEW.metrics.total_youth_records,
+      neet_prevalence_pct: liveData.overall_neet_rate || DEMO_OVERVIEW.metrics.neet_prevalence_pct,
+      female_neet_rate: liveData.female_neet_rate || DEMO_OVERVIEW.metrics.female_neet_rate,
+      male_neet_rate: liveData.male_neet_rate || DEMO_OVERVIEW.metrics.male_neet_rate,
+      total_localities: liveData.localities_count || DEMO_OVERVIEW.metrics.total_localities,
+    } : {})
+  };
 
   return (
     <div className="space-y-6">

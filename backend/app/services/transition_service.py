@@ -58,15 +58,18 @@ def compute_transition_matrix(df: pd.DataFrame,
         if "income_quintile" in filters:
             data = data[data["income_quintile"] == filters["income_quintile"]]
 
+    # Support both wave and wave_year
+    wave_col = "wave" if "wave" in data.columns else "wave_year" if "wave_year" in data.columns else "wave"
+
     # Remove missing activity states
     data = data.dropna(subset=["activity_state"])
-    data = data.sort_values(["person_id", "wave"])
+    data = data.sort_values(["person_id", wave_col])
 
     # Build transitions
     transitions = []
     for pid, group in data.groupby("person_id"):
         states = group["activity_state"].values
-        waves = group["wave"].values
+        waves = group[wave_col].values
         for i in range(len(states) - 1):
             # Only count consecutive waves
             if waves[i + 1] - waves[i] <= 2:  # allow small gaps
@@ -493,3 +496,7 @@ def survival_analysis(df: pd.DataFrame) -> dict:
     )
 
     return result
+
+
+# Alias for backwards compatibility with service exports
+compute_survival_curves = survival_analysis

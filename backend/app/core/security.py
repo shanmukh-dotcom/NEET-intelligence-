@@ -14,6 +14,13 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.database import get_db
 
+# Passlib / bcrypt 4.x compatibility fix
+import bcrypt
+if not hasattr(bcrypt, "__about__"):
+    class _About:
+        __version__ = getattr(bcrypt, "__version__", "4.0.0")
+    bcrypt.__about__ = _About()
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
 

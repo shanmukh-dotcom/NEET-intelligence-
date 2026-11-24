@@ -321,3 +321,6 @@ def sensitivity_analysis(df: pd.DataFrame,
             "Results derived from SYNTHETIC data."
         ),
     }
+
+# Alias for backwards compatibility with service exports
+run_sensitivity_analysis = sensitivity_analysis

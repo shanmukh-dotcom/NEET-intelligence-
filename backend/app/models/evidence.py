@@ -2,7 +2,7 @@
 EvidenceRecord and Finding models.
 """
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Float, DateTime, Text, JSON
+from sqlalchemy import Column, Integer, String, Float, DateTime, Text, JSON, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
